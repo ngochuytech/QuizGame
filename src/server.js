@@ -1,15 +1,12 @@
 import express from 'express'
-
+import configViewEngine from './configs/viewEngine'
+import routes from './routes/web'
 const app = express()
 const port = process.env.PORT || 3000;
 
-app.use(express.static('public'));
-app.set("view engine", "ejs");
-app.set("views", "./src/view");
+configViewEngine(app);
 
-app.get('/', function (req, res) {
-  return res.render('index.ejs')
-})
+routes(app);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
