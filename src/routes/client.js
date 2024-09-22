@@ -1,14 +1,9 @@
 import express from "express"
-
+import clientController from '../controllers/clientController'
 const router = express.Router()
 
-router.get('/',(req,res)=>{
-    res.send("Client Home")
-})
-
-router.get('/about',(req,res)=>{
-    res.send("Client about")
-})
-
+router.get('/home',clientController.getHome)
+router.get('/result',clientController.getResult)
+router.get('/member', clientController.getMember)
 
 module.exports = router;

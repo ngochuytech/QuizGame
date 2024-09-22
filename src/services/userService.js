@@ -1,13 +1,14 @@
 import { User } from '../models/userModel'
 
-export const createUserService = ({ accountName, password, repeat_password }) =>{
+const createUserService = ({ accountName, password}) =>{
     return new Promise(async (resolve, reject) => {
         try {
+            
             const isEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(accountName)
             if(isEmail){
                 const checkEmail = await User.find({accountName: accountName})
                 if(checkEmail.length){
-                    resolve({
+                    reject({
                         status: 'err',
                         message: "Duplicate email"
                     })
@@ -17,21 +18,19 @@ export const createUserService = ({ accountName, password, repeat_password }) =>
                     accountName: accountName,
                     password
                 })
-                resolve({
-                    status: 'OK',
-                    data: newUser
-                })
+                resolve(newUser);
             }
             else{
-                resolve({
+                reject({
                     status: 'err',
-                    data: 'Account name is not a email'
+                    message: 'Account name is not a email'
                 })
             }
         } catch (error) {
             reject({
-                message: error,
-                status: 'err'
+                status: 'err',
+                data: error
+                
             })
         }
     });

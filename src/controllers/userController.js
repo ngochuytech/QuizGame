@@ -15,14 +15,33 @@ let Home = (req, res) => {
 
 let createUser = async (req, res) => {
     const { accountName, password, repeat_password } = req.body;
-    if (accountName && password && repeat_password) {
-        const NewUser = await userService.createUserService({ accountName, password, repeat_password })
-        return res.json(NewUser);
+    if (accountName && password) {
+        if(password === repeat_password){
+            try {
+                const NewUser = await userService.createUserService({ accountName, password })
+                console.log(NewUser);
+                console.log("Create successful users");
+                return res.redirect('/user/login');
+            } catch (error) {
+                console.log(error);
+                return res.redirect('/user/register');
+            }
+        }
+        else{
+            console.log({
+                status: 'err',
+                message: "Password and repeat_password is not same"
+            });
+            return res.redirect('/user/register');
+        }
+
+
     } else {
-        return res.json({
+        console.log({
             status: 'err',
             message: "The email and password is required"
-        })
+        });
+        return res.redirect('/user/register');
     }
 }
 
@@ -31,7 +50,7 @@ let loginUser = async(req, res) =>{
     
     if(email && password){
         const user = await userService.loginUserService({email, password})
-        return res.send('Home')
+        return res.redirect('/client/Home')
     }
     else{
         return res.json({
