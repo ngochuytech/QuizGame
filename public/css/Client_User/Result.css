@@ -1,0 +1,36 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  background-color: #EEEBEB
+}
+
+.Main-Content .Content{
+  margin-left: 340px;
+  margin-right: 60px;
+  height: calc(100vh - 112px);
+}
+
+
+.Header_of_class{
+  margin-left: 280px;
+  
+}
+
+.exam-item {
+  background-color: #DFD2A3; /* Màu vàng */
+  padding: 10px 15px; /* Giảm padding để làm cho khung nhỏ hơn */
+  margin-bottom: 10px; /* Giảm khoảng cách giữa các khung */
+  border-radius: 8px; /* Bo góc */
+}
+
+.exam-item h5 {
+  margin: 0; /* Loại bỏ khoảng cách thừa của tiêu đề */
+}
+
+.exam-item p {
+  margin: 5px 0 0 0; /* Giảm khoảng cách giữa các đoạn văn */
+}
