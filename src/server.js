@@ -1,7 +1,7 @@
 import express from 'express'
 import configViewEngine from './configs/viewEngine'
 import routes from './routes/web'
-import mongoose from 'mongoose'
+import configDatabase from './configs/database'
 import 'dotenv/config'
 
 const app = express()
@@ -11,13 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 configViewEngine(app);
-
-mongoose.connect(process.env.MONGO_DB).then(()=>{
-  console.log('Connect DB success');
-})
-.catch((err)=>{
-  console.log(err);
-})
+configDatabase(process.env.MONGO_DB);
 
 routes(app);
 

@@ -32,17 +32,17 @@
                     <div class="divider text-center text-uppercase fs-3 text-primary align-items-center my-4 p-5">
                         <p class="text-center fw-bold mx-3 mb-0">Đăng nhập</p>
                     </div>
-                    <form action="/user/home" method="get">
+                    <form action="/user/login_User" method="post">
                         <!-- Tài khoản input -->
                         <div data-mdb-input-init class="form-floating mb-4">
-                            <input name="email" type="text" value="12" id="form3Example3" class="form-control form-control-lg"
+                            <input name="email" type="text" id="form3Example3" class="form-control form-control-lg"
                                 placeholder="Nhập vào tên tài khoản" />
                             <label class="form-label" for="form3Example3">Tên tài khoản</label>
                         </div>
 
                         <!-- Password input -->
                         <div data-mdb-input-init class="form-floating mt-4">
-                            <input name="password" type="password" value="34" id="form3Example4"
+                            <input name="password" type="password" id="form3Example4"
                                 class="form-control form-control-lg" placeholder="Nhập vào mật khẩu" />
                             <label class="form-label" for="form3Example4">Password</label>
                         </div>
@@ -57,7 +57,7 @@
 
                     </form>
                     <div class="text-center text-lg-start mt-2 pt-2">
-                        <p class="small mt-2 pt-1 mb-0">Chưa có tài khoản? <a href="/Desktop_Signin.html"
+                        <p class="small mt-2 pt-1 mb-0">Chưa có tài khoản? <a href="/user/register"
                                 class="link-danger fw-bold">Đăng kí</a></p>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">

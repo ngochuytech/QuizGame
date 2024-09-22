@@ -1,64 +1,47 @@
-import {User} from '../models/userModel'
+import userService from '../services/userService'
 
-let getLogin = (req,res)=>{
+let getLogin = (req, res) => {
     return res.render('login.ejs')
 }
 
-let getRegister = (req,res)=>{
+let getRegister = (req, res) => {
     return res.render('register.ejs')
 }
 
-let Home = (req,res)=>{
+let Home = (req, res) => {
     console.log("req = ", req.query);
-    
     return res.send('Home');
 }
 
-let createUser = async (req,res)=>{
-    const {accountName, password, repeat_password} = req.body;
-    try {
-        if(accountName && password && repeat_password){
-            const isEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(accountName)
-            if(isEmail){
-                const checkEmail = await User.find({accountName: accountName})
-                
-                if(checkEmail.length){
-                    return res.json({
-                        status: 'err',
-                        message: "Duplicate email"
-                    })
-                }
-                const newUser = await User.create({
-                    name: accountName,
-                    accountName: accountName,
-                    password
-                })
-                return res.json({
-                    status: 'OK',
-                    data: newUser
-                })
-            }
-
-        }else{
-            return res.json({
-                status: 'err',
-                message: "The email and password is required"
-            })
-        }
-
-    } catch (error) {
-        console.log(error);
+let createUser = async (req, res) => {
+    const { accountName, password, repeat_password } = req.body;
+    if (accountName && password && repeat_password) {
+        const NewUser = await userService.createUserService({ accountName, password, repeat_password })
+        return res.json(NewUser);
+    } else {
         return res.json({
             status: 'err',
-            message: error
+            message: "The email and password is required"
         })
-        
     }
+}
+
+let loginUser = async(req, res) =>{
+    const { email, password } = req.body;
     
-    return res.send("Success")
+    if(email && password){
+        const user = await userService.loginUserService({email, password})
+        return res.send('Home')
+    }
+    else{
+        return res.json({
+            status: 'err',
+            message: 'AccountName and Password is required'
+        })
+    }
 }
 
 // In 'module.exports', you have a getInformation function. You can put more functions to export
 module.exports = {
-    getLogin, getRegister, Home, createUser
+    getLogin, getRegister, Home, createUser, loginUser
 }
