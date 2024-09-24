@@ -1,4 +1,5 @@
-import { User } from '../models/userModel'
+import mongoose from "mongoose";
+import { User } from '../models/userModel';
 
 const createUserService = ({ accountName, password}) =>{
     return new Promise(async (resolve, reject) => {
@@ -14,6 +15,7 @@ const createUserService = ({ accountName, password}) =>{
                     })
                 }
                 const newUser = await User.create({
+                    _id: new mongoose.Types.ObjectId(),
                     nameDisplay: accountName,
                     accountName: accountName,
                     password
