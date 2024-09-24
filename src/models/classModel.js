@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
-const ObjectId = Schema.ObjectId;
 const classSchema = new Schema({
-    _id: ObjectId,
     nameDisplay: {
         type: String
     },
@@ -10,18 +8,18 @@ const classSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    members: {
+    members: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    },
-    questions: {
+    }],
+    questions: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Questions'
-    },
-    Exams: {
+    }],
+    Exams: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Exams'
-    }
+    }]
 
 })
 

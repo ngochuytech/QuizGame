@@ -17,17 +17,18 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    email: {
-        type: String,
-        unique: true
-    },
     date: {
-        type: Date
+        type: Date,
+        default: Date.now()
     },
     avatar: {
         type: String,
         default: './public/images/avatar.png'
-    }
+    },
+    myClassId: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Class'
+    }]
 })
 
 export const User = mongoose.model('User', UserSchema);

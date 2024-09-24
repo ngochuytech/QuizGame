@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
-const ObjectId = Schema.ObjectId;
 
 const answerSchema = new Schema({
     text: {
@@ -14,6 +13,10 @@ const answerSchema = new Schema({
 })
 
 const questionSchema = new Schema({
+    classID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Class'
+    },
     question: {
         type: String,
         required: true

@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
-const ObjectId = Schema.ObjectId;
 const examsSchema = new Schema({
-    _id: ObjectId,
     nameDisplay:{
         type: String,
         required: true
@@ -10,18 +8,22 @@ const examsSchema = new Schema({
     description: {
         type: String
     },
-    questions: {
+    questions: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Questions'
-    },
-    particantID: {
+    }],
+    particantsID: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User' 
-    },
+    }],
+    results: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Result'
+    }],
     createAt: {
         type: Date,
         default: Date.now()
     }
 })
 
-export const Exams = mongoose.model('Exams', examsSchema);
+export const Exam = mongoose.model('Exam', examsSchema);
