@@ -14,6 +14,10 @@ const answerSchema = new Schema({
 })
 
 const questionSchema = new Schema({
+    classId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Class'
+    }
     question: {
         type: String,
         required: true

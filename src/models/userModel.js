@@ -27,6 +27,10 @@ const UserSchema = new Schema({
     avatar: {
         type: String,
         default: './public/images/avatar.png'
+    },
+    myClassId: {
+        type: Array,
+        default: []
     }
 })
 
