@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Pro - Kết quả</title>
+    <title>Quiz Pro - Bài thi</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/Client_User/Home.css">
 </head>
@@ -43,22 +43,21 @@
             <p><small>Lớp của tôi</small></p>
             <div class="overflow-auto">
                 <ul class="nav nav-pills flex-column mb-auto ">
-                    <li>
-                        <a href="#" class="nav-link active" aria-current="page">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#home" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#speedometer2" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
+                    <% for(var i=0; i < listClass.length; i++) { %>
+                        
+                            <li>
+                                <% if(listClass[i]._id==currnetClassID) {%>
+                                    <a href='/client/home/<%=listClass[i]._id%>' class="nav-link active" aria-current="page">
+                                <%} else {%>
+                                    <a href="/client/home/<%=listClass[i]._id%>" class="nav-link" aria-current="page">
+                                <% } %>
+                                    <svg class="bi" width="16" height="16">
+                                        <use xlink:href="#home" />
+                                    </svg>
+                                    <%= listClass[i].nameDisplay%>      
+                                    </a>
+                            </li>   
+                    <% } %>
                 </ul>
             </div>
         </div>
@@ -95,42 +94,19 @@
         <div class="Content overflow-auto" style="background-color: #fff;">
             <!-- Exam Results -->
             <div class="p-4">
-                <div class="exam-item mb-1">
-                    <div class="row mb-3">
-                        <div class="col-md-8">
-                            <h5>Bài thi số 1</h5>
-                            <p>Số câu: 30 câu | Trạng thái: <span class="text-success">Đang mở</span></p>
-                        </div>
-                        <div class="col-md-4 text-end">
-                            <button class="btn btn-primary mt-3">Vào thi</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Repeat for other exam items -->
-                <div class="exam-item mb-1">
-                    <div class="row mb-3">
-                        <div class="col-md-8">
-                            <h5>Bài thi số 2</h5>
-                            <p>Số câu: 30 câu | Trạng thái: <span class="text-danger">Đã kết thúc</span></p>
-                        </div>
-                        <div class="col-md-4 text-end">
-                            <button class="btn btn-secondary mt-3" disabled>Đã đóng</button>
+                <%for(var i=0; i < listExam.length; i++) { %>
+                    <div class="exam-item mb-1">
+                        <div class="row mb-3">
+                            <div class="col-md-8">
+                                <h5><%= listExam[i].nameDisplay %></h5>
+                                <p>Số câu: <%= listExam[i].questions.length %> câu | Trạng thái: <span class="text-success">Đang mở</span></p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <button class="btn btn-primary mt-3">Vào thi</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="exam-item mb-1">
-                    <div class="row mb-3">
-                        <div class="col-md-8">
-                            <h5>Bài thi số 3</h5>
-                            <p>Số câu: 30 câu | Trạng thái: <span class="text-danger">Đã kết thúc</span></p>
-                        </div>
-                        <div class="col-md-4 text-end">
-                            <button class="btn btn-secondary mt-3" disabled>Đã đóng</button>
-                        </div>
-                    </div>
-                </div>
+                <% } %>
             </div>
         </div>
 

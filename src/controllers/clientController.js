@@ -1,7 +1,19 @@
-import clientService from '../services/clientService'
+import classService from '../services/classService'
+import examService from '../services/examService'
 
-let getHome = (req, res) => {
-    return res.render('Client_User/Home.ejs')
+let getHome = async (req, res) => {
+    const listAllClass = await classService.getAllClass();
+    return res.render('Client_User/Home.ejs', {currnetClassID: '-1' ,listClass: listAllClass, listExam: []})
+}
+
+let getHomeClass = async (req,res) => {
+    // Lấy danh sách các lớp hiện có của user
+    const listAllClass = await classService.getAllClass();
+    let ClassId = req.params.classID;
+    // Tìm class để lấy class hiện tại
+    const currnetClass = await classService.getCurrentClass(ClassId);
+    const listCurrentExam = await examService.filterExamByClass(currnetClass.Exams);
+    return res.render('Client_User/Home.ejs', {currnetClassID: ClassId, listClass: listAllClass, listExam: listCurrentExam})
 }
 
 let getResult = (req, res) => {
@@ -14,7 +26,7 @@ let getMember = (req, res) => {
 
 let createClass = async (req, res) => {
     try {
-        const newClass = await clientService.createClass();
+        const newClass = await classService.createClass();
         res.json({
             status: 'Ok',
             data: newClass
@@ -27,9 +39,24 @@ let createClass = async (req, res) => {
             data: error
        })
     }
+}
 
+let getAllClasses = async (req, res)=>{
+    try {
+        const listClass = await classService.getAllClass();
+        res.json({
+            status: 'Ok',
+            data: listClass
+        })
+    } catch (error) {
+        console.log(error);
+        
+        res.json({
+            status: 'Error',
+        })
+    }
 }
 
 module.exports = {
-    getHome, getResult, getMember, createClass
+    getHome, getResult, getMember, createClass, getAllClasses, getHomeClass
 }
