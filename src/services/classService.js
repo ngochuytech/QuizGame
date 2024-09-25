@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 import { Class } from '../models/classModel';
 
-const createClass = () => {
+const createClass = (nameClass) => {
     return new Promise(async (resolve, reject) => {
         try {
             const newClass = await Class.create({
                 _id: new mongoose.Types.ObjectId(),
-                nameDisplay: "Geography Class1"
+                nameDisplay: nameClass
             });
             console.log('Class and questions created successfully');
             resolve(newClass)

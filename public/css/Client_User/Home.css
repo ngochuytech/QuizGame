@@ -21,4 +21,5 @@ body{
 
 .exam-item{
     background-color: #DFD2A3;
+    border-radius: 8px; /* Bo góc */
 }
