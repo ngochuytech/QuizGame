@@ -30,6 +30,15 @@ let getMember = (req, res) => {
     return res.render('Client_User/Member.ejs')
 }
 
+let getInformation = (req,res) =>{
+    return res.render('Client_User/information.ejs')
+}
+
+let getChangePW = (req,res) =>{
+    return res.render('Client_User/changepw.ejs')
+}
+
+
 let createClass = async (req, res) => {
     const { nameDisplay } = req.body;
     if (nameDisplay) {
@@ -70,5 +79,5 @@ let getAllClasses = async (req, res) => {
 }
 
 module.exports = {
-    getHome, getResult, getMember, createClass, getAllClasses, getHomeClass
+    getHome, getResult, getMember, createClass, getAllClasses, getHomeClass, getInformation, getChangePW
 }

@@ -1,0 +1,33 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.Slidebar{
+    position: fixed;
+}
+
+.Main-Content .Content{
+    margin-left: 380px;
+    margin-right: 100px;
+    height: calc(100vh - 56px);
+    border-radius: 20px;
+}
+
+.Main-Content .background-avatar{
+    height: 200px;
+    background-color: #58E28F;
+    border-radius: 20px 20px 0 0;
+}
+
+.Main-Content .profile-section{
+    height: 100px;
+    background-color: #ccc;
+    padding-left: 315px;
+    padding-top: 10px;
+}
+
+.Main-Content .avatar-Information{
+    margin-left: 116px;
+}

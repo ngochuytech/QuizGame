@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Pro - Thành viên</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/Host_User/manageQuestion.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <nav class="navbar fixed-top navbar-expand-lg bg-primary-subtle">
+        <div class="container-fluid d-flex justify-content-between">
+            <a class="navbar-brand" href="#">QUIZ PRO</a>
+            <div class="text-center">
+                <img src="/avatar.png" class="rounded-circle img-fluid" alt="Avatar" style="width: 40px;">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="Main-Content" style="margin-top: 56px;">
+        <!-- Sidebar left -->
+        <div class="Sldebar_left d-flex flex-column flex-shrink-0 p-3 bg-light position-fixed"
+            style="width: 280px; height: 100vh;">
+            <div class="d-flex justify-content-between align-items-center">
+                <p href="/" class=" mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                    <svg class="bi" width="0" height="30">
+                        <use xlink:href="#bootstrap" />
+                    </svg>
+                    <span class="fs-4">Lớp học</span>
+                </p>
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                    class="bi bi-plus-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                    <path
+                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                </svg>
+            </div>
+            <hr>
+            <p><small>Lớp của tôi</small></p>
+            <div class="overflow-auto">
+                <ul class="nav nav-pills flex-column mb-auto ">
+                    <li>
+                        <a href="#" class="nav-link active" aria-current="page">
+                            <svg class="bi" width="16" height="16">
+                                <use xlink:href="#home" />
+                            </svg>
+                            Lớp A
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link link-dark">
+                            <svg class="bi" width="16" height="16">
+                                <use xlink:href="#speedometer2" />
+                            </svg>
+                            Lớp A
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link link-dark">
+                            <svg class="bi" width="16" height="16">
+                                <use xlink:href="#speedometer2" />
+                            </svg>
+                            Lớp A
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link link-dark">
+                            <svg class="bi" width="16" height="16">
+                                <use xlink:href="#table" />
+                            </svg>
+                            Lớp A
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link link-dark">
+                            <svg class="bi" width="16" height="16">
+                                <use xlink:href="#people-circle" />
+                            </svg>
+                            Lớp A
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link link-dark">
+                            <svg class="bi" width="16" height="16">
+                                <use xlink:href="#speedometer2" />
+                            </svg>
+                            Lớp A
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link link-dark">
+                            <svg class="bi" width="16" height="16">
+                                <use xlink:href="#table" />
+                            </svg>
+                            Lớp A
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- End slidebar left -->
+
+        <!-- Header of class -->
+        <div class="Header_of_class">
+            <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #F6E8E8;">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link ms-3 " href="#">
+                            <b class="fs-6 text-dark">LỚP A</b>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link ms-3 text-dark" href="#">Thông báo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link ms-3 text-dark" href="#">Bài thi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link ms-3 text-dark" href="#">Kết quả</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link ms-3 text-dark" href="#">Thành viên</a>
+                    </li>
+                </ul>
+                <button class="btn btn-danger ms-auto">Rời lớp</button>
+            </nav>
+        </div>
+        <!-- End header of class -->
+
+        <!-- Content -->
+        <div class="Content overflow-auto" style="background-color: #fff;">
+            <!-- Member List -->
+            <div class="p-4">
+                <div class="p-2">
+                    <h4> Tất cả câu hỏi</h4>
+                </div>
+                <div class="Add_Search d-flex" style="height: 46px;">
+                    <div class="input-group mb-2">
+                        <input type="text" class="form-control " placeholder="Tìm câu hỏi..." >
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary rounded " type="button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-search" viewBox="0 0 16 16">
+                                    <path
+                                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="space" style="width: 100px;"></div>  
+                    <button class="btn btn-primary mb-2 w-25 rounded-pill">+ Thêm câu hỏi</button>
+                    <!-- Search button -->
+                     
+                </div> 
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="col-md-1">ID</th>
+                            <th class="col-md-7">Nội dung câu hỏi</th>
+                            <th class="col-md-2">Độ khó</th>
+                            <th class="col-md-3">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>DNS là viết tắt của chữ gì?</td>
+                            <td class="text-success">Dễ</td>
+                            <td>
+                                <button class="btn btn-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
+                                        <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
+                                    </svg>
+                                    <i class="bi bi-gear-fill"></i>
+                                    </button>
+                                    <button class="btn btn-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-archive-fill" viewBox="0 0 16 16">
+                                        <path d="M12.643 15C13.979 15 15 13.845 15 12.5V5H1v7.5C1 13.845 2.021 15 3.357 15zM5.5 7h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1M.8 1a.8.8 0 0 0-.8.8V3a.8.8 0 0 0 .8.8h14.4A.8.8 0 0 0 16 3V1.8a.8.8 0 0 0-.8-.8z"/>
+                                      </svg>
+                                    <i class="bi bi-archive-fill"></i>
+                                    </button>
+                            </td>
+                        </tr>
+                        <!-- Repeat rows for other members -->
+                        <tr>
+                            <td>2</td>
+                            <td>Lập trình web này khó kh</td>
+                            <td class="text-warning">Trung bình</td>
+                            <td>
+                                <button class="btn btn-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
+                                        <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
+                                    </svg>
+                                    <i class="bi bi-gear-fill"></i>
+                                    </button>
+                                    <button class="btn btn-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-archive-fill" viewBox="0 0 16 16">
+                                        <path d="M12.643 15C13.979 15 15 13.845 15 12.5V5H1v7.5C1 13.845 2.021 15 3.357 15zM5.5 7h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1M.8 1a.8.8 0 0 0-.8.8V3a.8.8 0 0 0 .8.8h14.4A.8.8 0 0 0 16 3V1.8a.8.8 0 0 0-.8-.8z"/>
+                                      </svg>
+                                    <i class="bi bi-archive-fill"></i>
+                                    </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Lập trình web có khó không adasghdadjhasdgas da sdgasd asgjdsag jdgas djgas dg hasdgasasdasd ád?</td>
+                            <td class=" text-danger">Khó</td>
+                            <td class="">
+                                <button class="btn btn-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
+                                    <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
+                                </svg>
+                                <i class="bi bi-gear-fill"></i>
+                                </button>
+                                <button class="btn btn-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-archive-fill" viewBox="0 0 16 16">
+                                    <path d="M12.643 15C13.979 15 15 13.845 15 12.5V5H1v7.5C1 13.845 2.021 15 3.357 15zM5.5 7h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1M.8 1a.8.8 0 0 0-.8.8V3a.8.8 0 0 0 .8.8h14.4A.8.8 0 0 0 16 3V1.8a.8.8 0 0 0-.8-.8z"/>
+                                  </svg>
+                                <i class="bi bi-archive-fill"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,78 @@
+body {
+    background-color: #f8f9fa;
+}
+
+h4 {
+    color: #333;
+}
+
+.question-selection {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.container {
+    margin-bottom: 1000px; /* Decrease this value to move content higher */
+    padding-top: 0; /* Reduce top padding */
+}
+.table {
+    margin-top: 20px;
+}
+
+.table thead th {
+    background-color: #f0f0f0;
+    text-align: center;
+}
+
+.table tbody td {
+    text-align: center;
+}
+
+.nav-tabs .nav-link {
+    color: #007bff;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.form-control {
+    margin-bottom: 15px;
+}
+
+#examName, #description {
+    width: 100%;
+}
+
+textarea {
+    resize: none;
+}
+
+button {
+    width: 100px;
+}
+.mt-5{
+    margin-top: 1rem !important;
+}
+.btn-success {
+    border: none;
+    border-radius: 20px;
+    background-color: #16bc3d;
+}
+
+.btn-danger {
+    border: none;
+    border-radius: 20px;
+    background-color: #dc3545;
+}
+.time-per-question .form-label {
+    font-weight: bold;
+    font-size: 14px;
+}
+.time-per-question input {
+    text-align: center;
+    width: 80px;
+    margin: 0 auto;
+}

@@ -10,6 +10,8 @@ router.get('/result/:classID',clientController.getResult)
 router.get('/member', clientController.getMember)
 router.post('/createClass', clientController.createClass)
 
+router.get('/information',clientController.getInformation)
+router.get('/changePW', clientController.getChangePW)
 // Test API
 router.get('/getAllClass',clientController.getAllClasses)
 
