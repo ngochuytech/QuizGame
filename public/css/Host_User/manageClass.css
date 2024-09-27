@@ -1,0 +1,58 @@
+body{
+    background-color: #EEEBEB
+}
+
+.Main-Content .Content{
+    margin-left: 340px;
+    margin-right: 60px;
+    height: calc(100vh - 112px);
+}
+
+.Header_of_class{
+    margin-left: 280px;
+}
+
+.sidebar {
+    background-color: #f8f9fa;
+    height: 100vh;
+}
+
+.sidebar-header {
+    color: #6c757d;
+}
+
+.list-group-item-primary {
+    background-color: #add8e6;
+}
+
+.list-group-item-warning {
+    background-color: #ffff99;
+}
+
+.list-group-item-info {
+    background-color: #87ceeb;
+}
+
+.list-group-item-success {
+    background-color: #98fb98;
+}
+
+.table img {
+    margin-right: 10px;
+}
+
+.table th {
+    text-align: left;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.text-success {
+    color: green;
+}
+
+.text-muted {
+    color: gray;
+}

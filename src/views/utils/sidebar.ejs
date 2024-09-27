@@ -1,0 +1,39 @@
+<div class="Sldebar_left d-flex flex-column flex-shrink-0 p-3 bg-light position-fixed"
+    style="width: 280px; height: 100vh;">
+    <div class="d-flex justify-content-between align-items-center">
+        <p href="#" class=" mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+            <svg class="bi" width="0" height="30">
+                <use xlink:href="#bootstrap" />
+            </svg>
+            <span class="fs-4">Lớp học</span>
+        </p>
+        <button type="button" data-bs-toggle="modal" data-bs-target="#addClass">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus-circle"
+                viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                <path
+                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+            </svg>
+        </button>
+    </div>
+    <hr>
+    <p><small>Lớp của tôi</small></p>
+    <div class="overflow-auto">
+        <ul class="nav nav-pills flex-column mb-auto ">
+            <% for(var i=0; i < listClass.length; i++) { %>
+                <li>
+                    <% if(listClass[i]._id==currnetClassID) {%>
+                        <a href='/client/home/<%=listClass[i]._id%>' class="nav-link active" aria-current="page">
+                    <%} else {%>
+                        <a href="/client/home/<%=listClass[i]._id%>" class="nav-link" aria-current="page">
+                    <% } %>
+                    <svg class="bi" width="16" height="16">
+                    <use xlink:href="#home" />
+                    </svg>
+                    <%= listClass[i].nameDisplay%>
+                    </a>
+                </li>
+            <% } %>
+        </ul>
+    </div>
+</div>
