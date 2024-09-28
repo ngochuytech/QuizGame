@@ -18,4 +18,4 @@ const resultSchema = new Schema({
     }
 })
 
-export const result = mongoose.model('Result', resultSchema)
+export const Result = mongoose.model('Result', resultSchema)
