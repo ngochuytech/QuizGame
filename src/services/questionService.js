@@ -65,7 +65,29 @@ const AddQuestion = async (ClassID, questionTitle, difficulty, answers, correctA
         throw error;
     }
 };
-
+const UpdateQuestion = async (ClassID, QuestionID,questionTitle, difficulty, answers, correctAnswers) => {
+    try {
+        const Answers = [
+            { text: answers[0], isCorrect: correctAnswers[0] ? true : false },
+            { text: answers[1], isCorrect: correctAnswers[1] ? true : false },
+            { text: answers[2], isCorrect: correctAnswers[2] ? true : false },
+            { text: answers[3], isCorrect: correctAnswers[3] ? true : false }
+        ];
+        console.log(difficulty)
+        const question = await Questions.replaceOne(
+            { _id: QuestionID},
+            {   classID: ClassID,
+                question: questionTitle,
+                difficulty: difficulty,
+                answer: Answers 
+            }
+            );
+        console.log('Update câu hỏi thành công',question);
+    } catch (error) {
+        console.error('Lỗi khi update câu hỏi:', error);
+        throw error;
+    }
+}
 module.exports = {
-    getAllQuestions,getAllQuestionsByIDClass,searchQuestionsByKeyword,deleteQuestionById,AddQuestion
+    getAllQuestions,getAllQuestionsByIDClass,searchQuestionsByKeyword,deleteQuestionById,AddQuestion,UpdateQuestion
 }

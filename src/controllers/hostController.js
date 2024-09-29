@@ -39,7 +39,7 @@ let getManageQuestion = async (req, res) => {
         const currnetClass = await classService.getCurrentClass(ClassID);
         
         return res.render('Host_User/manageQuestion', {
-            question: questions,
+            questions: questions,
             currnetClassID : ClassID,
             listClass:listAllClass
         });
@@ -75,7 +75,34 @@ let AddQuestion = async (req, res) => {
         return res.status(500).send('Có lỗi xảy ra khi lấy dữ liệu.');
     }
 }
+let UpdateQuestion  = async (req, res) => {
+    const ClassID = req.params.id;
+    const questionID= req.query.questionID;
+    const questionTitle = req.query.questionTitle;
+    const diffculty = req.query.diffculty;
+    const answers = [
+        req.query.answer1,
+        req.query.answer2,
+        req.query.answer3,
+        req.query.answer4
+    ];
+    console.log(answers)
+    const correctAnswers = [
+        req.query.isCorrect1 || '',
+        req.query.isCorrect2 || '',
+        req.query.isCorrect3 || '',
+        req.query.isCorrect4 || ''
+    ];
+    try {
+        // Nếu có từ khóa tìm kiếm, tìm các câu hỏi theo từ khóa
+        let questions = await questionService.UpdateQuestion(ClassID,questionID,questionTitle,diffculty,answers,correctAnswers);        
+        return res.redirect(`/host/manageQuestion/${ClassID}`);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send('Có lỗi xảy ra khi lấy dữ liệu.');
+    }
+}
 
 module.exports = {
-    getCreateQuiz, getLeaderboard, getManageClass, getManageQuestion,deleteQuestion,AddQuestion
+    getCreateQuiz, getLeaderboard, getManageClass, getManageQuestion,deleteQuestion,AddQuestion,UpdateQuestion
 }

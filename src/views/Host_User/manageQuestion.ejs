@@ -45,6 +45,7 @@ function UpdateQuestion(questionID,classID)
 
     <!-- Modal -->
     <%- include('../utils/modal.ejs'); %>
+    
     <!-- End modal -->
 
     <!-- Container -->
@@ -122,19 +123,19 @@ function UpdateQuestion(questionID,classID)
                         </tr>
                     </thead>
                     <tbody>
-                        <%for(index=0; index < question.length; index++) { %>
+                        <%for(var Qs of questions) { %>
                             <tr>
-                                <td><%=index%></td>
-                                <td><%= question[index].question %></td>
+                                <td><%=index++%></td>
+                                <td><%= Qs.question %></td>
                                 <td class="text-success">Dễ</td>
                                 <td>
-                                    <button class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#editQuestion">
+                                    <button class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#editQuestion<%=Qs._id%>">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
                                             <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
                                         </svg>
                                         <i class="bi bi-gear-fill"></i>
                                         </button>
-                                        <button class="btn btn-sm" onclick="DeleteQuestion('<%= question[index].id%>','<%= currnetClassID %>')">
+                                        <button class="btn btn-sm" onclick="DeleteQuestion('<%= Qs.id%>','<%= currnetClassID %>')">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-archive-fill" viewBox="0 0 16 16">
                                             <path d="M12.643 15C13.979 15 15 13.845 15 12.5V5H1v7.5C1 13.845 2.021 15 3.357 15zM5.5 7h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1M.8 1a.8.8 0 0 0-.8.8V3a.8.8 0 0 0 .8.8h14.4A.8.8 0 0 0 16 3V1.8a.8.8 0 0 0-.8-.8z"/>
                                           </svg>
@@ -142,19 +143,101 @@ function UpdateQuestion(questionID,classID)
                                         </button>
                                 </td>
                             </tr>
-                            <% } %>
+                            <!-- Modal edit question -->
+                            <div id="editQuestion<%=Qs._id%>" class="modal fade">
+                                <div class="modal-dialog modal-dialog-centered modal-lg">
+                                    <div class="modal-content">
+                                        <form action="/host/UpdateQuestion/<%=currnetClassID%>" method="get">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Thêm câu hỏi mới</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Đưa question ID vô đây -->
+                                                <input name="questionID" value="<%=Qs._id%>" hidden>
+                                                <div data-mdb-input-init class="form-floating mb-4">
+                                                    <input name="questionTitle" type="text" id="form3Example3" class="form-control form-control-lg"  value="<%=Qs.question%>" />
+                                                    <label class="form-label" for="form3Example3">Tiêu đề câu hỏi</label>
+                                                    <div class="diffculty mt-3 d-flex">
+                                                        <p class="col-3">Độ khó: </p>
+                                                        <div class="col-3">
+                                                            <input type="radio" id="easy" name="diffculty" value="Easy"<%=(Qs.difficulty=='Easy')?'checked':''%>>
+                                                            <label for="easy" style="color: #21B573;">Cơ bản</label><br>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <input type="radio" id="medium" name="diffculty" value="Medium"<%=(Qs.difficulty=='Medium')?'checked':''%>>
+                                                            <label for="medium" style="color: #FAAF3A;">Trung bình</label><br>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <input type="radio" id="hard" name="diffculty" value="Hard" <%=(Qs.difficulty=='Hard')?'checked':''%>>
+                                                            <label for="hard" style="color: #FF0000;">Khó</label><br>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div id="answers" style="margin-top: 16px;">
+                                                        <div class="row">
+                                                            <p class="col-5"></p>
+                                                            <p class="col-6">Nội dung câu trả lời</p>
+                                                            <p class="col-1">Đúng</p>
+                                                        </div>
+                                                        <div class="input-group mb-3">
+                                                            <span class="input-group-text">Câu trả lời 1</span>
+                                                            <input type="text" name="answer1" class="form-control" value="<%=Qs.answer[0].text%>">
+                                                            <div class="input-group-text">
+                                                                <input class="form-check-input mt-0" type="checkbox" name="isCorrect1" <%=(Qs.answer[0].isCorrect==true)?'checked':''%> >
+                                                            </div>
+                                                        </div>
+                            
+                                                        <div class="input-group mb-3">
+                                                            <span class="input-group-text">Câu trả lời 2</span>
+                                                            <input type="text" name="answer2" class="form-control" value="<%=Qs.answer[1].text%>">
+                                                            <div class="input-group-text">
+                                                                <input class="form-check-input mt-0" type="checkbox" name="isCorrect2" <%=(Qs.answer[1].isCorrect==true)?'checked':''%>>
+                                                              </div>
+                                                        </div>
+                            
+                                                        <div class="input-group mb-3">
+                                                            <span class="input-group-text">Câu trả lời 3</span>
+                                                            <input type="text" name="answer3" class="form-control" value="<%=Qs.answer[2].text%>">
+                                                            <div class="input-group-text">
+                                                                <input class="form-check-input mt-0" type="checkbox" name="isCorrect3" <%=(Qs.answer[2].isCorrect==true)?'checked':''%>>
+                                                              </div>
+                                                        </div>
+                            
+                                                        <div class="input-group mb-3">
+                                                            <span class="input-group-text">Câu trả lời 4</span>
+                                                            <input type="text" name="answer4" class="form-control" value="<%=Qs.answer[3].text%>">
+                                                            <div class="input-group-text">
+                                                                <input class="form-check-input mt-0" type="checkbox" name="isCorrect4" <%=(Qs.answer[3].isCorrect==true)?'checked':''%>>
+                                                              </div>
+                                                        </div>
+                                                    </div>
+                            
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                                                <button type="submit" class="btn btn-primary">Hoàn tất</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Modal edit question -->
+                        <% } %>
                         
                         <!-- Repeat rows for other members -->
                        
                     </tbody>
                 </table>
             </div>
+            <!-- End slidebar left -->
+
+
         </div>
 
-    </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

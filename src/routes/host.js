@@ -9,5 +9,7 @@ router.get('/deleteQuestion', hostController.deleteQuestion)
 router.get('/manageQuestion/:id', hostController.getManageQuestion)
 
 router.post('/UpdateQuestion/:id', hostController.AddQuestion)
+router.get('/UpdateQuestion/:id', hostController.UpdateQuestion)
+
 
 module.exports = router;
