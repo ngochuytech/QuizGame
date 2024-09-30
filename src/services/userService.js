@@ -38,23 +38,14 @@ const createUserService = ({ accountName, password}) =>{
     });
 }
 
-let loginUserService = ({ accountName, password }) => {
+let loginUserService = ({ email, password }) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const checkUser = await User.find({accountName: accountName, password: password});
-            if(checkUser.length){
-                resolve({
-                    status: 'Ok',
-                    message: "Login is successful"
-                })
+            const checkUser = await User.findOne({accountName: email, password: password});
+            if(checkUser!=null){
+                resolve(checkUser._id)
             }
-            else{
-                resolve({
-                    status: 'err',
-                    message: 'AccountName or Password is not correct, please try again'
-                })
-            }
-
+            resolve(null)
         } catch (error) {
             reject({
                 message: error,
@@ -63,7 +54,6 @@ let loginUserService = ({ accountName, password }) => {
         }
     })
 }
-
 const getMemberInClass = (Class) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -84,8 +74,18 @@ const getMemberInClass = (Class) => {
     })
 }
 
-
-
+let getIDbyEmailAndPassWord = ({ accountName, password }) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const user = await User.findOne({ accountName: accountName, password: password });
+            if(user)
+                resolve(user._id);
+            }
+        catch (error) {
+            reject(error)
+        }
+    })   
+}
 module.exports = {
-    createUserService, loginUserService, getMemberInClass
+    createUserService, loginUserService,getMemberInClass, getIDbyEmailAndPassWord
 }

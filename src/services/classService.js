@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { Class } from '../models/classModel';
+import { User } from '../models/userModel';
 
 const createClass = (nameClass) => {
     return new Promise(async (resolve, reject) => {
@@ -39,9 +40,23 @@ const getCurrentClass = (ClassID) => {
         }
     })
 }
+const getUserClasses = async (userId) => {
+    console.log(userId)
+        try {
+            const user = await User.findById(userId).populate('MyClassId').exec();
+            console.log(user)
+            // if (!user) {
+            //     return new Error('User not found');
+            // }
+            const classes = user.MyClassId;   // Lấy danh sách _id của các lớp
+            return classes;
+        } catch (error) {
+            return error;
+        }
+};
 
 
 
 module.exports ={
-    createClass, getAllClass, getCurrentClass
+    createClass, getAllClass, getCurrentClass,getUserClasses
 }

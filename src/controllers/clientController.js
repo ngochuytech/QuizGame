@@ -2,11 +2,33 @@ import classService from '../services/classService'
 import examService from '../services/examService'
 import resultService from '../services/resultService'
 import userService from '../services/userService'
+const jwt = require('jsonwebtoken');
+import 'dotenv/config'
 
 let getHome = async (req, res) => {
-    const listAllClass = await classService.getAllClass();
-    return res.render('Client_User/Home.ejs', { currnetClassID: '-1', listClass: listAllClass, listExam: [] })
-}
+    try {
+        const token = req.cookies.jwt;
+        
+        if (!token) {
+            return res.status(400).json({ message: 'No token found in cookie' });
+        }
+
+        jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
+            if (err) {
+                return res.status(401).json({ message: 'Invalid token!' });
+            }
+            const IDUser = decoded.id;
+            const listAllClass = await classService.getUserClasses(IDUser);
+            console.log(listAllClass);
+            return res.render('Client_User/Home.ejs', { currnetClassID: '-1', listClass: listAllClass, listExam: [] });
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 
 let getHomeClass = async (req, res) => {
     // Lấy danh sách các lớp hiện có của user
