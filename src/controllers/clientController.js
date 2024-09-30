@@ -7,7 +7,7 @@ import 'dotenv/config'
 let getHome = async (req, res) => {
     try {
         const token = req.cookies.jwt;
-        
+        let IDUser;
         if (!token) {
             return res.status(400).json({ message: 'No token found in cookie' });
         }
@@ -16,12 +16,10 @@ let getHome = async (req, res) => {
             if (err) {
                 return res.status(401).json({ message: 'Invalid token!' });
             }
-            const IDUser = decoded.id;
-            const listAllClass = await classService.getUserClasses(IDUser);
-            console.log(listAllClass);
-            return res.render('Client_User/Home.ejs', { currnetClassID: '-1', listClass: listAllClass, listExam: [] });
+            IDUser = decoded.id;
         });
-
+        const listAllClass = await classService.getUserClasses(IDUser);
+        return res.render('Client_User/Home.ejs', { currnetClassID: '-1', listClass: listAllClass, listExam: [] });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: 'Internal server error' });
