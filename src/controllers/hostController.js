@@ -1,6 +1,5 @@
 import questionService from '../services/questionService'
 import classService from '../services/classService'
-import examService from '../services/examService'
 
 let getCreateQuiz = (req,res) =>{
     return res.render('Host_User/createQuiz.ejs')
@@ -23,10 +22,6 @@ let deleteQuestion= async (req,res) =>{
 let getManageQuestion = async (req, res) => {
     const ClassID = req.params.id;
     const keyword = req.query.keyword; // Lấy từ khóa từ query string nếu có
-
-    console.log('Current Class ID:', ClassID);
-    console.log('Keyword:', keyword);
-
     try {
         let questions;
         if (keyword) {
@@ -86,7 +81,6 @@ let UpdateQuestion  = async (req, res) => {
         req.query.answer3,
         req.query.answer4
     ];
-    console.log(answers)
     const correctAnswers = [
         req.query.isCorrect1 || '',
         req.query.isCorrect2 || '',

@@ -9,9 +9,7 @@ const filterResultByExam = (listExam) => {
                 
                 const item = await Result.find({examID: listExam[i]._id});
                 listResult.push(item);
-            }
-            console.log(listResult);
-            
+            }  
             resolve(listResult);
         } catch (error) {
             reject(error)
