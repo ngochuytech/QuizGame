@@ -60,6 +60,8 @@ let loginUser = async(req, res) =>{
     }
 }
 
+
+
 // In 'module.exports', you have a getInformation function. You can put more functions to export
 module.exports = {
     getLogin, getRegister, Home, createUser, loginUser

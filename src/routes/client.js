@@ -15,4 +15,6 @@ router.get('/changePW', clientController.getChangePW)
 // Test API
 router.get('/getAllClass',clientController.getAllClasses)
 
+router.post('/editAccount', clientController.editAccount)
+
 module.exports = router;

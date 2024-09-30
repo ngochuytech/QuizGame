@@ -83,110 +83,7 @@
               Lớp A
             </a>
           </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#speedometer2" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#table" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#people-circle" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#speedometer2" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#table" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#people-circle" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#speedometer2" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#table" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#people-circle" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#speedometer2" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#table" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#people-circle" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#speedometer2" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
+          
           <li>
             <a href="#" class="nav-link link-dark">
               <svg class="bi" width="16" height="16">
@@ -236,10 +133,8 @@
         </div>
       </div>
       <div class="profile-section">
-
         <div class="Name d-flex flex-column">
-          <h4>Nguyễn Huy</h4>
-          <p>Mã sinh viên: 123456789</p>
+          <h4 id="userName"><%=userAccount[0].nameDisplay%></h4>
         </div>
 
       </div>
@@ -253,14 +148,14 @@
         </li>
       </ul>
 
-        <form class="p-3">
+        <form  action="/client/editAccount" method="post" class="p-3">
             <div class="form-group">
                 <label for="text" class="form-label">Họ tên</label>
-                <input type="text" class="form-control form-control-sm">
+                <input name="userName" type="text" class="form-control form-control-sm" value="<%=userAccount[0].nameDisplay %>">
                 <label for="text" class="form-label mt-3">Email</label>
-                <input type="email" class="form-control form-control-sm">
+                <input disabled type="email" class="form-control form-control-sm" value="<%=userAccount[0].accountName %>">
                 <label for="text" class="form-label mt-3">Ngày sinh</label>
-                <input type="text" class="form-control form-control-sm">
+                <input name="userDate" type="text" class="form-control form-control-sm" value="<%=userAccount[0].date %>">
                 <label for="text" class="form-label mt-3">Ảnh đại diện</label>
                 <br>
                 <img src="/images/avatar.png" class="rounded-circle mb-3" alt="User Avatar" style="width: 70px;">

@@ -1,6 +1,7 @@
 import classService from '../services/classService'
 import examService from '../services/examService'
 import resultService from '../services/resultService'
+import userService from '../services/userService'
 
 let getHome = async (req, res) => {
     const listAllClass = await classService.getAllClass();
@@ -32,8 +33,15 @@ let getMember = (req, res) => {
     return res.render('Client_User/Member.ejs')
 }
 
-let getInformation = (req,res) =>{
-    return res.render('Client_User/information.ejs')
+let getInformation = async (req, res) => {
+    try {
+        const userAccount = await userService.loadUserName();
+        
+        return res.render('Client_User/information.ejs', {userAccount: userAccount})
+    } catch (error) {
+        console.log(error);
+        
+    }
 }
 
 let getChangePW = (req,res) =>{
@@ -80,6 +88,17 @@ let getAllClasses = async (req, res) => {
     }
 }
 
+let editAccount = async(req, res) => {
+    const{userName, userDate} = req.body;
+    try {
+        const user = await userService.editAccount(userName, userDate);
+        return res.redirect('/client/information')
+    } catch (error) {
+    console.log(error);
+        
+    }
+}
+
 module.exports = {
-    getHome, getResult, getMember, createClass, getAllClasses, getHomeClass, getInformation, getChangePW
+    getHome, getResult, getMember, createClass, getAllClasses, getHomeClass, getInformation, getChangePW, editAccount
 }

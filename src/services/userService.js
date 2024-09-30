@@ -64,6 +64,44 @@ let loginUserService = ({ accountName, password }) => {
     })
 }
 
+const loadUserName = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const user = await User.find({_id: '66f37706ebb8f99f8ec8baf5' });
+            if(!user){
+                return reject(new Error('The user is not exist.'));   
+            }
+            resolve(user);
+
+        } catch (error) {
+            reject({
+                message: 'Could not load the user information',
+                status: 'err'
+            })
+        }
+
+    })
+}
+
+const editAccount = (userName, userDate) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const user = await User.findByIdAndUpdate( '66f37706ebb8f99f8ec8baf5', {
+                nameDisplay: userName,
+                date: userDate
+             } )
+            resolve(user);
+
+        } catch (error) {
+            reject({
+                message: 'Could not load the user information',
+                status: 'err'
+            })
+        }
+
+    })
+}
+
 module.exports = {
-    createUserService, loginUserService
+    createUserService, loginUserService, loadUserName, editAccount
 }
