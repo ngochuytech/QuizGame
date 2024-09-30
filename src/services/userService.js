@@ -64,6 +64,28 @@ let loginUserService = ({ accountName, password }) => {
     })
 }
 
+const getMemberInClass = (Class) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const members = [];
+            // Chủ phòng
+            const owner = await User.findById({_id: Class.ownerID});
+            members.push(owner);
+            // Thành viên
+            for(let i=0; i<Class.members.length; i++){
+                const item = await User.findById({_id: Class.members[i]._id});
+                members.push(item);
+            }      
+            resolve(members)
+
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
+
+
 module.exports = {
-    createUserService, loginUserService
+    createUserService, loginUserService, getMemberInClass
 }

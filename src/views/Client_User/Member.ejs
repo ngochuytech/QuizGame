@@ -11,217 +11,15 @@
 
 <body>
     <!-- Header -->
-    <nav class="navbar fixed-top navbar-expand-lg bg-primary-subtle">
-        <div class="container-fluid d-flex justify-content-between">
-            <a class="navbar-brand" href="#">QUIZ PRO</a>
-            <div class="text-center">
-                <img src="/images/avatar.png" class="rounded-circle img-fluid" alt="Avatar" style="width: 40px;">
-            </div>
-        </div>
-    </nav>
+    <%- include('../utils/header.ejs'); %>
+
+    <!-- Modal -->
+    <%- include('../utils/modal.ejs'); %>
 
     <!-- Main Container -->
     <div class="Main-Content" style="margin-top: 56px;">
         <!-- Sidebar left -->
-        <div class="Sldebar_left d-flex flex-column flex-shrink-0 p-3 bg-light position-fixed"
-            style="width: 280px; height: 100vh;">
-            <div class="d-flex justify-content-between align-items-center">
-                <p href="/" class=" mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                    <svg class="bi" width="0" height="30">
-                        <use xlink:href="#bootstrap" />
-                    </svg>
-                    <span class="fs-4">Lớp học</span>
-                </p>
-                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                    class="bi bi-plus-circle" viewBox="0 0 16 16">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                    <path
-                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                </svg>
-            </div>
-            <hr>
-            <p><small>Lớp của tôi</small></p>
-            <div class="overflow-auto">
-                <ul class="nav nav-pills flex-column mb-auto ">
-                    <li>
-                        <a href="#" class="nav-link active" aria-current="page">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#home" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#speedometer2" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#table" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#grid" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#people-circle" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#speedometer2" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#table" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#people-circle" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#speedometer2" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#table" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#people-circle" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#speedometer2" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#table" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#people-circle" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#speedometer2" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#table" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#people-circle" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#speedometer2" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#table" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#people-circle" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#speedometer2" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#table" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        <%- include('../utils/sidebar.ejs'); %>
         <!-- End slidebar left -->
 
         <!-- Header of class -->
@@ -237,13 +35,13 @@
                         <a class="nav-link ms-3 text-dark" href="#">Thông báo</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link ms-3 text-dark" href="/client/home">Bài thi</a>
+                        <a class="nav-link ms-3 text-dark" href="/client/home/<%=currnetClassID%>">Bài thi</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link ms-3 text-dark" href="/client/result">Kết quả</a>
+                        <a class="nav-link ms-3 text-dark" href="/client/result/<%=currnetClassID%>">Kết quả</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link ms-3" href="/client/member" style="color: #E000D7"><b>Thành viên</b></a>
+                        <a class="nav-link ms-3" href="/client/member/<%=currnetClassID%>" style="color: #E000D7"><b>Thành viên</b></a>
                     </li>
                 </ul>
                 <button class="btn btn-danger ms-auto">Rời lớp</button>
@@ -284,31 +82,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><img src="/images/avatar.png" class="rounded-circle" alt="User Avatar"
-                                    style="width: 30px;">
-                                Nguyễn Văn A</td>
-                            <td>Chủ sở hữu</td>
-                            <td class="text-success">Trực tuyến</td>
-                            <td><button class="btn btn-warning btn-sm">Hành động</button></td>
-                        </tr>
-                        <!-- Repeat rows for other members -->
-                        <tr>
-                            <td><img src="/images/avatar.png" class="rounded-circle" alt="User Avatar"
-                                    style="width: 30px;">
-                                Nguyễn Văn A</td>
-                            <td>Thành viên</td>
-                            <td class="text-success">Trực tuyến</td>
-                            <td><button class="btn btn-warning btn-sm">Hành động</button></td>
-                        </tr>
-                        <tr>
-                            <td><img src="/images/avatar.png" class="rounded-circle" alt="User Avatar"
-                                    style="width: 30px;">
-                                Nguyễn Văn A</td>
-                            <td>Thành viên</td>
-                            <td class="text-muted">Ngoại tuyến</td>
-                            <td><button class="btn btn-warning btn-sm">Hành động</button></td>
-                        </tr>
+                        <%for(var i=0; i<listMember.length; i++){%>
+                            <tr>
+                                <td><img src="/images/avatar.png" class="rounded-circle" alt="User Avatar"
+                                        style="width: 30px;">
+                                    <%=listMember[i].nameDisplay%></td>
+                                <td>Chủ sở hữu</td>
+                                <td class="text-success">Trực tuyến</td>
+                                <td><button class="btn btn-warning btn-sm">Hành động</button></td>
+                            </tr>
+                        <%}%>
                     </tbody>
                 </table>
             </div>

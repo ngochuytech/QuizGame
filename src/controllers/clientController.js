@@ -1,6 +1,7 @@
 import classService from '../services/classService'
 import examService from '../services/examService'
 import resultService from '../services/resultService'
+import userService from '../services/userService'
 
 let getHome = async (req, res) => {
     const listAllClass = await classService.getAllClass();
@@ -28,8 +29,14 @@ let getResult = async (req, res) => {
     return res.render('Client_User/Result.ejs', { currnetClassID: ClassId, listClass: listAllClass, listResult: listResult})
 }
 
-let getMember = (req, res) => {
-    return res.render('Client_User/Member.ejs')
+let getMember = async (req, res) => {
+    // Lấy danh sách các lớp hiện có của user
+    const listAllClass = await classService.getAllClass();
+    let ClassId = req.params.classID;
+    // Tìm class để lấy class hiện tại
+    const currnetClass = await classService.getCurrentClass(ClassId);
+    const listMember = await userService.getMemberInClass(currnetClass);
+    return res.render('Client_User/Member.ejs',{ currnetClassID: ClassId, listClass: listAllClass, listMember: listMember})
 }
 
 let getInformation = (req,res) =>{

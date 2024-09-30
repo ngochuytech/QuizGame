@@ -10,6 +10,8 @@ const port = 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+
+
 configViewEngine(app);
 configDatabase(process.env.MONGO_DB);
 

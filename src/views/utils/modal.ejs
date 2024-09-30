@@ -1,4 +1,15 @@
 <script>
+    // Hàm kiểm tra bên thêm lớp
+    function AddClass(event){
+        event.preventDefault();// Dừng sự kiện xử lý một phần đỡ backend
+        let nameClass = document.querySelector('input[name="nameDisplay"]').value.trim();
+        if(!nameClass){
+            alert("Vui lòng điền tên lớp, không được bỏ trống");
+            return;
+        }
+        event.target.form.submit();
+    }
+    // Hàm kiểm tra bên thêm câu hỏi
     function AddQuestion(event) {
        event.preventDefault();// Dừng sự kiện xử lý một phần đỡ backend
    
@@ -32,14 +43,14 @@
            alert("Vui lòng lựa chọn đáp án đúng");
            return;
        }
-       event.target.submit();
+       event.target.form.submit();
    }
    
-   </script>
+</script>
    <div id="addClass" class="modal fade">
        <div class="modal-dialog">
            <div class="modal-content">
-               <form action="/client/createClass" method="post">
+               <form action="/client/createClass" method="post" onsubmit="AddClass(event)">
                    <div class="modal-header">
                        <h5 class="modal-title">Thêm lớp học mới</h5>
                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -53,7 +64,7 @@
                    </div>
                    <div class="modal-footer">
                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                       <button type="submit" class="btn btn-primary">Hoàn tất</button>
+                       <button type="submit" class="btn btn-primary" onclick="AddClass(event)">Hoàn tất</button>
                    </div>
                </form>
            </div>
@@ -132,7 +143,7 @@
                    </div>
                    <div class="modal-footer">
                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                       <button type="submit" class="btn btn-primary" onclick="AddQuestion()">Hoàn tất</button>
+                       <button type="submit" class="btn btn-primary" onclick="AddQuestion(event)">Hoàn tất</button>
                    </div>
                </form>
            </div>

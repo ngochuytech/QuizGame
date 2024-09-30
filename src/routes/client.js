@@ -7,7 +7,7 @@ router.get('/home',clientController.getHome)
 
 
 router.get('/result/:classID',clientController.getResult)
-router.get('/member', clientController.getMember)
+router.get('/member/:classID', clientController.getMember)
 router.post('/createClass', clientController.createClass)
 
 router.get('/information',clientController.getInformation)
