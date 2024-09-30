@@ -21,6 +21,10 @@ const questionSchema = new Schema({
         type: String,
         required: true
     },
+    difficulty:{
+        type: String,
+        required: true
+    },
     answer: {
         type: [answerSchema],
         required: true

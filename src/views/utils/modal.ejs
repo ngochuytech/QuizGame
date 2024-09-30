@@ -1,183 +1,301 @@
-<div id="addClass" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form action="/client/createClass" method="post">
-                <div class="modal-header">
-                    <h5 class="modal-title">Thêm lớp học mới</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div data-mdb-input-init class="form-floating mb-4">
-                        <input name="nameDisplay" type="text" id="form3Example3" class="form-control form-control-lg"
-                            placeholder="Nhập vào tên lớp học" />
-                        <label class="form-label" for="form3Example3">Tên lớp học</label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                    <button type="submit" class="btn btn-primary">Thêm mới</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div id="addQuestion" class="modal fade">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <form action="#" method="post">
-                <div class="modal-header">
-                    <h5 class="modal-title">Thêm câu hỏi mới</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div data-mdb-input-init class="form-floating mb-4">
-                        <input name="questionTitle" type="text" id="form3Example3" class="form-control form-control-lg"
-                            placeholder="Nhập vào tên lớp học" />
-                        <label class="form-label" for="form3Example3">Tiêu đề câu hỏi</label>
-                        <div class="diffculty mt-3 d-flex">
-                            <p class="col-3">Độ khó: </p>
-                            <div class="col-3">
-                                <input type="radio" id="easy" name="diffculty" checked>
-                                <label for="easy" style="color: #21B573;">Cơ bản</label><br>
-                            </div>
-                            <div class="col-3">
-                                <input type="radio" id="medium" name="diffculty">
-                                <label for="medium" style="color: #FAAF3A;">Trung bình</label><br>
-                            </div>
-                            <div class="col-3">
-                                <input type="radio" id="hard" name="diffculty">
-                                <label for="hard" style="color: #FF0000;">Khó</label><br>
-                            </div>
-                            
-                        </div>
-                        <div id="answers" style="margin-top: 16px;">
-                            <div class="row">
-                                <p class="col-5"></p>
-                                <p class="col-6">Nội dung câu trả lời</p>
-                                <p class="col-1">Đúng</p>
-                            </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">Câu trả lời 1</span>
-                                <input type="text" name="answer1" class="form-control">
-                                <div class="input-group-text">
-                                    <input class="form-check-input mt-0" type="checkbox" name="isCorrect1" aria-label="Checkbox for following text input">
-                                </div>
-                            </div>
-
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">Câu trả lời 2</span>
-                                <input type="text" name="answer2" class="form-control">
-                                <div class="input-group-text">
-                                    <input class="form-check-input mt-0" type="checkbox" name="isCorrect2" aria-label="Checkbox for following text input">
-                                  </div>
-                            </div>
-
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">Câu trả lời 3</span>
-                                <input type="text" name="answer3" class="form-control">
-                                <div class="input-group-text">
-                                    <input class="form-check-input mt-0" type="checkbox" name="isCorrect3" aria-label="Checkbox for following text input">
-                                  </div>
-                            </div>
-
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">Câu trả lời 4</span>
-                                <input type="text" name="answer4" class="form-control">
-                                <div class="input-group-text">
-                                    <input class="form-check-input mt-0" type="checkbox" name="isCorrect4" aria-label="Checkbox for following text input">
-                                  </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                    <button type="submit" class="btn btn-primary">Thêm mới</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div id="editQuestion" class="modal fade">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <form action="#" method="post">
-                <div class="modal-header">
-                    <h5 class="modal-title">Thêm câu hỏi mới</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Đưa question ID vô đây -->
-                    <input name="questionID" value="" hidden>
-                    <div data-mdb-input-init class="form-floating mb-4">
-                        <input name="questionTitle" type="text" id="form3Example3" class="form-control form-control-lg"
-                            placeholder="Nhập vào tên lớp học" />
-                        <label class="form-label" for="form3Example3">Tiêu đề câu hỏi</label>
-                        <div class="diffculty mt-3 d-flex">
-                            <p class="col-3">Độ khó: </p>
-                            <div class="col-3">
-                                <input type="radio" id="easy" name="diffculty" checked>
-                                <label for="easy" style="color: #21B573;">Cơ bản</label><br>
-                            </div>
-                            <div class="col-3">
-                                <input type="radio" id="medium" name="diffculty">
-                                <label for="medium" style="color: #FAAF3A;">Trung bình</label><br>
-                            </div>
-                            <div class="col-3">
-                                <input type="radio" id="hard" name="diffculty">
-                                <label for="hard" style="color: #FF0000;">Khó</label><br>
-                            </div>
-                            
-                        </div>
-                        <div id="answers" style="margin-top: 16px;">
-                            <div class="row">
-                                <p class="col-5"></p>
-                                <p class="col-6">Nội dung câu trả lời</p>
-                                <p class="col-1">Đúng</p>
-                            </div>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">Câu trả lời 1</span>
-                                <input type="text" name="answer1" class="form-control">
-                                <div class="input-group-text">
-                                    <input class="form-check-input mt-0" type="checkbox" name="isCorrect1" aria-label="Checkbox for following text input">
-                                </div>
-                            </div>
-
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">Câu trả lời 2</span>
-                                <input type="text" name="answer2" class="form-control">
-                                <div class="input-group-text">
-                                    <input class="form-check-input mt-0" type="checkbox" name="isCorrect2" aria-label="Checkbox for following text input">
-                                  </div>
-                            </div>
-
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">Câu trả lời 3</span>
-                                <input type="text" name="answer3" class="form-control">
-                                <div class="input-group-text">
-                                    <input class="form-check-input mt-0" type="checkbox" name="isCorrect3" aria-label="Checkbox for following text input">
-                                  </div>
-                            </div>
-
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">Câu trả lời 4</span>
-                                <input type="text" name="answer4" class="form-control">
-                                <div class="input-group-text">
-                                    <input class="form-check-input mt-0" type="checkbox" name="isCorrect4" aria-label="Checkbox for following text input">
-                                  </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                    <button type="submit" class="btn btn-primary">Thêm mới</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+<script>
+    function AddQuestion(event) {
+       event.preventDefault();// Dừng sự kiện xử lý một phần đỡ backend
+   
+       const questionTitle = document.querySelector('input[name="questionTitle"]').value.trim();
+   
+       const difficulty = document.querySelector('input[name="diffculty"]:checked')?.id;
+   
+       const answers = [];
+       for (let i = 1; i <= 4; i++) {
+           const answer = document.querySelector(`input[name="Answer${i}"]`).value.trim();
+           answers.push(answer);
+       }
+   
+       const correctAnswers = [];
+       for (let i = 1; i <= 4; i++) {
+           const isCorrect = document.querySelector(`input[name="isCorrect${i}"]`).checked;
+           correctAnswers.push(isCorrect);
+       }
+   
+       if (!questionTitle) {
+           alert("Vui lòng điền nội dung câu hỏi");
+           return;
+       }
+   
+       if (answers.some(answer => answer === "")) {
+           alert("Vui lòng điền đủ đáp án");
+           return;
+       }
+   
+       if (!correctAnswers.some(isCorrect => isCorrect)) {
+           alert("Vui lòng lựa chọn đáp án đúng");
+           return;
+       }
+       event.target.submit();
+   }
+   
+   </script>
+   <div id="addClass" class="modal fade">
+       <div class="modal-dialog">
+           <div class="modal-content">
+               <form action="/client/createClass" method="post">
+                   <div class="modal-header">
+                       <h5 class="modal-title">Thêm lớp học mới</h5>
+                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                   </div>
+                   <div class="modal-body">
+                       <div data-mdb-input-init class="form-floating mb-4">
+                           <input name="nameDisplay" type="text" id="form3Example3" class="form-control form-control-lg"
+                               placeholder="Nhập vào tên lớp học" />
+                           <label class="form-label" for="form3Example3">Tên lớp học</label>
+                       </div>
+                   </div>
+                   <div class="modal-footer">
+                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                       <button type="submit" class="btn btn-primary">Hoàn tất</button>
+                   </div>
+               </form>
+           </div>
+       </div>
+   </div>
+   
+   <div id="addQuestion" class="modal fade">
+       <div class="modal-dialog modal-dialog-centered modal-lg">
+           <div class="modal-content">
+               <form action="/host/UpdateQuestion/<%=currnetClassID%>" method="post" onsubmit="AddQuestion(event)">
+                   <div class="modal-header">
+                       <h5 class="modal-title">Thêm câu hỏi mới</h5>
+                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                   </div>
+                   <div class="modal-body">
+                       <div data-mdb-input-init class="form-floating mb-4">
+                           <input name="questionTitle" type="text" id="form3Example3" class="form-control form-control-lg"
+                               placeholder="Nhập vào tên lớp học" />
+                           <label class="form-label" for="form3Example3" id="Question">Nội dung câu hỏi</label>
+                           <div class="diffculty mt-3 d-flex">
+                               <p class="col-3">Độ khó: </p>
+                               <div class="col-3">
+                                   <input type="radio" id="easy" name="diffculty" checked value="Easy">
+                                   <label for="easy" style="color: #21B573;" >Cơ bản</label><br>
+                               </div>
+                               <div class="col-3">
+                                   <input type="radio" id="medium" name="diffculty" value="Medium">
+                                   <label for="medium" style="color: #FAAF3A;" >Trung bình</label><br>
+                               </div>
+                               <div class="col-3">
+                                   <input type="radio" id="hard" name="diffculty" value="Hard">
+                                   <label for="hard" style="color: #FF0000;" >Khó</label><br>
+                               </div>
+                               
+                           </div>
+                           <div id="answers" style="margin-top: 16px;">
+                               <div class="row">
+                                   <p class="col-5"></p>
+                                   <p class="col-6">Nội dung câu trả lời</p>
+                                   <p class="col-1">Đúng</p>
+                               </div>
+                               <div class="input-group mb-3">
+                                   <span class="input-group-text">Câu trả lời 1</span>
+                                   <input type="text" name="Answer1" class="form-control" id="Answer1" >
+                                   <div class="input-group-text">
+                                       <input class="form-check-input mt-0" type="checkbox" name="isCorrect1" aria-label="Checkbox for following text input">
+                                   </div>
+                               </div>
+   
+                               <div class="input-group mb-3">
+                                   <span class="input-group-text">Câu trả lời 2</span>
+                                   <input type="text" name="Answer2" class="form-control" id="Answer2 " >
+                                   <div class="input-group-text">
+                                       <input class="form-check-input mt-0" type="checkbox" name="isCorrect2" aria-label="Checkbox for following text input">
+                                     </div>
+                               </div>
+   
+                               <div class="input-group mb-3">
+                                   <span class="input-group-text">Câu trả lời 3</span>
+                                   <input type="text" name="Answer3" class="form-control" id="Answer3" >
+                                   <div class="input-group-text">
+                                       <input class="form-check-input mt-0" type="checkbox" name="isCorrect3" aria-label="Checkbox for following text input">
+                                     </div>
+                               </div>
+   
+                               <div class="input-group mb-3">
+                                   <span class="input-group-text">Câu trả lời 4</span>
+                                   <input type="text" name="Answer4" class="form-control" id="Answer4"  >
+                                   <div class="input-group-text">
+                                       <input class="form-check-input mt-0" type="checkbox" name="isCorrect4" aria-label="Checkbox for following text input">
+                                     </div>
+                               </div>
+                           </div>
+   
+                       </div>
+                   </div>
+                   <div class="modal-footer">
+                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                       <button type="submit" class="btn btn-primary" onclick="AddQuestion()">Hoàn tất</button>
+                   </div>
+               </form>
+           </div>
+       </div>
+   </div>
+   
+   <div id="editQuestion" class="modal fade">
+       <div class="modal-dialog modal-dialog-centered modal-lg">
+           <div class="modal-content">
+               <form action="/host/UpdateQuestion/<%=currnetClassID%>?" method="get">
+                   <div class="modal-header">
+                       <h5 class="modal-title">Chỉnh sửa câu hỏi mới</h5>
+                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                   </div>
+                   <div class="modal-body">
+                       <!-- Đưa question ID vô đây -->
+                       <input name="questionID" value="" hidden>
+                       <div data-mdb-input-init class="form-floating mb-4">
+                           <input name="questionTitle" type="text" id="form3Example3" class="form-control form-control-lg" value=""/>
+                           <label class="form-label" for="form3Example3">Tiêu đề câu hỏi</label>
+                           <div class="diffculty mt-3 d-flex">
+                               <p class="col-3">Độ khó: </p>
+                               <div class="col-3">
+                                   <input type="radio" id="easy" name="diffculty" checked>
+                                   <label for="easy" style="color: #21B573;">Cơ bản</label><br>
+                               </div>
+                               <div class="col-3">
+                                   <input type="radio" id="medium" name="diffculty">
+                                   <label for="medium" style="color: #FAAF3A;">Trung bình</label><br>
+                               </div>
+                               <div class="col-3">
+                                   <input type="radio" id="hard" name="diffculty">
+                                   <label for="hard" style="color: #FF0000;">Khó</label><br>
+                               </div>
+                               
+                           </div>
+                           <div id="answers" style="margin-top: 16px;">
+                               <div class="row">
+                                   <p class="col-5"></p>
+                                   <p class="col-6">Nội dung câu trả lời</p>
+                                   <p class="col-1">Đúng</p>
+                               </div>
+                               <div class="input-group mb-3">
+                                   <span class="input-group-text">Câu trả lời 1</span>
+                                   <input type="text" name="answer1" class="form-control">
+                                   <div class="input-group-text">
+                                       <input class="form-check-input mt-0" type="checkbox" name="isCorrect1" aria-label="Checkbox for following text input">
+                                   </div>
+                               </div>
+   
+                               <div class="input-group mb-3">
+                                   <span class="input-group-text">Câu trả lời 2</span>
+                                   <input type="text" name="answer2" class="form-control">
+                                   <div class="input-group-text">
+                                       <input class="form-check-input mt-0" type="checkbox" name="isCorrect2" aria-label="Checkbox for following text input">
+                                     </div>
+                               </div>
+   
+                               <div class="input-group mb-3">
+                                   <span class="input-group-text">Câu trả lời 3</span>
+                                   <input type="text" name="answer3" class="form-control">
+                                   <div class="input-group-text">
+                                       <input class="form-check-input mt-0" type="checkbox" name="isCorrect3" aria-label="Checkbox for following text input">
+                                     </div>
+                               </div>
+   
+                               <div class="input-group mb-3">
+                                   <span class="input-group-text">Câu trả lời 4</span>
+                                   <input type="text" name="answer4" class="form-control">
+                                   <div class="input-group-text">
+                                       <input class="form-check-input mt-0" type="checkbox" name="isCorrect4" aria-label="Checkbox for following text input">
+                                     </div>
+                               </div>
+                           </div>
+   
+                       </div>
+                   </div>
+                   <div class="modal-footer">
+                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                       <button type="submit" class="btn btn-primary">Thêm mới</button>
+                   </div>
+               </form>
+           </div>
+       </div>
+   </div>
+   
+   <div id="addQuestion" class="modal fade">
+       <div class="modal-dialog modal-dialog-centered modal-lg">
+           <div class="modal-content">
+               <form action="/host/UpdateQuestion/<%=currnetClassID%>" method="post">
+                   <div class="modal-header">
+                       <h5 class="modal-title">Thêm câu hỏi mới</h5>
+                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                   </div>
+                   <div class="modal-body">
+                       <div data-mdb-input-init class="form-floating mb-4">
+                           <input name="questionTitle" type="text" id="form3Example3" class="form-control form-control-lg"
+                               placeholder="Nhập vào tên lớp học" />
+                           <label class="form-label" for="form3Example3">Tiêu đề câu hỏi</label>
+                           <div class="diffculty mt-3 d-flex">
+                               <p class="col-3">Độ khó: </p>
+                               <div class="col-3">
+                                   <input type="radio" id="easy" name="diffculty" value="Easy"checked>
+                                   <label for="easy" style="color: #21B573;">Cơ bản</label><br>
+                               </div>
+                               <div class="col-3">
+                                   <input type="radio" id="medium" name="diffculty" value="Medium">
+                                   <label for="medium" style="color: #FAAF3A;">Trung bình</label><br>
+                               </div>
+                               <div class="col-3">
+                                   <input type="radio" id="hard" name="diffculty" value="Hard">
+                                   <label for="hard" style="color: #FF0000;">Khó</label><br>
+                               </div>
+                               
+                           </div>
+                           <div id="answers" style="margin-top: 16px;">
+                               <div class="row">
+                                   <p class="col-5"></p>
+                                   <p class="col-6">Nội dung câu trả lời</p>
+                                   <p class="col-1">Đúng</p>
+                               </div>
+                               <div class="input-group mb-3">
+                                   <span class="input-group-text">Câu trả lời 1</span>
+                                   <input type="text" name="answer1" class="form-control">
+                                   <div class="input-group-text">
+                                       <input class="form-check-input mt-0" type="checkbox" name="isCorrect1" aria-label="Checkbox for following text input">
+                                   </div>
+                               </div>
+   
+                               <div class="input-group mb-3">
+                                   <span class="input-group-text">Câu trả lời 2</span>
+                                   <input type="text" name="answer2" class="form-control">
+                                   <div class="input-group-text">
+                                       <input class="form-check-input mt-0" type="checkbox" name="isCorrect2" aria-label="Checkbox for following text input">
+                                     </div>
+                               </div>
+   
+                               <div class="input-group mb-3">
+                                   <span class="input-group-text">Câu trả lời 3</span>
+                                   <input type="text" name="answer3" class="form-control">
+                                   <div class="input-group-text">
+                                       <input class="form-check-input mt-0" type="checkbox" name="isCorrect3" aria-label="Checkbox for following text input">
+                                     </div>
+                               </div>
+   
+                               <div class="input-group mb-3">
+                                   <span class="input-group-text">Câu trả lời 4</span>
+                                   <input type="text" name="answer4" class="form-control">
+                                   <div class="input-group-text">
+                                       <input class="form-check-input mt-0" type="checkbox" name="isCorrect4" aria-label="Checkbox for following text input">
+                                     </div>
+                               </div>
+                           </div>
+   
+                       </div>
+                   </div>
+                   <div class="modal-footer">
+                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                       <button type="submit" class="btn btn-primary">Thêm mới</button>
+                   </div>
+               </form>
+           </div>
+       </div>
+   </div>
+   
+   

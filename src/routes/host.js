@@ -5,6 +5,11 @@ const router = express.Router()
 router.get('/createQuiz', hostController.getCreateQuiz)
 router.get('/leaderboard', hostController.getLeaderboard)
 router.get('/manageClass', hostController.getManageClass)
-router.get('/manageQuestion', hostController.getManageQuestion)
+router.get('/deleteQuestion', hostController.deleteQuestion)
+router.get('/manageQuestion/:id', hostController.getManageQuestion)
+
+router.post('/UpdateQuestion/:id', hostController.AddQuestion)
+router.get('/UpdateQuestion/:id', hostController.UpdateQuestion)
+
 
 module.exports = router;
