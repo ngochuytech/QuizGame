@@ -25,7 +25,7 @@ const UserSchema = new Schema({
         type: String,
         default: './public/images/avatar.png'
     },
-    myClassId: [{
+    MyClassId: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Class'
     }]

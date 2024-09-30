@@ -1,4 +1,7 @@
 import userService from '../services/userService'
+const jwt = require('jsonwebtoken');
+import 'dotenv/config'
+
 
 let getLogin = (req, res) => {
     return res.render('login.ejs')
@@ -46,21 +49,44 @@ let createUser = async (req, res) => {
 }
 
 let loginUser = async(req, res) =>{
-    const { email, password } = req.body;
+    try {
+        const { email, password } = req.body;
     
-    if(email && password){
-        const user = await userService.loginUserService({email, password})
-        return res.redirect('/client/Home')
-    }
-    else{
-        return res.json({
+        if (email && password) {
+        const user = await userService.loginUserService({ email, password });
+          // Lấy id_user dựa trên email và password
+          if (user==null) {
+            // Nếu không tìm thấy user, trả về lỗi
+            return res.status(401).json({ message: 'Invalid credentials' });
+          }
+          // Tạo JWT token
+          const token = jwt.sign(
+            { id: user, email: email, password: password },
+            process.env.SECRET_KEY,
+            { expiresIn: '1h' }
+          );
+          
+          // Gửi token qua cookie
+          res.cookie('jwt', token, { httpOnly: true, secure: true });
+          console.log('Đã tìm thấy người dùng');
+    
+          // Chuyển hướng về trang home
+          return res.redirect('/client/Home');
+        } 
+        else {
+          // Thiếu email hoặc password
+          return res.json({
             status: 'err',
             message: 'AccountName and Password is required'
         })
-    }
+        }
+      } catch (error) {
+        // Bắt và xử lý lỗi
+        console.error(error);
+        return res.status(500).json({ message: 'Internal server error' });
+      }
 }
 
-// In 'module.exports', you have a getInformation function. You can put more functions to export
 module.exports = {
     getLogin, getRegister, Home, createUser, loginUser
 }
