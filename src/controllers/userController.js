@@ -61,9 +61,9 @@ let loginUser = async(req, res) =>{
           }
           // Tạo JWT token
           const token = jwt.sign(
-            { id: user, email: email, password: password },
+            { id: user},
             process.env.SECRET_KEY,
-            { expiresIn: '1h' }
+            { expiresIn: '1h' }// hs256, kh
           );
           
           // Gửi token qua cookie
