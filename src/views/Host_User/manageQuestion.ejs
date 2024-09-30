@@ -127,7 +127,7 @@ function UpdateQuestion(questionID,classID)
                             <tr>
                                 <td><%=index++%></td>
                                 <td><%= Qs.question %></td>
-                                <td class="text-success">Dễ</td>
+                                <td class="text-success"><%= Qs.difficulty %></td>
                                 <td>
                                     <button class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#editQuestion<%=Qs._id%>">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
@@ -149,7 +149,7 @@ function UpdateQuestion(questionID,classID)
                                     <div class="modal-content">
                                         <form action="/host/UpdateQuestion/<%=currnetClassID%>" method="get">
                                             <div class="modal-header">
-                                                <h5 class="modal-title">Thêm câu hỏi mới</h5>
+                                                <h5 class="modal-title">Chỉnh sửa câu hỏi</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
@@ -162,15 +162,15 @@ function UpdateQuestion(questionID,classID)
                                                         <p class="col-3">Độ khó: </p>
                                                         <div class="col-3">
                                                             <input type="radio" id="easy" name="diffculty" value="Easy"<%=(Qs.difficulty=='Easy')?'checked':''%>>
-                                                            <label for="easy" style="color: #21B573;">Cơ bản</label><br>
+                                                            <label for="easy" style="color: #21B573;">Easy</label><br>
                                                         </div>
                                                         <div class="col-3">
                                                             <input type="radio" id="medium" name="diffculty" value="Medium"<%=(Qs.difficulty=='Medium')?'checked':''%>>
-                                                            <label for="medium" style="color: #FAAF3A;">Trung bình</label><br>
+                                                            <label for="medium" style="color: #FAAF3A;">Medium</label><br>
                                                         </div>
                                                         <div class="col-3">
                                                             <input type="radio" id="hard" name="diffculty" value="Hard" <%=(Qs.difficulty=='Hard')?'checked':''%>>
-                                                            <label for="hard" style="color: #FF0000;">Khó</label><br>
+                                                            <label for="hard" style="color: #FF0000;">Hard</label><br>
                                                         </div>
                                                         
                                                     </div>
