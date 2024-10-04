@@ -1,5 +1,5 @@
 import userService from '../services/userService'
-const jwt = require('jsonwebtoken');
+import jwt from '../middleware/jwtAction'
 import 'dotenv/config'
 
 
@@ -60,16 +60,11 @@ let loginUser = async(req, res) =>{
             return res.status(401).json({ message: 'Invalid credentials' });
           }
           // Tạo JWT token
-          const token = jwt.sign(
-            { id: user},
-            process.env.SECRET_KEY,
-            { expiresIn: '1h' }// hs256, kh
-          );
+          const token = jwt.createJWT({_id: user._id});
           
           // Gửi token qua cookie
           res.cookie('jwt', token, { httpOnly: true, secure: true });
-          console.log('Đã tìm thấy người dùng');
-    
+
           // Chuyển hướng về trang home
           return res.redirect('/client/Home');
         } 

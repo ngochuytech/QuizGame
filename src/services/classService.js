@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { Class } from '../models/classModel';
-import { User } from '../models/userModel';
+import userService from '../services/userService';
 
 const createClass = (nameClass) => {
     return new Promise(async (resolve, reject) => {
@@ -30,6 +30,7 @@ const getAllClass = () => {
     })
 }
 
+// Lấy lớp hiện tại thông qua id của lớp đó
 const getCurrentClass = (ClassID) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -40,18 +41,18 @@ const getCurrentClass = (ClassID) => {
         }
     })
 }
+
+// Lấy danh sách lớp của user cụ thể
 const getUserClasses = async (userId) => {
-    console.log(userId)
+    return new Promise(async (resolve, reject) => {
         try {
-            const user = await User.findById(userId).populate('MyClassId').exec();
-            if (!user) {
-                return new Error('User not found');
-            }
-            const classes = user.MyClassId;   // Lấy danh sách _id của các lớp
-            return classes;
+            const user = await userService.findUserbyID(userId);
+            const classOfUser = await Class.find({_id: user.MyClassId});
+            resolve(classOfUser)
         } catch (error) {
-            return error;
+            reject(error)
         }
+    })
 };
 
 

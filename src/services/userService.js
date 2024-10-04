@@ -86,6 +86,34 @@ let getIDbyEmailAndPassWord = ({ accountName, password }) => {
         }
     })   
 }
+
+// Cập nhật thông tin lớp của user khi được tạo 1 lớp mới
+let addClass = (idClass, idUser) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const user = await User.findByIdAndUpdate(idUser,  {$push: { MyClassId: idClass }});
+            if(user)
+                resolve(user);
+            }
+        catch (error) {
+            reject(error)
+        }
+    })   
+}
+
+// Tìm User bằng ID
+let findUserbyID = (IDUser) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const user = await User.findOne({ _id: IDUser });
+            if(user)
+                resolve(user);
+            }
+        catch (error) {
+            reject(error)
+        }
+    })   
+}
 module.exports = {
-    createUserService, loginUserService,getMemberInClass, getIDbyEmailAndPassWord
+    createUserService, loginUserService,getMemberInClass, getIDbyEmailAndPassWord, findUserbyID, addClass
 }

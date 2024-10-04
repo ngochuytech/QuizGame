@@ -1,10 +1,11 @@
 import clientRouter from "./client"
 import hostRouter from "./host"
 import userRouter from "./user"
+import authMiddleware from '../middleware/authMiddleware'
 
 const routes = (app)=>{
-    app.use('/client',clientRouter);
-    app.use('/host',hostRouter)
+    app.use('/client',authMiddleware.AuthRequired,clientRouter);
+    app.use('/host',authMiddleware.AuthRequired, hostRouter)
     app.use('/user',userRouter);
 }
 

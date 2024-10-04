@@ -1,5 +1,6 @@
 import questionService from '../services/questionService'
 import classService from '../services/classService'
+import jwt from '../middleware/jwtAction'
 
 let getCreateQuiz = (req,res) =>{
     return res.render('Host_User/createQuiz.ejs')
@@ -20,6 +21,8 @@ let deleteQuestion= async (req,res) =>{
     return res.redirect(`/host/manageQuestion/${classID}`);
 }
 let getManageQuestion = async (req, res) => {
+    const token = req.cookies.jwt;
+    let IDUser = jwt.verifyToken(token)._id;
     const ClassID = req.params.id;
     const keyword = req.query.keyword; // Lấy từ khóa từ query string nếu có
     try {
@@ -30,13 +33,12 @@ let getManageQuestion = async (req, res) => {
             // Nếu không có từ khóa, lấy tất cả câu hỏi
             questions = await questionService.getAllQuestionsByIDClass(ClassID);
         }
-        const listAllClass = await classService.getAllClass();
-        const currnetClass = await classService.getCurrentClass(ClassID);
+        const listClass = await classService.getUserClasses(IDUser);
         
         return res.render('Host_User/manageQuestion', {
             questions: questions,
             currnetClassID : ClassID,
-            listClass:listAllClass
+            listClass:listClass
         });
     } catch (error) {
         console.error(error);

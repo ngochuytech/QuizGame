@@ -71,7 +71,7 @@
                     </div>
                 </div>
 
-                <h6>Tổng số thành viên: 10 người</h6>
+                <h6>Tổng số thành viên: <%=listMember.length%> người</h6>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -87,7 +87,11 @@
                                 <td><img src="/images/avatar.png" class="rounded-circle" alt="User Avatar"
                                         style="width: 30px;">
                                     <%=listMember[i].nameDisplay%></td>
-                                <td>Chủ sở hữu</td>
+                                <%if(i==0){%>
+                                    <td>Chủ sở hữu</td>
+                                <%} else{%>
+                                    <td>Thành viên</td>
+                                <%}%>
                                 <td class="text-success">Trực tuyến</td>
                                 <td><button class="btn btn-warning btn-sm">Hành động</button></td>
                             </tr>
