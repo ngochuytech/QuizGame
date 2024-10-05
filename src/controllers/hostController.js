@@ -2,9 +2,13 @@ import questionService from '../services/questionService'
 import classService from '../services/classService'
 import jwt from '../middleware/jwtAction'
 
-let getCreateQuiz = (req,res) =>{
+let getCreateQuiz = async (req,res) =>{
     const ClassID = req.params.idClass;
-    return res.render('Host_User/createQuiz.ejs', {currnetClassID : ClassID})
+    const easyQuestion = await questionService.filterQuestionByDifficulty(ClassID, 'Easy');   
+    const mediumQuestion = await questionService.filterQuestionByDifficulty(ClassID, 'Medium');
+    const hardQuestion = await questionService.filterQuestionByDifficulty(ClassID, 'Hard');
+
+    return res.render('Host_User/createQuiz.ejs', {currnetClassID : ClassID, easyQuestion, mediumQuestion, hardQuestion})
 }
 
 let getLeaderboard = (req,res) =>{

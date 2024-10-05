@@ -47,7 +47,7 @@
                 </ul>
 
                 <!-- Basic Table -->
-                <div class="tab-content" id="basic-content">
+                <div class="table-question tab-content" id="basic-content">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -58,24 +58,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>DNS viết tắt của từ gì?</td>
-                                <td>Cơ bản</td>
-                                <td><input type="checkbox" checked></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>DNS viết tắt của từ gì?</td>
-                                <td>Cơ bản</td>
-                                <td><input type="checkbox" checked></td>
-                            </tr>
+                            <%for(let i=0; i<easyQuestion.length; i++){%>
+                                <tr>
+                                    <td><%=i+1%></td>
+                                    <td><%=easyQuestion[i].question%></td>
+                                    <td>Cơ bản</td>
+                                    <td><input id="tickEasyQuestion<%=i%>" type="checkbox" onclick="chooseEasy('<%=i%>')"></td>
+                                </tr>
+                            <%}%>
                         </tbody>
                     </table>
                 </div>
 
                 <!-- Medium Table -->
-                <div class="tab-content" id="medium-content" style="display: none;">
+                <div class="table-question tab-content" id="medium-content" style="display: none;">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -86,24 +82,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>3</td>
-                                <td>HTTP là viết tắt của từ gì?</td>
-                                <td>Trung bình</td>
-                                <td><input type="checkbox"></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>TCP/IP viết tắt của từ gì?</td>
-                                <td>Trung bình</td>
-                                <td><input type="checkbox"></td>
-                            </tr>
+                            <%for(let i=0; i<mediumQuestion.length; i++){%>
+                                <tr>
+                                    <td><%=i+1%></td>
+                                    <td><%=mediumQuestion[i].question%></td>
+                                    <td>Trung bình</td>
+                                    <td><input id="tickMediumQuestion<%=i%>" type="checkbox" onclick="chooseMedium('<%=i%>')"></td>
+                                </tr>
+                            <%}%>
                         </tbody>
                     </table>
                 </div>
 
                 <!-- Hard Table -->
-                <div class="tab-content" id="hard-content" style="display: none;">
+                <div class="table-question tab-content" id="hard-content" style="display: none;">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -114,31 +106,27 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>5</td>
-                                <td>OSI là gì?</td>
-                                <td>Khó</td>
-                                <td><input type="checkbox"></td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>UDP là viết tắt của từ gì?</td>
-                                <td>Khó</td>
-                                <td><input type="checkbox"></td>
-                            </tr>
+                            <%for(let i=0; i<hardQuestion.length; i++){%>
+                                <tr>
+                                    <td><%=i+1%></td>
+                                    <td><%=hardQuestion[i].question%></td>
+                                    <td>Khó</td>
+                                    <td><input id="tickHardQuestion<%=i%>" type="checkbox" onclick="chooseHard('<%=i%>')"></td>
+                                </tr>
+                            <%}%>
                         </tbody>
                     </table>
                 </div>
 
                 <div class="d-flex justify-content-around mb-3">
                     <div class="text-center" >
-                        <p><strong style="color: green;">Cơ bản:</strong> 2</p>
+                        <p id="NumberOfEasy"><strong style="color: green;">Cơ bản:</strong> 0</p>
                     </div>
                     <div class="text-center">
-                        <p><strong style="color: blue;">Trung bình:</strong> 0</p>
+                        <p id="NumberOfMedium"><strong style="color: #FAAF3A;">Trung bình:</strong> 0</p>
                     </div>
                     <div class="text-center">
-                        <p><strong style="color: red;">Khó:</strong> 0</p>
+                        <p id="NumberOfHard"><strong style="color: red;">Khó:</strong> 0</p>
                     </div>
                 </div>
                 
@@ -164,7 +152,7 @@
                 </div>
 
                 <div class="mt-4 d-flex justify-content-end">
-                    <a href="/client/home/<%=currnetClassID%>" class="btn-danger me-2" style="width: 100px; display: flex; justify-content: center; text-decoration: none; color: black;">Thoát</a>
+                    <a href="/client/home/<%=currnetClassID%>table-question " class="btn-danger me-2" style="width: 100px; display: flex; justify-content: center; text-decoration: none; color: black;">Thoát</a>
                     <button type="submit" class="btn-success">Tạo bài thi</button>
                 </div>
             </div>
@@ -196,6 +184,45 @@
                 document.getElementById('hard-content').style.display = 'block';
                 document.getElementById('tab-hard').classList.add('active');
             }
+        }
+
+        function chooseEasy(index) {
+            var item = document.getElementById('tickEasyQuestion' + index);
+            var numberEasy = parseInt(document.getElementById('NumberOfEasy').textContent.split(' ')[2]);
+
+            // Check if the checkbox is checked
+            if (item.checked) {
+                numberEasy++;
+            } else {
+                numberEasy--;
+            }
+            document.getElementById('NumberOfEasy').innerHTML = '<strong style="color: green;">Cơ bản: </strong>' + numberEasy
+        }
+
+        function chooseMedium(index) {
+            var item = document.getElementById('tickMediumQuestion' + index);
+            var numberMedium = parseInt(document.getElementById('NumberOfMedium').textContent.split(' ')[2]);
+
+            // Check if the checkbox is checked
+            if (item.checked) {
+                numberMedium++;
+            } else {
+                numberMedium--;
+            }
+            document.getElementById('NumberOfMedium').innerHTML = '<strong style="color: #FAAF3A;">Trung bình: </strong>' + numberMedium
+        }
+
+        function chooseHard(index){
+            var item = document.getElementById('tickHardQuestion' + index);
+            var numberHard = parseInt(document.getElementById('NumberOfHard').textContent.split(' ')[1]);
+            
+            // Check if the checkbox is checked
+            if (item.checked) {
+                numberHard++;
+            } else {
+                numberHard--;
+            }
+            document.getElementById('NumberOfHard').innerHTML = '<strong style="color: red;">Khó: </strong>' + numberHard
         }
     </script>
 </body>

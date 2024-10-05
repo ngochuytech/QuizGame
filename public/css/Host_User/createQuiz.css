@@ -76,3 +76,13 @@ button {
     width: 80px;
     margin: 0 auto;
 }
+
+.table-question{
+    overflow-y: auto;
+    height: 270px;
+}
+
+.table-question thead th {
+    position: sticky;
+    top: 0;
+}

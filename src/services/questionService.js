@@ -1,6 +1,5 @@
 import { Questions } from '../models/questionModel'
 import { Class } from '../models/classModel';
-import classService from '../services/classService'
 const getAllQuestions = () => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -14,12 +13,7 @@ const getAllQuestions = () => {
 const getAllQuestionsByIDClass = (ClassID) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const myClass = await classService.getCurrentClass(ClassID);
-            let question = [];
-            for(let i=0; i<myClass.questions.length; i++){
-                const item = await Questions.findById(myClass.questions[i]._id);
-                question.push(item);
-            }
+            let question = await Questions.find({classID: ClassID})           
             resolve(question)
         } catch (error) {
             reject(error)
@@ -100,7 +94,17 @@ const UpdateQuestion = async (ClassID, QuestionID,questionTitle, difficulty, ans
     }
 }
 
-
+const filterQuestionByDifficulty = async (ClassID, Difficulty)=>{
+    return new Promise(async (resolve, reject) => {
+        try {
+            const question = await Questions.find({classID: ClassID, difficulty: Difficulty}); 
+            resolve(question)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
 module.exports = {
-    getAllQuestions,getAllQuestionsByIDClass,searchQuestionsByKeyword,deleteQuestionById,AddQuestion,UpdateQuestion
+    getAllQuestions,getAllQuestionsByIDClass,searchQuestionsByKeyword,deleteQuestionById,AddQuestion,UpdateQuestion,
+    filterQuestionByDifficulty
 }
