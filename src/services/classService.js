@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { Class } from '../models/classModel';
+import { Questions } from '../models/questionModel'
 import userService from '../services/userService';
 
 const createClass = (nameClass) => {
@@ -55,8 +56,34 @@ const getUserClasses = async (userId) => {
     })
 };
 
+const deleteClass = async (ClassID, IDUser) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            // Xóa lớp được lưu ở người dùng
+            await userService.deleteClass(ClassID, IDUser);
+            // Xoá các câu hỏi trong lớp đó và trong CSDL (QuesitonModel)
+            await Questions.deleteMany({classID: ClassID})
+
+            const deleteclass = await Class.deleteOne({_id: ClassID});
+            resolve(deleteclass)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
+const updateNameClass = async (ClassID, newNameOfClass) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const newClass = await Class.findByIdAndUpdate(ClassID, {nameDisplay: newNameOfClass});
+            resolve(newClass);
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
 
 
 module.exports ={
-    createClass, getAllClass, getCurrentClass,getUserClasses
+    createClass, getAllClass, getCurrentClass,getUserClasses, deleteClass, updateNameClass
 }

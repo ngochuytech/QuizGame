@@ -11,97 +11,16 @@
 
 <body>
     <!-- Header -->
-    <nav class="navbar fixed-top navbar-expand-lg bg-primary-subtle">
-        <div class="container-fluid d-flex justify-content-between">
-            <a class="navbar-brand" href="#">QUIZ PRO</a>
-            <div class="text-center">
-                <img src="/avatar.png" class="rounded-circle img-fluid" alt="Avatar" style="width: 40px;">
-            </div>
-        </div>
-    </nav>
+    <%- include('../utils/header.ejs'); %>
+
+    <!-- Modal -->
+    <%- include('../utils/modal.ejs'); %>
+    <!-- End modal -->
 
     <!-- Main Container -->
     <div class="Main-Content" style="margin-top: 56px;">
         <!-- Sidebar left -->
-        <div class="Sldebar_left d-flex flex-column flex-shrink-0 p-3 bg-light position-fixed"
-            style="width: 280px; height: 100vh;">
-            <div class="d-flex justify-content-between align-items-center">
-                <p href="/" class=" mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                    <svg class="bi" width="0" height="30">
-                        <use xlink:href="#bootstrap" />
-                    </svg>
-                    <span class="fs-4">Lớp học</span>
-                </p>
-                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-                    class="bi bi-plus-circle" viewBox="0 0 16 16">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                    <path
-                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                </svg>
-            </div>
-            <hr>
-            <p><small>Lớp của tôi</small></p>
-            <div class="overflow-auto">
-                <ul class="nav nav-pills flex-column mb-auto ">
-                    <li>
-                        <a href="#" class="nav-link active" aria-current="page">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#home" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#speedometer2" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#speedometer2" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#table" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#people-circle" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#speedometer2" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="nav-link link-dark">
-                            <svg class="bi" width="16" height="16">
-                                <use xlink:href="#table" />
-                            </svg>
-                            Lớp A
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        <%- include('../utils/sidebar.ejs'); %>
         <!-- End slidebar left -->
 
         <!-- Header of class -->
@@ -117,13 +36,19 @@
                         <a class="nav-link ms-3 text-dark" href="#">Thông báo</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link ms-3 text-dark" href="#">Bài thi</a>
+                        <a class="nav-link ms-3" href="/client/home/<%=currnetClassID%>">Bài thi</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link ms-3 text-dark" href="#">Kết quả</a>
+                        <a class="nav-link ms-3" href="/client/result/<%=currnetClassID%>">Kết quả</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link ms-3 text-dark" href="#">Thành viên</a>
+                        <a class="nav-link ms-3" href="/host/manageQuestion/<%=currnetClassID%>">Câu hỏi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link ms-3" href="/client/member/<%=currnetClassID%>">Thành viên</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link ms-3" href="/host/manageClass/<%=currnetClassID%>" style="color: #E000D7"><b>Cài đặt</b></a>
                     </li>
                 </ul>
                 <button class="btn btn-danger ms-auto">Rời lớp</button>
@@ -134,32 +59,50 @@
         <!-- Content -->
         <div class="Content overflow-auto" style="background-color: #fff;">
             <!-- Member List -->
-            <div class="class-info" style="background-color: #b7a9a9; padding: 20px;">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div>
-                        <label class="form-label"><strong>Tên nhóm:</strong></label>
-                        <span><strong>Lớp A</strong></span>
+            <div class="mx-5 mt-4">
+                <div class="header d-flex justify-content-between align-items-center">
+                  <div>
+                    <p class="mb-1">Tên nhóm</p>
+                    <p class="class-name"><%=currentClass.nameDisplay%></p>
+                    <div class="mt-3">
+                        <p>Mã mời: <%=currnetClassID%></p> 
                     </div>
-                    <button type="button" class="btn btn-danger">Xóa lớp</button>
+                  </div>
+                <div>
+                    <form action="/host/deleteClass/<%=currnetClassID%>" method="post" onsubmit="deleteClass(event)">
+                        <button class="btn btn-danger delete-btn" onclick="deleteClass(event)">Xóa lớp</button>
+                    </form>
+                  </div>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label"><strong>Mã mời:</strong></label>
-                    <span>abcdefg123</span>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label"><strong>Thay đổi tên nhóm:</strong></label>
-                    <input type="text" class="form-control" placeholder="Nhập tên nhóm mới">
-                </div>
-                <div class="text-end mt-3">
-                    <button type="button" class="btn btn-success">Lưu</button>
-                </div>
-            </div>
+                <form action="/host/updateNameClass/<%=currnetClassID%>" method="post">
+                    <div class="mt-3">
+                    <label for="change-name">Thay đổi tên nhóm</label>
+                    <input name="newNameOfClass" type="text" class="form-control" id="change-name" placeholder="Nhập tên lớp mới">
+                    </div>
+                
+                    <div class="mt-4 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary save-btn">Lưu</button>
+                    </div>
+                </form>
+              </div>
         </div>
 
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JS -->
+    <script>
+        function deleteClass(event){
+            event.preventDefault();
+            let text = 'Bạn có muốn xóa lớp học không ?';
+            if(confirm(text)==false){
+                return;
+            }
+            event.target.form.submit();
+        }
+    </script>
+    <!-- End JS -->
 </body>
 
 </html>

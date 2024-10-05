@@ -101,6 +101,20 @@ let addClass = (idClass, idUser) => {
     })   
 }
 
+// Cập nhật thông tin lớp của user khi được xoá 1 lớp 
+let deleteClass = (idClass, idUser) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const user = await User.findByIdAndUpdate(idUser,  {$pull: { MyClassId: idClass }});
+            if(user)
+                resolve(user);
+            }
+        catch (error) {
+            reject(error)
+        }
+    })   
+}
+
 // Tìm User bằng ID
 let findUserbyID = (IDUser) => {
     return new Promise(async (resolve, reject) => {
@@ -115,5 +129,6 @@ let findUserbyID = (IDUser) => {
     })   
 }
 module.exports = {
-    createUserService, loginUserService,getMemberInClass, getIDbyEmailAndPassWord, findUserbyID, addClass
+    createUserService, loginUserService,getMemberInClass, getIDbyEmailAndPassWord, findUserbyID, addClass,
+    deleteClass
 }

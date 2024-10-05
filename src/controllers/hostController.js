@@ -3,20 +3,26 @@ import classService from '../services/classService'
 import jwt from '../middleware/jwtAction'
 
 let getCreateQuiz = (req,res) =>{
-    return res.render('Host_User/createQuiz.ejs')
+    const ClassID = req.params.idClass;
+    return res.render('Host_User/createQuiz.ejs', {currnetClassID : ClassID})
 }
 
 let getLeaderboard = (req,res) =>{
     return res.render('Host_User/leaderboard.ejs')
 }
 
-let getManageClass = (req,res) =>{
-    return res.render('Host_User/manageClass.ejs')
+let getManageClass = async (req,res) =>{
+    const token = req.cookies.jwt;
+    let IDUser = jwt.verifyToken(token)._id;
+    const ClassID = req.params.idClass;
+    const listClass = await classService.getUserClasses(IDUser);
+    const currentClass = await classService.getCurrentClass(ClassID);
+    return res.render('Host_User/manageClass.ejs', {currnetClassID : ClassID, listClass:listClass, currentClass: currentClass})
 }
 let deleteQuestion= async (req,res) =>{
     const questionID = req.query.questionID;
     const classID = req.query.classID;
-    questionService.deleteQuestionById(questionID);
+    questionService.deleteQuestionById(questionID, classID);
     const questions = await questionService.getAllQuestionsByIDClass(classID);
     return res.redirect(`/host/manageQuestion/${classID}`);
 }
@@ -91,7 +97,7 @@ let UpdateQuestion  = async (req, res) => {
     ];
     try {
         // Nếu có từ khóa tìm kiếm, tìm các câu hỏi theo từ khóa
-        let questions = await questionService.UpdateQuestion(ClassID,questionID,questionTitle,diffculty,answers,correctAnswers);        
+        let questions = await questionService.UpdateQuestion(ClassID, questionID,questionTitle,diffculty,answers,correctAnswers);        
         return res.redirect(`/host/manageQuestion/${ClassID}`);
     } catch (error) {
         console.error(error);
@@ -99,6 +105,37 @@ let UpdateQuestion  = async (req, res) => {
     }
 }
 
+let deleteClass = async(req,res) => {
+    const token = req.cookies.jwt;
+    let IDUser = jwt.verifyToken(token)._id;
+    const ClassID = req.params.idClass;
+    try {
+        // Xóa lớp
+        await classService.deleteClass(ClassID, IDUser);
+        // Thêm lớp mới vào người dùng
+        return res.redirect(`/client/home`)
+    } catch (error) {
+        console.log(error);
+        res.json({
+            status: 'Error',
+            data: error
+        })
+    }
+
+}
+
+let updateNameClass = async(req, res) =>{
+    const ClassID = req.params.idClass;
+    const { newNameOfClass } = req.body;
+    try {
+        await classService.updateNameClass(ClassID, newNameOfClass);
+        return res.redirect(`/host/manageClass/${ClassID}`)
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports = {
-    getCreateQuiz, getLeaderboard, getManageClass, getManageQuestion,deleteQuestion,AddQuestion,UpdateQuestion
+    getCreateQuiz, getLeaderboard, getManageClass, getManageQuestion,deleteQuestion,AddQuestion,UpdateQuestion,
+    deleteClass, updateNameClass
 }

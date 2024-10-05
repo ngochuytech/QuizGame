@@ -56,3 +56,18 @@ body{
 .text-muted {
     color: gray;
 }
+
+.header {
+    background-color: #e0e0e0;
+    padding: 20px;
+}
+.class-name {
+    font-weight: bold;
+    font-size: 24px;
+}
+.delete-btn {
+    float: right;
+}
+.save-btn {
+    float: right;
+}
