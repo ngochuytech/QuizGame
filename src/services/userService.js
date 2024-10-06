@@ -59,7 +59,7 @@ const getMemberInClass = (Class) => {
         try {
             const members = [];
             // Chủ phòng
-            const owner = await User.findOne({MyClassId: Class._id});
+            const owner = await User.findOne({_id: Class.ownerID});
             members.push(owner);
             // Thành viên
             for(let i=0; i<Class.members.length; i++){

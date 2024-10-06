@@ -3,11 +3,12 @@ import { Class } from '../models/classModel';
 import { Questions } from '../models/questionModel'
 import userService from '../services/userService';
 
-const createClass = (nameClass) => {
+const createClass = (nameClass,IDUser) => {
     return new Promise(async (resolve, reject) => {
         try {
             const newClass = await Class.create({
                 _id: new mongoose.Types.ObjectId(),
+                ownerID:IDUser,
                 nameDisplay: nameClass
             });
             console.log('Class and questions created successfully');
@@ -37,7 +38,7 @@ const getCurrentClass = (ClassID) => {
         try {
             const currnetClass = await Class.findById(ClassID);
             resolve(currnetClass)
-        } catch (error) {
+        } catch (error) {Z
             reject(error)
         }
     })
@@ -48,8 +49,10 @@ const getUserClasses = async (userId) => {
     return new Promise(async (resolve, reject) => {
         try {
             const user = await userService.findUserbyID(userId);
-            const classOfUser = await Class.find({_id: user.MyClassId});
-            resolve(classOfUser)
+            const classOfUserNotOwner = await Class.find({_id: user.MyClassId}); // class mà user chỉ là thành viên không phải người tạo
+            const classOfUserOnwer = await Class.find({ownerID: user._id});// class mà user là người tạo
+            const all = classOfUserNotOwner.concat(classOfUserOnwer);
+            resolve(all)
         } catch (error) {
             reject(error)
         }

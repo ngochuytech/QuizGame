@@ -23,6 +23,25 @@ const examsSchema = new Schema({
     createAt: {
         type: Date,
         default: Date.now()
+    },
+    state:{
+        type:Boolean,
+        default:false
+    },
+    time:{
+        hard: {
+            type: Number,  
+            default: 10
+        },
+        medium: {
+            type: Number,
+            default: 8
+        },
+        easy:
+        {
+            type:Number,
+            default:5
+        }
     }
 })
 

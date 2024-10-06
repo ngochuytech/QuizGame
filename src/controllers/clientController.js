@@ -93,9 +93,8 @@ let createClass = async (req, res) => {
     if (nameDisplay) {
         try {
             // Tạo lớp mới
-            const newClass = await classService.createClass(nameDisplay);
+            const newClass = await classService.createClass(nameDisplay,IDUser);
             // Thêm lớp mới vào người dùng
-            await userService.addClass(newClass._id, IDUser);
             return res.redirect(`/client/home/${newClass._id}`)
         } catch (error) {
             console.log(error);
