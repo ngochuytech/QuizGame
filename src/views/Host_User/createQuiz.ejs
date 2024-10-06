@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Pro - Create Quiz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/Host_User/createquiz.css">
+</head>
+
+<body>
+    <!-- Header Navbar -->
+    <nav class="navbar fixed-top navbar-expand-lg bg-primary-subtle">
+        <div class="container-fluid d-flex justify-content-between">
+            <a class="navbar-brand" href="#">QUIZ.PRO</a>
+            <div class="text-center">
+                <img src="/images/avatar.png" class="rounded-circle img-fluid" alt="Avatar" style="width: 40px;">
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5 pt-5">
+        <h2 style="display: flex; justify-content: center;">TẠO BÀI THI</h2>
+        <form>
+            <div class="mb-3">
+                <label for="examName" class="form-label" style=" font-weight: bold;">Tên bài thi:</label>
+                <input type="text" class="form-control" id="examName" placeholder="Nhập tên bài thi">
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label" style=" font-weight: bold;">Mô tả:</label>
+                <textarea class="form-control" id="description" rows="3" placeholder="Nhập mô tả bài thi"></textarea>
+            </div>
+
+            <div class="question-selection">
+                <label style=" font-weight: bold;">Chọn câu hỏi:</label>
+                <ul class="nav nav-tabs mb-3">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="tab-basic" href="#" onclick="showTab('basic')">Cơ bản</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab-medium" href="#" onclick="showTab('medium')">Trung bình</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab-hard" href="#" onclick="showTab('hard')">Khó</a>
+                    </li>
+                </ul>
+
+                <!-- Basic Table -->
+                <div class="table-question tab-content" id="basic-content">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nội dung câu hỏi</th>
+                                <th>Độ khó</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%for(let i=0; i<easyQuestion.length; i++){%>
+                                <tr>
+                                    <td><%=i+1%></td>
+                                    <td><%=easyQuestion[i].question%></td>
+                                    <td>Cơ bản</td>
+                                    <td><input id="tickEasyQuestion<%=i%>" type="checkbox" onclick="chooseEasy('<%=i%>')"></td>
+                                </tr>
+                            <%}%>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Medium Table -->
+                <div class="table-question tab-content" id="medium-content" style="display: none;">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nội dung câu hỏi</th>
+                                <th>Độ khó</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%for(let i=0; i<mediumQuestion.length; i++){%>
+                                <tr>
+                                    <td><%=i+1%></td>
+                                    <td><%=mediumQuestion[i].question%></td>
+                                    <td>Trung bình</td>
+                                    <td><input id="tickMediumQuestion<%=i%>" type="checkbox" onclick="chooseMedium('<%=i%>')"></td>
+                                </tr>
+                            <%}%>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Hard Table -->
+                <div class="table-question tab-content" id="hard-content" style="display: none;">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nội dung câu hỏi</th>
+                                <th>Độ khó</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%for(let i=0; i<hardQuestion.length; i++){%>
+                                <tr>
+                                    <td><%=i+1%></td>
+                                    <td><%=hardQuestion[i].question%></td>
+                                    <td>Khó</td>
+                                    <td><input id="tickHardQuestion<%=i%>" type="checkbox" onclick="chooseHard('<%=i%>')"></td>
+                                </tr>
+                            <%}%>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="d-flex justify-content-around mb-3">
+                    <div class="text-center" >
+                        <p id="NumberOfEasy"><strong style="color: green;">Cơ bản:</strong> 0</p>
+                    </div>
+                    <div class="text-center">
+                        <p id="NumberOfMedium"><strong style="color: #FAAF3A;">Trung bình:</strong> 0</p>
+                    </div>
+                    <div class="text-center">
+                        <p id="NumberOfHard"><strong style="color: red;">Khó:</strong> 0</p>
+                    </div>
+                </div>
+                
+                <div class="time-per-question mb-4">
+                    <label class="form-label">Thời gian mỗi câu:</label>
+                    <div class="row g-3">
+                        <div class="col text-center">
+                            <label for="timeBasic" class="form-label">Cơ bản</label>
+                            <input type="number" id="timeBasic" class="form-control" placeholder="0" min="0">
+                        </div>
+                        <div class="col text-center">
+                            <label for="timeMedium" class="form-label">Trung bình</label>
+                            <input type="number" id="timeMedium" class="form-control" placeholder="0" min="0">
+                        </div>
+                        <div class="col text-center">
+                            <label for="timeHard" class="form-label">Khó</label>
+                            <input type="number" id="timeHard" class="form-control" placeholder="0" min="0">
+                        </div>
+                    </div>
+                </div>
+                
+                
+                </div>
+
+                <div class="mt-4 d-flex justify-content-end">
+                    <a href="/client/home/<%=currnetClassID%>" class="btn-danger me-2" style="width: 100px; display: flex; justify-content: center; text-decoration: none; color: black;">Thoát</a>
+                    <button type="submit" class="btn-success">Tạo bài thi</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function showTab(tab) {
+            // Hide all tables
+            document.getElementById('basic-content').style.display = 'none';
+            document.getElementById('medium-content').style.display = 'none';
+            document.getElementById('hard-content').style.display = 'none';
+
+            // Remove active class from all tabs
+            document.getElementById('tab-basic').classList.remove('active');
+            document.getElementById('tab-medium').classList.remove('active');
+            document.getElementById('tab-hard').classList.remove('active');
+
+            // Show the selected table and add active class to the corresponding tab
+            if (tab === 'basic') {
+                document.getElementById('basic-content').style.display = 'block';
+                document.getElementById('tab-basic').classList.add('active');
+            } else if (tab === 'medium') {
+                document.getElementById('medium-content').style.display = 'block';
+                document.getElementById('tab-medium').classList.add('active');
+            } else if (tab === 'hard') {
+                document.getElementById('hard-content').style.display = 'block';
+                document.getElementById('tab-hard').classList.add('active');
+            }
+        }
+
+        function chooseEasy(index) {
+            var item = document.getElementById('tickEasyQuestion' + index);
+            var numberEasy = parseInt(document.getElementById('NumberOfEasy').textContent.split(' ')[2]);
+
+            // Check if the checkbox is checked
+            if (item.checked) {
+                numberEasy++;
+            } else {
+                numberEasy--;
+            }
+            document.getElementById('NumberOfEasy').innerHTML = '<strong style="color: green;">Cơ bản: </strong>' + numberEasy
+        }
+
+        function chooseMedium(index) {
+            var item = document.getElementById('tickMediumQuestion' + index);
+            var numberMedium = parseInt(document.getElementById('NumberOfMedium').textContent.split(' ')[2]);
+
+            // Check if the checkbox is checked
+            if (item.checked) {
+                numberMedium++;
+            } else {
+                numberMedium--;
+            }
+            document.getElementById('NumberOfMedium').innerHTML = '<strong style="color: #FAAF3A;">Trung bình: </strong>' + numberMedium
+        }
+
+        function chooseHard(index){
+            var item = document.getElementById('tickHardQuestion' + index);
+            var numberHard = parseInt(document.getElementById('NumberOfHard').textContent.split(' ')[1]);
+            
+            // Check if the checkbox is checked
+            if (item.checked) {
+                numberHard++;
+            } else {
+                numberHard--;
+            }
+            document.getElementById('NumberOfHard').innerHTML = '<strong style="color: red;">Khó: </strong>' + numberHard
+        }
+    </script>
+</body>
+
+</html>

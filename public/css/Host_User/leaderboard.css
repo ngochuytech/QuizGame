@@ -1,0 +1,52 @@
+body {
+    background-color: #f8f9fa;
+    margin-top: 100px;
+}
+
+.navbar {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.navbar-brand {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navbar img {
+    border-radius: 50%;
+}
+
+.container {
+    margin-top: 50px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.leaderboard-table {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.leaderboard-table th, .leaderboard-table td {
+    text-align: left;
+    padding: 12px;
+}
+
+.leaderboard-table th {
+    font-weight: bold;
+}
+
+.leaderboard-table .avatar {
+    width: 40px;
+    height: 40px;
+}
+
+.leaderboard-table td {
+    vertical-align: middle;
+}
