@@ -54,118 +54,6 @@
           <li>
             <a href="#" class="nav-link link-dark">
               <svg class="bi" width="16" height="16">
-                <use xlink:href="#speedometer2" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#table" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#grid" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#people-circle" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#speedometer2" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#table" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#people-circle" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#speedometer2" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#table" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#people-circle" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#speedometer2" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#table" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#people-circle" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#speedometer2" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
                 <use xlink:href="#table" />
               </svg>
               Lớp A
@@ -238,8 +126,7 @@
       <div class="profile-section">
 
         <div class="Name d-flex flex-column">
-          <h4>Nguyễn Huy</h4>
-          <p>Mã sinh viên: 123456789</p>
+          <h4><%=userAccount[0].nameDisplay%></h4>
         </div>
 
       </div>
@@ -253,23 +140,50 @@
           <a class="nav-link active" href="/client/changePW">Mật khẩu</a>
         </li>
       </ul>
-      <form class="p-3">
+      <form name="form1"  method="post" action="/client/changePW"  class="p-3" onsubmit="checkPassword(event)">
         <div class="form-group">
             <label for="current-password">Mật khẩu hiện tại</label>
-            <input type="password" class="form-control form-control-sm" id="current-password">
+            <input name="current_password" type="password" class="form-control form-control-sm" id="current-password">
 
             <label for="new-password" class="mt-3">Mật khẩu mới</label>
-            <input type="password" class="form-control form-control-sm" id="new-password">
+            <input name="new_password" type="password" class="form-control form-control-sm" id="new-password">
 
             <label for="confirm-password" class="mt-3">Xác nhận mật khẩu mới</label>
-            <input type="password" class="form-control form-control-sm" id="confirm-password">
+            <input name="enter_newpassword" type="password" class="form-control form-control-sm" id="confirm-password">
 
-          <button type="submit" class="btn btn-secondary mt-3">Lưu</button>
+          <button type="submit" class="btn btn-secondary mt-3" onclick="checkPassword(event)">Lưu</button>
         </div>
       </form>
     </div>
   </div>
   <!-- End content, End Main-Content -->
+
+   <!-- Handle enter password-->
+  <script>
+    function checkPassword(event){
+      event.preventDefault();  
+        var password_by_user = document.form1.current_password.value;
+        var new_password = document.form1.new_password.value;
+        var enter_newpassword = document.form1.enter_newpassword.value;
+
+        if(password_by_user && new_password && enter_newpassword){
+          if(password_by_user == <%=userAccount[0].password%>){
+            if(new_password == enter_newpassword ){
+              alert("Đổi mật khẩu thành công");
+              event.target.form.submit();
+            }else{
+              alert("Mật khẩu mới và xác nhận mật khẩu mới không giống nhau")
+            }
+        } else {
+          alert("Mật khẩu hiện tại không đúng");
+          return;
+        }
+        }else{
+          alert("Vui lòng nhập đầy đủ thông tin các trường còn trống!")
+        }
+        
+    }
+  </script>
 
   <!-- Import JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

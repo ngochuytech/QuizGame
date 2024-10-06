@@ -1,7 +1,9 @@
+import upload from '../middleware/userMiddle'
 import classService from '../services/classService'
 import examService from '../services/examService'
 import resultService from '../services/resultService'
 import userService from '../services/userService'
+import multer from 'multer'
 
 let getHome = async (req, res) => {
     const listAllClass = await classService.getAllClass();
@@ -44,8 +46,15 @@ let getInformation = async (req, res) => {
     }
 }
 
-let getChangePW = (req,res) =>{
-    return res.render('Client_User/changepw.ejs')
+let getChangePW = async (req,res) =>{
+    try {
+        const userAccount = await userService.loadUserName();
+        
+        return res.render('Client_User/changepw.ejs', {userAccount: userAccount})
+    } catch (error) {
+        console.log(error);
+        
+    }
 }
 
 
@@ -92,6 +101,19 @@ let editAccount = async(req, res) => {
     const{userName, userDate} = req.body;
     try {
         const user = await userService.editAccount(userName, userDate);
+        return res.redirect('/client/information');
+
+    } catch (error) {
+
+    console.log(error);
+
+    }
+}
+
+let editPassword = async(req, res) => {
+    const{new_password} = req.body;
+    try {
+        const user = await userService.editPassword(new_password);
         return res.redirect('/client/information')
     } catch (error) {
     console.log(error);
@@ -99,6 +121,28 @@ let editAccount = async(req, res) => {
     }
 }
 
+
+let handleUpLoadFile =  async (req, res) => {
+
+    try {
+        if (req.fileValidationError) {
+            return res.send(req.fileValidationError);
+        }
+        else if (!req.file) {
+            return res.send('Please select an image to upload');
+        }
+
+        // Hiển thị ảnh đã tải lên cho người dùng kiểm tra
+        res.send(`You have uploaded this image: <hr/><img src="/images/${req.file.filename}" width="500"><hr /><a href="/client/information">Upload another image</a>`);
+    } catch (err) {
+        if (err instanceof multer.MulterError) {
+            return res.send(err);
+        }
+        res.send(err);
+    }
+}
+
+
 module.exports = {
-    getHome, getResult, getMember, createClass, getAllClasses, getHomeClass, getInformation, getChangePW, editAccount
+    getHome, getResult, getMember, createClass, getAllClasses, getHomeClass, getInformation, getChangePW, editAccount, editPassword, handleUpLoadFile
 }

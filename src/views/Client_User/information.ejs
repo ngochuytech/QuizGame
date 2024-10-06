@@ -138,7 +138,6 @@
         </div>
 
       </div>
-
       <ul class="nav nav-tabs mb-4">
         <li class="nav-item">
           <a class="nav-link active" href="/client/information">Hồ sơ</a>
@@ -147,24 +146,26 @@
           <a class="nav-link" href="/client/changePW">Mật khẩu</a>
         </li>
       </ul>
-
-        <form  action="/client/editAccount" method="post" class="p-3">
             <div class="form-group">
+              <form  action="/client/editAccount" method="post" class="p-3" enctype="multipart/form-data"></form>
                 <label for="text" class="form-label">Họ tên</label>
                 <input name="userName" type="text" class="form-control form-control-sm" value="<%=userAccount[0].nameDisplay %>">
                 <label for="text" class="form-label mt-3">Email</label>
                 <input disabled type="email" class="form-control form-control-sm" value="<%=userAccount[0].accountName %>">
                 <label for="text" class="form-label mt-3">Ngày sinh</label>
                 <input name="userDate" type="text" class="form-control form-control-sm" value="<%=userAccount[0].date %>">
+                <button type="submit" class="btn btn-secondary mt-3">Lưu</button>
+              </form>
+              <form method="POST" action="/client/upload-profile-pic" enctype="multipart/form-data">
                 <label for="text" class="form-label mt-3">Ảnh đại diện</label>
                 <br>
                 <img src="/images/avatar.png" class="rounded-circle mb-3" alt="User Avatar" style="width: 70px;">
                 <br>
                 <label for="formFile" class="form-label">Chọn ảnh đại diện mới</label>
-                <input class="form-control" type="file" id="formFile">
-                <button type="submit" class="btn btn-secondary mt-3">Lưu</button>
+                <input class="form-control" name="img_upload" type="file" id="formFile">
+                <button type="submit" class="btn btn-secondary mt-3" name="">Lưu</button>
+              </form>
             </div>
-        </form>
     </div>
   </div>
   <!-- End content, End Main-Content -->

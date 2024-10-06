@@ -67,7 +67,7 @@ let loginUserService = ({ accountName, password }) => {
 const loadUserName = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            const user = await User.find({_id: '66f37706ebb8f99f8ec8baf5' });
+            const user = await User.find({_id: '66fabf16d7e9bc2da71417c5' });
             if(!user){
                 return reject(new Error('The user is not exist.'));   
             }
@@ -86,7 +86,7 @@ const loadUserName = () => {
 const editAccount = (userName, userDate) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const user = await User.findByIdAndUpdate( '66f37706ebb8f99f8ec8baf5', {
+            const user = await User.findByIdAndUpdate( '66fabf16d7e9bc2da71417c5', {
                 nameDisplay: userName,
                 date: userDate
              } )
@@ -101,7 +101,24 @@ const editAccount = (userName, userDate) => {
 
     })
 }
+const editPassword = (Password) => {
+    return new Promise(async (resolve, reject)=>{
+        try {
+            const user = await User.findByIdAndUpdate('66fabf16d7e9bc2da71417c5', {
+                password: Password
+            })
+
+            
+            resolve(user);
+        } catch (error) {
+            reject({
+                message: 'Could not load the user password',
+                status: 'err'
+            })
+        }
+    })
+}
 
 module.exports = {
-    createUserService, loginUserService, loadUserName, editAccount
+    createUserService, loginUserService, loadUserName, editAccount, editPassword
 }
