@@ -12,7 +12,7 @@ const createJWT = (data) => {
     }
 
     try {
-        token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '5s' });
+        token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '1h' });
     } catch (error) {
         console.log(error);
     }

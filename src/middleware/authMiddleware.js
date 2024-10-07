@@ -6,6 +6,7 @@ const AuthRequired = (req, res, next) => {
         return res.redirect("/user/login");
     }
     const decode= jwt.verifyToken(token);
+    
     if (!decode || !decode.exp) {
         console.log("Token không hợp lệ, cần đăng nhập lại");
         res.clearCookie('jwt');

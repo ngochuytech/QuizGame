@@ -74,6 +74,60 @@ const getMemberInClass = (Class) => {
     })
 }
 
+const loadUserName = (IDUser) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const user = await User.find({_id: IDUser });
+            if(!user){
+                return reject(new Error('The user is not exist.'));   
+            }
+            resolve(user);
+
+        } catch (error) {
+            reject({
+                message: 'Could not load the user information',
+                status: 'err'
+            })
+        }
+
+    })
+}
+
+const editAccount = (IDUser, userName, userDate) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const user = await User.findByIdAndUpdate( IDUser, {
+                nameDisplay: userName,
+                date: userDate
+             } )
+            resolve(user);
+
+        } catch (error) {
+            reject({
+                message: 'Could not load the user information',
+                status: 'err'
+            })
+        }
+    })
+}
+const editPassword = (IDUser, Password) => {
+    return new Promise(async (resolve, reject)=>{
+        try {
+            const user = await User.findByIdAndUpdate(IDUser, {
+                password: Password
+            })
+
+            
+            resolve(user);
+        } catch (error) {
+            reject({
+                message: 'Could not load the user password',
+                status: 'err'
+            })
+        }
+    })
+}
+
 let getIDbyEmailAndPassWord = ({ accountName, password }) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -130,5 +184,5 @@ let findUserbyID = (IDUser) => {
 }
 module.exports = {
     createUserService, loginUserService,getMemberInClass, getIDbyEmailAndPassWord, findUserbyID, addClass,
-    deleteClass
+    deleteClass, loadUserName, editAccount, editPassword
 }
