@@ -44,7 +44,7 @@ let getHomeClass = async (req, res) => {
         const listClass = await classService.getUserClasses(IDUser);
 
         const currnetClass = await classService.getCurrentClass(ClassId);
-        const listCurrentExam = await examService.filterExamByClass(currnetClass.Exams);
+        const listCurrentExam = await examService.filterExamByClass(currnetClass.Exams);     
         return res.render('Client_User/Home.ejs', { currnetClassID: ClassId, listClass: listClass, listExam: listCurrentExam })
     } catch (error) {
         console.log(error);
@@ -95,6 +95,7 @@ let createClass = async (req, res) => {
             // Tạo lớp mới
             const newClass = await classService.createClass(nameDisplay,IDUser);
             // Thêm lớp mới vào người dùng
+            // await userService.addClass(newClass._id, IDUser);
             return res.redirect(`/client/home/${newClass._id}`)
         } catch (error) {
             console.log(error);

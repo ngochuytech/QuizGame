@@ -38,7 +38,7 @@ const getCurrentClass = (ClassID) => {
         try {
             const currnetClass = await Class.findById(ClassID);
             resolve(currnetClass)
-        } catch (error) {Z
+        } catch (error) {
             reject(error)
         }
     })
