@@ -1,3 +1,4 @@
+import { require } from 'app-root-path'
 import upload from '../middleware/userMiddle'
 import classService from '../services/classService'
 import examService from '../services/examService'
@@ -38,7 +39,6 @@ let getMember = (req, res) => {
 let getInformation = async (req, res) => {
     try {
         const userAccount = await userService.loadUserName();
-        
         return res.render('Client_User/information.ejs', {userAccount: userAccount})
     } catch (error) {
         console.log(error);
@@ -100,8 +100,16 @@ let getAllClasses = async (req, res) => {
 let editAccount = async(req, res) => {
     const{userName, userDate} = req.body;
     try {
-        const user = await userService.editAccount(userName, userDate);
-        return res.redirect('/client/information');
+        const parts = userDate.split('/');
+        const year = parseInt(parts[2], 10);
+        const month = parseInt(parts[1], 10) - 1; // Giảm 1 vì tháng bắt đầu từ 0
+        const day = parseInt(parts[0], 10);
+
+        // Tạo đối tượng Date với giờ UTC
+        const formattedDate = new Date(Date.UTC(year, month, day));
+        const user = await userService.editAccount(userName, formattedDate)
+
+        return res.redirect('/client/information')
 
     } catch (error) {
 

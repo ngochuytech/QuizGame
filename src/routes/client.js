@@ -26,7 +26,6 @@ router.post('/changePW', clientController.editPassword)
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        console.log('>>>>> Check approot', appRoot)
         cb(null, appRoot + '/public/images/');
     },
 

@@ -147,13 +147,13 @@
         </li>
       </ul>
             <div class="form-group">
-              <form  action="/client/editAccount" method="post" class="p-3" enctype="multipart/form-data"></form>
+              <form  action="/client/editAccount" method="post" class="p-3">
                 <label for="text" class="form-label">Họ tên</label>
                 <input name="userName" type="text" class="form-control form-control-sm" value="<%=userAccount[0].nameDisplay %>">
                 <label for="text" class="form-label mt-3">Email</label>
                 <input disabled type="email" class="form-control form-control-sm" value="<%=userAccount[0].accountName %>">
                 <label for="text" class="form-label mt-3">Ngày sinh</label>
-                <input name="userDate" type="text" class="form-control form-control-sm" value="<%=userAccount[0].date %>">
+                <input name="userDate" type="text" class="form-control form-control-sm" value="<%=userAccount[0].date.toLocaleDateString('vi-VN') %>">
                 <button type="submit" class="btn btn-secondary mt-3">Lưu</button>
               </form>
               <form method="POST" action="/client/upload-profile-pic" enctype="multipart/form-data">

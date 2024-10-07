@@ -98,7 +98,6 @@ const editAccount = (userName, userDate) => {
                 status: 'err'
             })
         }
-
     })
 }
 const editPassword = (Password) => {
