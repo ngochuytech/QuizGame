@@ -12,14 +12,14 @@
 
 <body>
     <!-- Header -->
-    <nav class="navbar fixed-top navbar-expand-lg  bg-primary-subtle">
+    <nav class="navbar fixed-top navbar-expand-lg bg-primary-subtle">
         <div class="d-flex justify-content-between container-fluid">
             <a class="navbar-brand" href="#">QUIZ PRO</a>
         </div>
     </nav>
     <!-- End Header -->
 
-    <!-- Form đăng nhập-->
+    <!-- Form đăng nhập -->
     <section class="vh-100 p-3">
         <div class="container-fluid h-custom">
             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -28,11 +28,15 @@
                         class="img-fluid" alt="Sample image">
                 </div>
                 <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                    <!-- Text đăng nhập-->
+                    <!-- Text đăng nhập -->
                     <div class="divider text-center text-uppercase fs-3 text-primary align-items-center my-4 p-5">
                         <p class="text-center fw-bold mx-3 mb-0">Đăng nhập</p>
                     </div>
-                    <form action="/user/login_User" method="post">
+
+                    <!-- Thông báo lỗi -->
+                    <div id="error-message" class="text-danger fw-bold mb-3" style="display: none;"></div>
+
+                    <form id="login-form">
                         <!-- Tài khoản input -->
                         <div data-mdb-input-init class="form-floating mb-4">
                             <input name="email" type="text" id="form3Example3" class="form-control form-control-lg"
@@ -47,22 +51,20 @@
                             <label class="form-label" for="form3Example4">Password</label>
                         </div>
 
-
-                        <!-- Nút đăng nhập và phần liên kết tới đăng kí-->
+                        <!-- Nút đăng nhập -->
                         <div class="text-center text-lg-start mt-4 pt-2">
                             <button type="submit" data-mdb-button-init data-mdb-ripple-init
                                 class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Đăng
                                 nhập</button>
                         </div>
-
                     </form>
+
+                    <!-- Liên kết đến đăng ký -->
                     <div class="text-center text-lg-start mt-2 pt-2">
                         <p class="small mt-2 pt-1 mb-0">Chưa có tài khoản? <a href="/user/register"
                                 class="link-danger fw-bold">Đăng kí</a></p>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <!-- Quên mật khẩu -->
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -79,6 +81,36 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossorigin="anonymous"></script>
+
+    <!-- JavaScript xử lý thông báo lỗi đăng nhập -->
+    <script>
+        document.querySelector("#login-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const email = document.querySelector('input[name="email"]').value;
+            const password = document.querySelector('input[name="password"]').value;
+
+            fetch('/user/login_User', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(error => { throw new Error(error.message); });
+                }
+                // Nếu đăng nhập thành công, chuyển hướng đến trang dashboard
+                window.location.href = '/client/Home'; // Thay đổi URL nếu cần
+            })
+            .catch(error => {
+                const errorMessageDiv = document.getElementById('error-message');
+                errorMessageDiv.style.display = 'block';
+                errorMessageDiv.innerText = 'Tên tài khoản hoặc mật khẩu không đúng';
+            });
+        });
+    </script>
 </body>
 
 </html>
