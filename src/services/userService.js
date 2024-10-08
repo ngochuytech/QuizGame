@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { User } from '../models/userModel';
+import { Class } from '../models/classModel';
 
 const createUserService = ({ accountName, password}) =>{
     return new Promise(async (resolve, reject) => {
@@ -73,7 +74,40 @@ const getMemberInClass = (Class) => {
         }
     })
 }
+const searchMembersByKeyword = async (classId, keyword) => {
+    try {
+        const regex = new RegExp(keyword, 'i'); // Tìm kiếm không phân biệt hoa thường
 
+        // Tìm kiếm lớp dựa vào classId và populate owner và members
+        const classData = await Class.findById(classId)
+            .populate('ownerID')
+            .populate('members')
+            .exec();
+
+        if (!classData) {
+            throw new Error('Class not found');
+        }
+
+        const matchingMembers = [];
+
+        // Kiểm tra xem từ khóa có khớp với chủ phòng (ownerID) không
+        if (classData.ownerID && (regex.test(classData.ownerID.nameDisplay))) {
+            matchingMembers.push(classData.ownerID);
+        }
+
+        // Kiểm tra các thành viên (members)
+        classData.members.forEach(member => {
+            if (regex.test(member.nameDisplay)) {
+                matchingMembers.push(member);
+            }
+        });
+
+        return matchingMembers;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Error searching members by keyword');
+    }
+};
 const loadUserName = (IDUser) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -182,7 +216,23 @@ let findUserbyID = (IDUser) => {
         }
     })   
 }
+let getOwnerIDClass = (IDClass) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const MyClass = await Class.findOne({ _id: IDClass }); // Sử dụng findOne để lấy ra 1 đối tượng
+            if (MyClass) {
+                resolve(MyClass.ownerID); // Trả về ownerID của class
+            } else {
+                reject(new Error('Class not found'));
+            }
+        } catch (error) {
+            reject(error); // Xử lý lỗi nếu có
+        }
+    });
+};
+
+
 module.exports = {
     createUserService, loginUserService,getMemberInClass, getIDbyEmailAndPassWord, findUserbyID, addClass,
-    deleteClass, loadUserName, editAccount, editPassword
+    deleteClass, loadUserName, editAccount, editPassword,searchMembersByKeyword,getOwnerIDClass
 }

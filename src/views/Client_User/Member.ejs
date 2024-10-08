@@ -8,7 +8,41 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/Client_User/Member.css">
 </head>
+<script>    
+function searchMember(ClassID) {
+    const keyword = document.getElementById('searchQuestion').value;
+    if (!keyword) {
+        alert('Vui lòng nhập từ khóa để tìm kiếm!');
+        return;
+    }
+    // Tạo URL mới với từ khóa
+    const url = `http://localhost:3000/client/member/${ClassID}?keyword=${encodeURIComponent(keyword)}`;
 
+    // // Chuyển hướng đến URL mới
+    window.location.href = url;
+}
+function deleteMember(ClassID,OwerOrNotOwer,UserID,OwnerID) {
+    if(OwerOrNotOwer=='false')
+    {
+        alert('Del phải chủ phòng,nhót!!!!');
+        const url = `http://localhost:3000/client/home/${ClassID}`;
+        window.location.href = url;
+    }
+    if(OwerOrNotOwer=='true'&UserID==OwnerID)
+    {
+        alert('Mi là chủ phòng, không xóa được');
+        const url = `http://localhost:3000/client/home/${ClassID}`;
+        window.location.href = url;
+    }
+    else
+    {
+    const url = `http://localhost:3000/client/deleteMember/${ClassID}?userID=${encodeURIComponent(UserID)}&ClassID=${encodeURIComponent(ClassID)}`;
+    // Chuyển hướng đến URL mới
+    window.location.href = url;
+    }
+    
+}
+</script>
 <body>
     <!-- Header -->
     <%- include('../utils/header.ejs'); %>
@@ -60,13 +94,15 @@
             <!-- Member List -->
             <div class="p-4">
                 <div class="Add_Search d-flex" style="height: 46px;">
-                    <button class="btn btn-primary mb-2 w-25">+ Thêm thành viên</button>
-                    <div class="space" style="width: 100px;"></div>
+                    <% if (OwerOrNotOwer) { %>
+                        <button class="btn btn-primary mb-2 w-25 me-3">+ Thêm thành viên</button>
+                        <% } %>                   
+                     <div class="space" style="width: 100px;"></div>
                     <!-- Search button -->
                     <div class="input-group mb-2">
-                        <input type="text" class="form-control " placeholder="Tìm thành viên" >
+                        <input type="text" class="form-control " placeholder="Tìm thành viên" id="searchQuestion">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button">
+                            <button class="btn btn-outline-secondary" type="button" onclick="searchMember('<%= currnetClassID %>')" >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-search" viewBox="0 0 16 16">
                                     <path
@@ -84,7 +120,7 @@
                             <th class="col-md-7">Tên</th>
                             <th class="col-md-2">Vai trò</th>
                             <th class="col-md-2">Trạng thái</th>
-                            <th class="col">Hành động</th>
+                            <th class="col">Chỉnh sửa</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -99,7 +135,7 @@
                                     <td>Thành viên</td>
                                 <%}%>
                                 <td class="text-success">Trực tuyến</td>
-                                <td><button class="btn btn-warning btn-sm">Hành động</button></td>
+                                <td><button class="btn btn-warning btn-sm" onclick="deleteMember('<%= currnetClassID %>','<%= OwerOrNotOwer %>','<%=listMember[i]._id%>','<%=listMember[0]._id%>')">Xóa</button></td>
                             </tr>
                         <%}%>
                     </tbody>

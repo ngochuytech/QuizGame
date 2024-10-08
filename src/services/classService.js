@@ -85,8 +85,24 @@ const updateNameClass = async (ClassID, newNameOfClass) => {
         }
     })
 }
-
+const deleteMember = async (classId, userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            console.log(classId,userId);
+            const updatedClass = await Class.findByIdAndUpdate(
+                classId,
+                { $pull: { members: userId } }, 
+                { new: true } 
+            );
+            // Resolve with the updated class if needed
+            resolve(updatedClass);
+        } catch (error) {
+            console.error("Error removing member:", error);
+            reject(error)
+        }
+    });
+};
 
 module.exports ={
-    createClass, getAllClass, getCurrentClass,getUserClasses, deleteClass, updateNameClass
+    createClass, getAllClass, getCurrentClass,getUserClasses, deleteClass, updateNameClass,deleteMember
 }

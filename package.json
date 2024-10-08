@@ -21,9 +21,9 @@
     "nodemon": "^3.1.4"
   },
   "dependencies": {
+    "app-root-path": "3.1.0",
     "cookie-parser": "^1.4.6",
     "jsonwebtoken": "^9.0.2",
-    "pbl4": "file:",
-    "app-root-path": "3.1.0"
+    "pbl4": "file:"
   }
 }

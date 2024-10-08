@@ -70,15 +70,37 @@ let getResult = async (req, res) => {
 let getMember = async (req, res) => {
     const token = req.cookies.jwt;
     let IDUser = jwt.verifyToken(token)._id;
-    // Lấy danh sách các lớp hiện có của user
-    const listClass = await classService.getUserClasses(IDUser);
-    let ClassId = req.params.classID;
-    // Tìm class để lấy class hiện tại
-    const currnetClass = await classService.getCurrentClass(ClassId);
-    const listMember = await userService.getMemberInClass(currnetClass);
-    return res.render('Client_User/Member.ejs',{ currnetClassID: ClassId, listClass: listClass, listMember: listMember})
-}
+    const ClassId = req.params.classID;
+    const keyword = req.query.keyword; 
+    try {
+        // Chờ kết quả của IDOwnerClass
+        let IDOwnerClass = await userService.getOwnerIDClass(ClassId);
+        const OwerOrNotOwer = (IDOwnerClass==IDUser)?true:false;
+        let listMember;
+        if (keyword) {
+            listMember = await userService.searchMembersByKeyword(ClassId, keyword);
+        } else {
+            // Lấy tất cả thành viên trong lớp
+            const currnetClass = await classService.getCurrentClass(ClassId);
+            listMember = await userService.getMemberInClass(currnetClass);
+        }
 
+        // Lấy danh sách lớp cho người dùng
+        const listClass = await classService.getUserClasses(IDUser);
+
+        // Render view với lớp hiện tại, danh sách lớp và thành viên
+        return res.render('Client_User/Member.ejs', {
+            currnetClassID: ClassId,
+            listClass: listClass,
+            listMember: listMember,
+            IDOwnerClass: IDOwnerClass,
+            OwerOrNotOwer:OwerOrNotOwer // Có thể thêm IDOwnerClass vào view nếu cần
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send('Có lỗi xảy ra khi lấy dữ liệu.');
+    }
+};
 let getInformation = async (req, res) => {
     const token = req.cookies.jwt;
     let IDUser = jwt.verifyToken(token)._id;
@@ -132,7 +154,15 @@ let createClass = async (req, res) => {
     }
 
 }
-
+let deleteMember = async (req, res) => {
+    const token = req.cookies.jwt;
+    let IDUser = jwt.verifyToken(token)._id;
+    const userIDDelete= req.query.userID;
+    const classID = req.query.ClassID;
+    console.log(classID);
+    const deleteMember = await classService.deleteMember(classID,userIDDelete);
+    return res.redirect(`/client/home/${classID}`)
+}
 let getAllClasses = async (req, res) => {
     try {
         const listClass = await classService.getAllClass();
@@ -208,5 +238,5 @@ let handleUpLoadFile =  async (req, res) => {
 
 
 module.exports = {
-    getHome, getResult, getMember, createClass, getAllClasses, getHomeClass, getInformation, getChangePW, editAccount, editPassword, handleUpLoadFile
+    getHome, getResult, getMember, createClass, getAllClasses, getHomeClass, getInformation, getChangePW, editAccount, editPassword, handleUpLoadFile,deleteMember
 }
