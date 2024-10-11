@@ -1,5 +1,6 @@
 import questionService from '../services/questionService'
 import classService from '../services/classService'
+import examService from '../services/examService'
 import jwt from '../middleware/jwtAction'
 
 let getCreateQuiz = async (req,res) =>{
@@ -139,7 +140,22 @@ let updateNameClass = async(req, res) =>{
     }
 }
 
+let createExam = async(req,res) =>{
+    const ClassID = req.params.idClass;
+    let examName = req.body.examName;
+    let description = req.body.description;
+    let questionArray = JSON.parse(req.body.questionArray);
+
+    try {
+        await examService.createExam(examName, description, questionArray, ClassID);
+        return res.redirect(`/client/home/${ClassID}`);
+    } catch (error) {
+        res.send(error);
+    }
+
+}
+
 module.exports = {
     getCreateQuiz, getLeaderboard, getManageClass, getManageQuestion,deleteQuestion,AddQuestion,UpdateQuestion,
-    deleteClass, updateNameClass
+    deleteClass, updateNameClass, createExam
 }

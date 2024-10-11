@@ -1,4 +1,4 @@
-import { require } from 'app-root-path'
+import mongoose from 'mongoose'
 import classService from '../services/classService'
 import examService from '../services/examService'
 import resultService from '../services/resultService'
@@ -87,8 +87,10 @@ let getInformation = async (req, res) => {
     const token = req.cookies.jwt;
     let IDUser = jwt.verifyToken(token)._id;
     try {
+        const listClass = await classService.getUserClasses(IDUser);
+
         const userAccount = await userService.loadUserName(IDUser);
-        return res.render('Client_User/information.ejs', {userAccount: userAccount})
+        return res.render('Client_User/information.ejs', {userAccount: userAccount, listClass: listClass})
     } catch (error) {
         console.log(error);
         
@@ -99,9 +101,10 @@ let getChangePW = async (req,res) =>{
     const token = req.cookies.jwt;
     let IDUser = jwt.verifyToken(token)._id;
     try {
+        const listClass = await classService.getUserClasses(IDUser);
         const userAccount = await userService.loadUserName(IDUser);
         
-        return res.render('Client_User/changepw.ejs', {userAccount: userAccount})
+        return res.render('Client_User/changepw.ejs', {userAccount: userAccount, listClass: listClass})
     } catch (error) {
         console.log(error);
         
@@ -136,14 +139,39 @@ let createClass = async (req, res) => {
     }
 
 }
+
+// Thao tac trang member
+
+let addMember = async (req,res) =>{ 
+    const classID = req.params.classID;
+    let { idMember } = req.body;
+    if(!mongoose.Types.ObjectId.isValid(idMember)){
+        console.log('ID Member not valid');
+        return res.redirect(`/client/member/${classID}`);
+    }
+    try {
+        let checkUserExist = await userService.findUserbyID(idMember); 
+        if(checkUserExist)
+            await classService.addMember(classID, idMember);
+        else
+            console.log('This user does not register');
+        return res.redirect(`/client/member/${classID}`);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 let deleteMember = async (req, res) => {
     const token = req.cookies.jwt;
     let IDUser = jwt.verifyToken(token)._id;
     const userIDDelete= req.query.userID;
     const classID = req.query.ClassID;
     const deleteMember = await classService.deleteMember(classID,userIDDelete);
-    return res.redirect(`/client/home/${classID}`)
+    return res.redirect(`/client/member/${classID}`)
 }
+
+// Ket thuc thao tac trang member
+
 let getAllClasses = async (req, res) => {
     try {
         const listClass = await classService.getAllClass();
@@ -219,5 +247,5 @@ let handleUpLoadFile =  async (req, res) => {
 
 
 module.exports = {
-    getHome, getResult, getMember, createClass, getAllClasses, getHomeClass, getInformation, getChangePW, editAccount, editPassword, handleUpLoadFile,deleteMember
+    getHome, getResult, getMember, createClass, getAllClasses, getHomeClass, getInformation, getChangePW, editAccount, editPassword, handleUpLoadFile,deleteMember,addMember
 }

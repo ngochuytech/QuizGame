@@ -11,7 +11,7 @@
 .Main-Content .Content{
     margin-left: 380px;
     margin-right: 100px;
-    height: calc(100vh - 56px);
+    height: calc(100vh + 56px);
     border-radius: 20px;
 }
 

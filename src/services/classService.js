@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { Class } from '../models/classModel';
 import { Questions } from '../models/questionModel'
+import { User } from '../models/userModel'
 import userService from '../services/userService';
 
 const createClass = (nameClass,IDUser) => {
@@ -88,13 +89,16 @@ const updateNameClass = async (ClassID, newNameOfClass) => {
 const deleteMember = async (classId, userId) => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log(classId,userId);
+            // Xóa thành viên ra khỏi lớp
             const updatedClass = await Class.findByIdAndUpdate(
                 classId,
-                { $pull: { members: userId } }, 
-                { new: true } 
+                { $pull: { members: userId } }
             );
-            // Resolve with the updated class if needed
+            // Xóa class đó trong User (MyclassID)
+            await User.findByIdAndUpdate(
+                userId,
+                { $pull: {MyClassId: classId}}
+            );
             resolve(updatedClass);
         } catch (error) {
             console.error("Error removing member:", error);
@@ -103,6 +107,27 @@ const deleteMember = async (classId, userId) => {
     });
 };
 
+// Thêm 1 thành viên mới vào class
+const addMember = async (classID, idMember) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            // Thêm thành viên vào class
+            await Class.findByIdAndUpdate(
+                classID,
+                { $push: { members: idMember } }
+            );
+            // Thêm class vào user đó
+            await User.findByIdAndUpdate(
+                idMember,
+                { $push: {MyClassId: classID} }
+            )
+            resolve();
+        } catch (error) {
+            reject(error)
+        }
+    });
+}
+
 module.exports ={
-    createClass, getAllClass, getCurrentClass,getUserClasses, deleteClass, updateNameClass,deleteMember
+    createClass, getAllClass, getCurrentClass,getUserClasses, deleteClass, updateNameClass,deleteMember,addMember
 }

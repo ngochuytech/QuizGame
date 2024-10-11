@@ -207,10 +207,9 @@ let deleteClass = (idClass, idUser) => {
 let findUserbyID = (IDUser) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const user = await User.findOne({ _id: IDUser });
-            if(user)
-                resolve(user);
-            }
+            const user = await User.findOne({ _id: IDUser }); 
+            resolve(user);
+        }
         catch (error) {
             reject(error)
         }
@@ -230,7 +229,6 @@ let getOwnerIDClass = (IDClass) => {
         }
     });
 };
-
 
 module.exports = {
     createUserService, loginUserService,getMemberInClass, getIDbyEmailAndPassWord, findUserbyID, addClass,

@@ -19,20 +19,20 @@
             </div>
         </div>
     </nav>
-
+    
     <div class="container mt-5 pt-5">
         <h2 style="display: flex; justify-content: center;">TẠO BÀI THI</h2>
-        <form action="/host/createExam" method="post">
+        <form action="/host/createExam/<%=currnetClassID%>" method="post" id="myForm">
             <!-- Question array -->
             <input type="hidden" id="questionArray" name="questionArray"> <!-- Trường ẩn để chứa mảng -->
             <!-- Question array end -->
             <div class="mb-3">
-                <label for="examName" class="form-label" style=" font-weight: bold;">Tên bài thi:</label>
-                <input type="text" class="form-control" id="examName" placeholder="Nhập tên bài thi">
+                <label for="examName" class="form-label" style=" font-weight: bold;" >Tên bài thi:</label>
+                <input type="text" class="form-control" name="examName" id="examName" placeholder="Nhập tên bài thi">
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label" style=" font-weight: bold;">Mô tả:</label>
-                <textarea class="form-control" id="description" rows="3" placeholder="Nhập mô tả bài thi"></textarea>
+                <textarea class="form-control" id="description" name="description" rows="3" placeholder="Nhập mô tả bài thi"></textarea>
             </div>
 
             <div class="question-selection">
@@ -166,6 +166,11 @@
 
     <script>
         var selectedQuestion = [];
+
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            // Chuyển mảng thành chuỗi JSON và gán vào trường ẩn
+            document.getElementById('questionArray').value = JSON.stringify(selectedQuestion);
+        });
 
         function showTab(tab) {
             // Hide all tables

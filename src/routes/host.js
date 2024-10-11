@@ -14,4 +14,6 @@ router.get('/UpdateQuestion/:id', hostController.UpdateQuestion)
 router.post('/deleteClass/:idClass', hostController.deleteClass);
 router.post('/updateNameClass/:idClass', hostController.updateNameClass)
 
+router.post('/createExam/:idClass', hostController.createExam);
+
 module.exports = router;

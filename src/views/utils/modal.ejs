@@ -8,7 +8,7 @@
             return;
         }
         event.target.form.submit();
-    }
+    } 
     // Hàm kiểm tra bên thêm câu hỏi
     function AddQuestion(event) {
         event.preventDefault();// Dừng sự kiện xử lý một phần đỡ backend
@@ -46,6 +46,16 @@
         event.target.form.submit();
     }
 
+    // Hàm kiểm tra thêm thành viên
+    function AddMember(event) {
+        event.preventDefault();// Dừng sự kiện xử lý một phần đỡ backend
+        let memberID = document.querySelector('input[name="idMember"]').value.trim();
+        if (!memberID) {
+            alert("Vui lòng điền id thành viên, không được bỏ trống");
+            return;
+        }
+        event.target.form.submit();
+    } 
 </script>
 <div id="addClass" class="modal fade">
     <div class="modal-dialog">
@@ -325,21 +335,21 @@
 <div id="addMember" class="modal fade">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <form action="#" method="post">
+            <form action="/client/addMember/<%=currnetClassID%>" method="post" onsubmit="AddMember(event)">
                 <div class="modal-header">
                     <h5 class="modal-title">Thêm thành viên mới</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div data-mdb-input-init class="form-floating mb-4">
-                        <input name="nameDisplay" type="text" id="form3Example3" class="form-control form-control-lg"
+                        <input name="idMember" type="text" id="form3Example3" class="form-control form-control-lg"
                             placeholder="Nhập vào id người dùng" />
                         <label class="form-label" for="form3Example3">ID của thành viên</label>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                    <button type="submit" class="btn btn-primary">Thêm mới</button>
+                    <button type="submit" class="btn btn-primary" onclick="AddMember(event)">Thêm mới</button>
                 </div>
             </form>
         </div>

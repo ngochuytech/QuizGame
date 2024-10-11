@@ -13,6 +13,7 @@ router.get('/home',clientController.getHome)
 router.get('/result/:classID',clientController.getResult)
 router.get('/member/:classID', clientController.getMember)
 router.get('/deleteMember/:classID', clientController.deleteMember)
+router.post('/addMember/:classID', clientController.addMember);
 router.post('/createClass', clientController.createClass)
 
 router.get('/information',clientController.getInformation)
