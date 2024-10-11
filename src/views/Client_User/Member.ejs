@@ -94,9 +94,12 @@ function deleteMember(ClassID,OwerOrNotOwer,UserID,OwnerID) {
             <!-- Member List -->
             <div class="p-4">
                 <div class="Add_Search d-flex" style="height: 46px;">
+
                     <% if (OwerOrNotOwer) { %>
-                        <button class="btn btn-primary mb-2 w-25 me-3">+ Thêm thành viên</button>
-                        <% } %>                   
+                        <button type="button"class="btn btn-primary mb-2 w-25 me-3" data-bs-toggle="modal" data-bs-target="#addMember">
+                            + Thêm thành viên
+                        </button>
+                    <% } %>                   
                      <div class="space" style="width: 100px;"></div>
                     <!-- Search button -->
                     <div class="input-group mb-2">

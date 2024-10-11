@@ -8,15 +8,6 @@ import 'dotenv/config'
 import multer from 'multer'
 
 let getHome = async (req, res) => {
-   // Test
-    // try {
-    //     const listAllClass = await classService.getAllClass();
-    //     return res.render('Client_User/Home.ejs', { currnetClassID: '-1', listClass: listAllClass, listExam: [] });
-    // } catch (error) {
-    //     console.log('error = ', error);
-
-    // }
-   // ----------------------------------------------------------
     try {
         const token = req.cookies.jwt;
         let IDUser = jwt.verifyToken(token)._id;
@@ -31,14 +22,6 @@ let getHome = async (req, res) => {
 
 
 let getHomeClass = async (req, res) => {
-    // Lấy danh sách các lớp hiện có của user
-    // const listAllClass = await classService.getAllClass();
-    // let ClassId = req.params.classID;
-    // Tìm class để lấy class hiện tại
-    // const currnetClass = await classService.getCurrentClass(ClassId);
-    // const listCurrentExam = await examService.filterExamByClass(currnetClass.Exams);
-    // return res.render('Client_User/Home.ejs', { currnetClassID: ClassId, listClass: listAllClass, listExam: listCurrentExam })
-    // ----------------------------------------------------------
     const token = req.cookies.jwt;
     let IDUser = jwt.verifyToken(token)._id;
     let ClassId = req.params.classID;
@@ -159,7 +142,6 @@ let deleteMember = async (req, res) => {
     let IDUser = jwt.verifyToken(token)._id;
     const userIDDelete= req.query.userID;
     const classID = req.query.ClassID;
-    console.log(classID);
     const deleteMember = await classService.deleteMember(classID,userIDDelete);
     return res.redirect(`/client/home/${classID}`)
 }
