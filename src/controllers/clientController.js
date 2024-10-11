@@ -68,7 +68,6 @@ let getMember = async (req, res) => {
             listMember = await userService.getMemberInClass(currnetClass);
         }
 
-        // Lấy danh sách lớp cho người dùng
         const listClass = await classService.getUserClasses(IDUser);
 
         // Render view với lớp hiện tại, danh sách lớp và thành viên

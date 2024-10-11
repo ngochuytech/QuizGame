@@ -21,27 +21,23 @@ function searchMember(ClassID) {
     // // Chuyển hướng đến URL mới
     window.location.href = url;
 }
-function deleteMember(ClassID,OwerOrNotOwer,UserID,OwnerID) {
-    if(OwerOrNotOwer=='false')
-    {
-        alert('Del phải chủ phòng,nhót!!!!');
+function deleteMember(ClassID, OwerOrNotOwer, UserID, OwnerID) {
+    const isOwner = OwerOrNotOwer.toLowerCase() === 'true'; // Ép kiểu sang boolean
+    if (!isOwner) {
+        alert('Del phải chủ phòng, nhót!!!!');
         const url = `http://localhost:3000/client/home/${ClassID}`;
         window.location.href = url;
-    }
-    if(OwerOrNotOwer=='true'&UserID==OwnerID)
-    {
+    } else if (isOwner && UserID === OwnerID) {
         alert('Mi là chủ phòng, không xóa được');
         const url = `http://localhost:3000/client/home/${ClassID}`;
         window.location.href = url;
+    } else {
+        const url = `http://localhost:3000/client/deleteMember/${ClassID}?userID=${encodeURIComponent(UserID)}&ClassID=${encodeURIComponent(ClassID)}`;
+        // Chuyển hướng đến URL mới
+        window.location.href = url;
     }
-    else
-    {
-    const url = `http://localhost:3000/client/deleteMember/${ClassID}?userID=${encodeURIComponent(UserID)}&ClassID=${encodeURIComponent(ClassID)}`;
-    // Chuyển hướng đến URL mới
-    window.location.href = url;
-    }
-    
 }
+
 </script>
 <body>
     <!-- Header -->
