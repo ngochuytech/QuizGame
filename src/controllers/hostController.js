@@ -24,13 +24,7 @@ let getManageClass = async (req,res) =>{
     const currentClass = await classService.getCurrentClass(ClassID);
     return res.render('Host_User/manageClass.ejs', {currnetClassID : ClassID, listClass:listClass, currentClass: currentClass})
 }
-let deleteQuestion= async (req,res) =>{
-    const questionID = req.query.questionID;
-    const classID = req.query.classID;
-    questionService.deleteQuestionById(questionID, classID);
-    const questions = await questionService.getAllQuestionsByIDClass(classID);
-    return res.redirect(`/host/manageQuestion/${classID}`);
-}
+
 let getManageQuestion = async (req, res) => {
     const token = req.cookies.jwt;
     let IDUser = jwt.verifyToken(token)._id;
@@ -108,6 +102,19 @@ let UpdateQuestion  = async (req, res) => {
         console.error(error);
         return res.status(500).send('Có lỗi xảy ra khi lấy dữ liệu.');
     }
+}
+
+let deleteQuestion= async (req,res) =>{
+    const questionID = req.query.questionID;
+    const classID = req.query.classID;
+    
+    const questionExitsInExam = await questionService.findQuestionInExam(classID, questionID);
+    if(!questionExitsInExam)
+        await questionService.deleteQuestionById(questionID, classID);
+    else
+        console.log("Không thể xóa câu hỏi đó vì có bài thi chứa câu hỏi đó !");
+
+    return res.redirect(`/host/manageQuestion/${classID}`);
 }
 
 let deleteClass = async(req,res) => {

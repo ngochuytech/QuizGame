@@ -34,6 +34,19 @@ const createExam = (nameExam, descriptionExam, questionArray, ClassID) => {
         }
     })
 }
+
+// Hàm tìm bài thi từ ID
+const findExambyID = (ExamID) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const exam = Exam.findById(ExamID);
+            resolve(exam);
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 module.exports = {
-    filterExamByClass, createExam
+    filterExamByClass, createExam, findExambyID
 }

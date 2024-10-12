@@ -3,6 +3,7 @@ import classService from '../services/classService'
 import examService from '../services/examService'
 import resultService from '../services/resultService'
 import userService from '../services/userService'
+import questionSerivce from '../services/questionService'
 import jwt from '../middleware/jwtAction'
 import 'dotenv/config'
 import multer from 'multer'
@@ -13,7 +14,7 @@ let getHome = async (req, res) => {
         let IDUser = jwt.verifyToken(token)._id;
         
         const listClass = await classService.getUserClasses(IDUser);
-        return res.render('Client_User/Home.ejs', { currnetClassID: '-1', listClass: listClass, listExam: [] });
+        return res.render('Client_User/Home.ejs', { currnetClassID: '-1', currnetClass: "None", listClass: listClass, listExam: [] });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: 'Internal server error' });
@@ -30,7 +31,7 @@ let getHomeClass = async (req, res) => {
 
         const currnetClass = await classService.getCurrentClass(ClassId);
         const listCurrentExam = await examService.filterExamByClass(currnetClass.Exams);     
-        return res.render('Client_User/Home.ejs', { currnetClassID: ClassId, listClass: listClass, listExam: listCurrentExam })
+        return res.render('Client_User/Home.ejs', { currnetClassID: ClassId, currnetClass: currnetClass, listClass: listClass, listExam: listCurrentExam })
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: 'Internal server error' });
@@ -83,6 +84,28 @@ let getMember = async (req, res) => {
         return res.status(500).send('Có lỗi xảy ra khi lấy dữ liệu.');
     }
 };
+
+let getWaitingRoom = async(req,res) =>{
+    const ClassId = req.params.classID;
+    const examId = req.params.examID;
+    try {
+        const currentExam = await examService.findExambyID(examId);
+        // Số lượng câu hỏi dễ, trung bình, khó     
+        const numberDiffculty = await questionSerivce.getNumberOfQuestionByDiffculty(currentExam);
+        return res.render('Client_User/waitingRoom.ejs',
+            {
+                currentExam: currentExam,
+                numberDiffculty: numberDiffculty,
+                currnetClassID: ClassId
+            }
+        );
+    } catch (error) {
+        console.log(error);
+        
+    }
+
+}
+
 let getInformation = async (req, res) => {
     const token = req.cookies.jwt;
     let IDUser = jwt.verifyToken(token)._id;
@@ -247,5 +270,6 @@ let handleUpLoadFile =  async (req, res) => {
 
 
 module.exports = {
-    getHome, getResult, getMember, createClass, getAllClasses, getHomeClass, getInformation, getChangePW, editAccount, editPassword, handleUpLoadFile,deleteMember,addMember
+    getHome, getResult, getMember, createClass, getAllClasses, getHomeClass, getInformation, getChangePW, 
+    editAccount, editPassword, handleUpLoadFile,deleteMember,addMember,getWaitingRoom
 }

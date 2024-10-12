@@ -9,22 +9,21 @@ const router = express.Router()
 router.get('/home/:classID',clientController.getHomeClass)
 router.get('/home',clientController.getHome)
 
-
 router.get('/result/:classID',clientController.getResult)
+
 router.get('/member/:classID', clientController.getMember)
 router.get('/deleteMember/:classID', clientController.deleteMember)
 router.post('/addMember/:classID', clientController.addMember);
+
 router.post('/createClass', clientController.createClass)
+router.get('/getAllClass',clientController.getAllClasses)
 
 router.get('/information',clientController.getInformation)
 router.get('/changePW', clientController.getChangePW)
-// Test API
-router.get('/getAllClass',clientController.getAllClasses)
-
 router.post('/editAccount', clientController.editAccount)
-
 router.post('/changePW', clientController.editPassword)
 
+router.get('/waitingRoom/:classID/:examID', clientController.getWaitingRoom);
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {

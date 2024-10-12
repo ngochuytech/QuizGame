@@ -26,7 +26,7 @@ const examsSchema = new Schema({
     },
     state:{
         type:Boolean,
-        default:false
+        default:true
     },
     time:{
         hard: {
