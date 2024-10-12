@@ -22,7 +22,7 @@
     
     <div class="container mt-5 pt-5">
         <h2 style="display: flex; justify-content: center;">TẠO BÀI THI</h2>
-        <form action="/host/createExam/<%=currnetClassID%>" method="post" id="myForm">
+        <form action="/host/createExam/<%=currnetClassID%>" method="post" id="myForm" onsubmit="AddExam(event)">
             <!-- Question array -->
             <input type="hidden" id="questionArray" name="questionArray"> <!-- Trường ẩn để chứa mảng -->
             <!-- Question array end -->
@@ -133,30 +133,11 @@
                     </div>
                 </div>
                 
-                <div class="time-per-question mb-4">
-                    <label class="form-label">Thời gian mỗi câu:</label>
-                    <div class="row g-3">
-                        <div class="col text-center">
-                            <label for="timeBasic" class="form-label">Cơ bản</label>
-                            <input type="number" id="timeBasic" class="form-control" placeholder="0" min="0">
-                        </div>
-                        <div class="col text-center">
-                            <label for="timeMedium" class="form-label">Trung bình</label>
-                            <input type="number" id="timeMedium" class="form-control" placeholder="0" min="0">
-                        </div>
-                        <div class="col text-center">
-                            <label for="timeHard" class="form-label">Khó</label>
-                            <input type="number" id="timeHard" class="form-control" placeholder="0" min="0">
-                        </div>
-                    </div>
-                </div>
-                
-                
                 </div>
 
                 <div class="mt-4 d-flex justify-content-end">
                     <a href="/client/home/<%=currnetClassID%>" class="btn-danger me-2" style="width: 100px; display: flex; justify-content: center; text-decoration: none; color: black;">Thoát</a>
-                    <button type="submit" class="btn-success">Tạo bài thi</button>
+                    <button type="submit" class="btn-success" onclick="AddExam(event)">Tạo bài thi</button>
                 </div>
             </div>
         </form>
@@ -167,10 +148,23 @@
     <script>
         var selectedQuestion = [];
 
-        document.getElementById('myForm').addEventListener('submit', function(event) {
-            // Chuyển mảng thành chuỗi JSON và gán vào trường ẩn
+        // Hàm kiểm tra tạo bài thi
+        function AddExam(event) {
+            event.preventDefault();// Dừng sự kiện xử lý một phần đỡ backend
             document.getElementById('questionArray').value = JSON.stringify(selectedQuestion);
-        });
+            let nameExam = document.querySelector('input[name="examName"]').value.trim();
+            // let descriptionExam = document.querySelector('input[name="description"]').value.trim();
+            let questions = document.querySelector('input[name="questionArray"]').value;
+            if (!nameExam) {
+                alert("Vui lòng điền tên bài thi, không được bỏ trống");
+                return;
+            }
+            if(questions.length==2){
+                alert("Phải chọn ít nhất 1 câu hỏi vào bài thi để tạo !");
+                return;
+            }
+            event.target.form.submit();
+        } 
 
         function showTab(tab) {
             // Hide all tables

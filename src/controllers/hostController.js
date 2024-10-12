@@ -145,7 +145,6 @@ let createExam = async(req,res) =>{
     let examName = req.body.examName;
     let description = req.body.description;
     let questionArray = JSON.parse(req.body.questionArray);
-
     try {
         await examService.createExam(examName, description, questionArray, ClassID);
         return res.redirect(`/client/home/${ClassID}`);
