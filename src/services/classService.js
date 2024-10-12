@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { Class } from '../models/classModel';
 import { Questions } from '../models/questionModel'
 import { User } from '../models/userModel'
+import { Exam } from '../models/examModel'
 import userService from '../services/userService';
 
 const createClass = (nameClass,IDUser) => {
@@ -63,14 +64,21 @@ const getUserClasses = async (userId) => {
 const deleteClass = async (ClassID, IDUser) => {
     return new Promise(async (resolve, reject) => {
         try {
-            // Xóa lớp được lưu ở người dùng
-            await userService.deleteClass(ClassID, IDUser);
+            const classToDelete = await Class.findById(ClassID);
+            // Xoá các thành viên trong lớp
+            await User.updateMany(
+                { MyClassId: ClassID },
+                { $pull: {MyClassId: ClassID} }
+            )
             // Xoá các câu hỏi trong lớp đó và trong CSDL (QuesitonModel)
             await Questions.deleteMany({classID: ClassID})
-
+            // Xóa cái bài thi có trong lớp
+            await Exam.deleteMany({_id: {$in: classToDelete.Exams}});
+            // Xóa lớp
             const deleteclass = await Class.deleteOne({_id: ClassID});
             resolve(deleteclass)
         } catch (error) {
+            console.log('deleteClass in ClassService error = ', error); 
             reject(error)
         }
     })

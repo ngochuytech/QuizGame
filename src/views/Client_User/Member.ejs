@@ -58,7 +58,7 @@ function deleteMember(ClassID, OwerOrNotOwer, UserID, OwnerID) {
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link ms-3 " href="#">
-                            <b class="fs-6 text-dark">LỚP A</b>
+                            <b class="fs-6 text-dark"><%=currnetClass.nameDisplay%></b>
                         </a>
                     </li>
                     <li class="nav-item ">
@@ -95,8 +95,8 @@ function deleteMember(ClassID, OwerOrNotOwer, UserID, OwnerID) {
                         <button type="button"class="btn btn-primary mb-2 w-25 me-3" data-bs-toggle="modal" data-bs-target="#addMember">
                             + Thêm thành viên
                         </button>
+                        <div class="space" style="width: 100px;"></div>
                     <% } %>                   
-                     <div class="space" style="width: 100px;"></div>
                     <!-- Search button -->
                     <div class="input-group mb-2">
                         <input type="text" class="form-control " placeholder="Tìm thành viên" id="searchQuestion">

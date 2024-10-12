@@ -60,12 +60,12 @@ let getMember = async (req, res) => {
         // Chờ kết quả của IDOwnerClass
         let IDOwnerClass = await userService.getOwnerIDClass(ClassId);
         const OwerOrNotOwer = (IDOwnerClass==IDUser)?true:false;
+        const currnetClass = await classService.getCurrentClass(ClassId);
         let listMember;
         if (keyword) {
             listMember = await userService.searchMembersByKeyword(ClassId, keyword);
         } else {
             // Lấy tất cả thành viên trong lớp
-            const currnetClass = await classService.getCurrentClass(ClassId);
             listMember = await userService.getMemberInClass(currnetClass);
         }
 
@@ -74,6 +74,7 @@ let getMember = async (req, res) => {
         // Render view với lớp hiện tại, danh sách lớp và thành viên
         return res.render('Client_User/Member.ejs', {
             currnetClassID: ClassId,
+            currnetClass: currnetClass,
             listClass: listClass,
             listMember: listMember,
             IDOwnerClass: IDOwnerClass,
