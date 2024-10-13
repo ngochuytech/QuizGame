@@ -11,8 +11,15 @@
 .Main-Content .Content{
     margin-left: 380px;
     margin-right: 100px;
-    height: calc(100vh - 56px);
     border-radius: 20px;
+}
+
+.avatar-img {
+    width: 175px; 
+    height: 175px; /* Đặt chiều cao bằng với chiều rộng để tạo hình tròn */
+    border-radius: 50%; /* Tạo hình tròn cho ảnh */
+    object-fit: cover; /* Đảm bảo ảnh không bị méo và cắt phần thừa */
+    border: 2px solid white; /* Đường viền trắng để nổi bật hơn */
 }
 
 .Main-Content .background-avatar{

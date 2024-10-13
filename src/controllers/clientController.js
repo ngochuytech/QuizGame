@@ -204,7 +204,7 @@ let handleUpLoadFile = async (req, res) => {
         // Kiểm tra xem có file nào của user không
         const userImageRegex = new RegExp(`^${IDUser}\\..+$`); // Regex để tìm file của user
         const filesToDelete = files.filter(file => userImageRegex.test(file) && file !== newFileName); // Lọc ra các file của user, nhưng bỏ qua file mới // Lọc ra các file của user
-
+        
         // Xóa các file cũ
         filesToDelete.forEach(file => {
             fs.unlink(path.join(appRoot.path, 'public/images/', file), (err) => {
