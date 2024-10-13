@@ -12,42 +12,23 @@
 
 <body>
     <!-- Header -->
-    <nav class="navbar fixed-top navbar-expand-lg bg-primary-subtle">
-        <div class="container-fluid d-flex justify-content-between">
-            <a class="navbar-brand" href="#">QUIZ.PRO</a>
-            <div class="text-center">
-                <img src="/public/image/avatar.png" class="rounded-circle img-fluid" alt="Avatar" style="width: 40px;">
-            </div>
-        </div>
-    </nav>
+    <%- include('../utils/header.ejs'); %>
 
     <!-- Main-content -->
     <div class="Main-Content ">
         <!-- Sidebar -->
         <div class="Sidebar d-flex flex-column position-fixed p-2">
             <div class="overflow-auto">
-                <h6>Đã tham gia (5)</h6>
+                <h6>Đã tham gia (1)</h6>
                 <ul class="list-group">
-                    <li class="list-group-item">Nguyễn Văn A</li>
-                    <li class="list-group-item">Nguyễn Văn A</li>
-                    <li class="list-group-item">Nguyễn Văn A</li>
-                    <li class="list-group-item">Nguyễn Văn A</li>
-                    <li class="list-group-item">Nguyễn Văn A</li>
+                    <li class="list-group-item">Phong Vũ</li>
                 </ul>
                 <hr>
-                <h6>Chưa tham gia (5)</h6>
+                <h6>Chưa tham gia (3)</h6>
                 <ul class="list-group">
-                    <li class="list-group-item">Nguyễn Văn A</li>
-                    <li class="list-group-item">Nguyễn Văn A</li>
-                    <li class="list-group-item">Nguyễn Văn A</li>
-                    <li class="list-group-item">Nguyễn Văn A</li>
-                    <li class="list-group-item">Nguyễn Văn A</li>
-                    <li class="list-group-item">Nguyễn Văn A</li>
-                    <li class="list-group-item">Nguyễn Văn A</li>
-                    <li class="list-group-item">Nguyễn Văn A</li>
-                    <li class="list-group-item">Nguyễn Văn A</li>
-                    <li class="list-group-item">Nguyễn Văn A</li>
-                    
+                    <li class="list-group-item">Tuấn Thành</li>
+                    <li class="list-group-item">Ngọc Huy</li>
+                    <li class="list-group-item">Thế Huy</li>
                 </ul>
             </div>
         </div>
@@ -72,10 +53,15 @@
             </div>
             <div class="space" style="height: 200px;"></div>
             <div class="d-flex justify-content-end" style="margin-right: 94px;">
-                <a href="/client/home/<%=currnetClassID%>" style="margin-right: 20px;"><button class="btn btn-danger">Rời đi</button></a>
-                <form action="#" method="post">
-                    <button class="btn btn-success">Bắt đầu</button>
-                </form>
+                <a href="/client/home/<%=currnetClassID%>" style="margin-right: 20px;"><button class="btn btn-warning">Rời đi</button></a>
+                <%if(currentExam.state==true){%>
+                    <form action="/host/cancelTheTest/<%=currnetClassID%>/<%=currentExam._id%>" method="post">
+                        <button class="btn btn-danger" style="margin-right: 20px;">Hủy bài thi</button>
+                    </form>
+                    <form action="#" method="post">
+                        <button class="btn btn-success">Bắt đầu</button>
+                    </form>
+                <%}%>
             </div>
             
         </div>

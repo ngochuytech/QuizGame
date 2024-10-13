@@ -15,14 +15,11 @@ const filterResultByExam = (listExam) => {
     })
 }
 
-const filterResultOfUserByExam = (listExam, idUser) => {
+const findResultsByUser = (IDUser) =>{
     return new Promise(async (resolve, reject) => {
         try {
-            const listResult = [];
-            for(let i=0; i<listExam.length; i++){
-                const item = await Result.find({particantID: idUser , examID: listExam[i]._id});
-                listResult.push(item);
-            }  
+            // Result nên có classID !!!
+            const listResult = await Result.find({particantID: IDUser});
             resolve(listResult);
         } catch (error) {
             reject(error)
@@ -31,5 +28,5 @@ const filterResultOfUserByExam = (listExam, idUser) => {
 }
 
 module.exports = {
-    filterResultByExam, filterResultOfUserByExam
+    filterResultByExam, findResultsByUser
 }

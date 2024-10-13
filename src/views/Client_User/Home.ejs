@@ -78,8 +78,13 @@
                                     <h5>
                                         <%= listExam[i].nameDisplay %>
                                     </h5>
-                                    <p>Số câu: <%= listExam[i].questions.length %> câu | Trạng thái: <span
-                                                class="text-success">Đang mở</span></p>
+                                    <p>Số câu: <%= listExam[i].questions.length %> câu | Trạng thái: 
+                                        <%if(listExam[i].state==true){ %>
+                                            <span class="text-success">Đang mở</span>
+                                        <%} else {%>
+                                            <span class="text-danger">Đã kết thúc</span>
+                                        <%}%>
+                                    </p>
                                 </div>
                                 <div class="col-md-4 text-end">
                                     <a href="/client/waitingRoom/<%=currnetClassID%>/<%=listExam[i]._id%>"><button class="btn btn-primary mt-3">Vào thi</button></a>

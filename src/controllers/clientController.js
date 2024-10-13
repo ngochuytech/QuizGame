@@ -41,14 +41,18 @@ let getHomeClass = async (req, res) => {
 let getResult = async (req, res) => {
     const token = req.cookies.jwt;
     let IDUser = jwt.verifyToken(token)._id;
-    // Lấy danh sách các lớp hiện có của user
-    const listClass = await classService.getUserClasses(IDUser);
     let ClassId = req.params.classID;
-    // Tìm class để lấy class hiện tại
-    const currnetClass = await classService.getCurrentClass(ClassId);
-    const listCurrentExam = await examService.filterExamByClass(currnetClass.Exams);
-    const listResult = await resultService.filterResultOfUserByExam(listCurrentExam, IDUser);
-    return res.render('Client_User/Result.ejs', { currnetClassID: ClassId, listClass: listClass, listResult: listResult})
+    try {
+        // Lấy danh sách các lớp hiện có của user
+        const listClass = await classService.getUserClasses(IDUser);
+        // Tìm class để lấy class hiện tại
+        const currnetClass = await classService.getCurrentClass(ClassId);
+        
+        return res.render('Client_User/Result.ejs', { currnetClassID: ClassId, listClass: listClass})
+    } catch (error) {
+        console.log(error);
+    }
+
 }
 
 let getMember = async (req, res) => {

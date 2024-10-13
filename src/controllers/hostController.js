@@ -2,6 +2,7 @@ import questionService from '../services/questionService'
 import classService from '../services/classService'
 import examService from '../services/examService'
 import jwt from '../middleware/jwtAction'
+import { Exam } from '../models/examModel'
 
 let getCreateQuiz = async (req,res) =>{
     const ClassID = req.params.idClass;
@@ -161,7 +162,24 @@ let createExam = async(req,res) =>{
 
 }
 
+let cancelTheTest = async(req,res) =>{
+    const ClassID = req.params.idClass;
+    let examID = req.params.idExam;
+    try {
+        let currentExam = await examService.findExambyID(examID);
+        if(currentExam.state==true)
+            await examService.cancelTest(ClassID, examID);
+        else
+            console.log("Không thể hủy bài thi đã bắt đầu !!!");
+            
+        return res.redirect(`/client/home/${ClassID}`);
+    } catch (error) {
+        res.send(error);
+    }
+
+}
+
 module.exports = {
     getCreateQuiz, getLeaderboard, getManageClass, getManageQuestion,deleteQuestion,AddQuestion,UpdateQuestion,
-    deleteClass, updateNameClass, createExam
+    deleteClass, updateNameClass, createExam, cancelTheTest
 }
