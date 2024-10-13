@@ -2,6 +2,8 @@ import express from "express"
 import clientController from '../controllers/clientController'
 import multer from "multer"
 import path from "path"
+import jwt from "../middleware/jwtAction"
+
 var appRoot = require('app-root-path')
 
 const router = express.Router()
@@ -16,7 +18,7 @@ router.post('/createClass', clientController.createClass)
 
 router.get('/information',clientController.getInformation)
 router.get('/changePW', clientController.getChangePW)
-// Test API
+
 router.get('/getAllClass',clientController.getAllClasses)
 
 router.post('/editAccount', clientController.editAccount)
@@ -26,12 +28,14 @@ router.post('/changePW', clientController.editPassword)
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        cb(null, appRoot + '/public/images/');
+        cb(null, path.join(appRoot.path, 'public/images'));
     },
-
+    
     // By default, multer removes file extensions so let's add them back
     filename: function(req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+        const token = req.cookies.jwt;
+        let IDUser = jwt.verifyToken(token)._id;
+        cb(null, IDUser + path.extname(file.originalname));
     }
 });
 

@@ -1,11 +1,13 @@
-import { require } from 'app-root-path'
+import { User } from '../models/userModel'
 import classService from '../services/classService'
 import examService from '../services/examService'
 import resultService from '../services/resultService'
 import userService from '../services/userService'
 import jwt from '../middleware/jwtAction'
 import 'dotenv/config'
-import multer from 'multer'
+import fs from 'fs'
+import path from 'path'
+import appRoot from 'app-root-path'
 
 let getHome = async (req, res) => {
    // Test
@@ -186,25 +188,50 @@ let editPassword = async(req, res) => {
 }
 
 
-let handleUpLoadFile =  async (req, res) => {
+let handleUpLoadFile = async (req, res) => {
+    const token = req.cookies.jwt;
+    let IDUser = jwt.verifyToken(token)._id;
 
-    try {
-        if (req.fileValidationError) {
-            return res.send(req.fileValidationError);
-        }
-        else if (!req.file) {
-            return res.send('Please select an image to upload');
+    const newFileName = IDUser + path.extname(req.file.originalname); // Tên file mới sẽ được lưu
+
+    // Kiểm tra và xóa file cũ nếu có
+    fs.readdir(path.join(appRoot.path, 'public/images'), (err, files) => {
+        if (err) {
+            console.error("Error reading directory:", err);
+            return res.status(500).send('Error reading directory');
         }
 
-        // Hiển thị ảnh đã tải lên cho người dùng kiểm tra
-        res.send(`You have uploaded this image: <hr/><img src="/images/${req.file.filename}" width="500"><hr /><a href="/client/information">Upload another image</a>`);
-    } catch (err) {
-        if (err instanceof multer.MulterError) {
-            return res.send(err);
-        }
-        res.send(err);
-    }
-}
+        // Kiểm tra xem có file nào của user không
+        const userImageRegex = new RegExp(`^${IDUser}\\..+$`); // Regex để tìm file của user
+        const filesToDelete = files.filter(file => userImageRegex.test(file) && file !== newFileName); // Lọc ra các file của user, nhưng bỏ qua file mới // Lọc ra các file của user
+
+        // Xóa các file cũ
+        filesToDelete.forEach(file => {
+            fs.unlink(path.join(appRoot.path, 'public/images/', file), (err) => {
+                if (err) {
+                    console.error("Error deleting file:", err);
+                }
+            });
+        });
+
+        return new Promise(async (resolve, reject)=>{
+            try {
+                const user = await User.findByIdAndUpdate(IDUser, {
+                    avatar: "/images/" + newFileName
+                })
+                resolve(user);
+                return res.redirect("/client/information")
+            } catch (error) {
+                reject({
+                    message: 'Could not load the user password',
+                    status: 'err'
+                })
+            }
+        })
+            
+
+    });
+};
 
 
 module.exports = {
