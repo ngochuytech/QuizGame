@@ -1,16 +1,24 @@
 import questionService from '../services/questionService'
 import classService from '../services/classService'
 import examService from '../services/examService'
+import userService from '../services/userService'
 import jwt from '../middleware/jwtAction'
-import { Exam } from '../models/examModel'
 
 let getCreateQuiz = async (req,res) =>{
+    const token = req.cookies.jwt;
+    let IDUser = jwt.verifyToken(token)._id;
     const ClassID = req.params.idClass;
-    const easyQuestion = await questionService.filterQuestionByDifficulty(ClassID, 'Easy');   
-    const mediumQuestion = await questionService.filterQuestionByDifficulty(ClassID, 'Medium');
-    const hardQuestion = await questionService.filterQuestionByDifficulty(ClassID, 'Hard');
-
-    return res.render('Host_User/createQuiz.ejs', {currnetClassID : ClassID, easyQuestion, mediumQuestion, hardQuestion})
+    try {
+        const user = await userService.findUserbyID(IDUser);
+        const easyQuestion = await questionService.filterQuestionByDifficulty(ClassID, 'Easy');   
+        const mediumQuestion = await questionService.filterQuestionByDifficulty(ClassID, 'Medium');
+        const hardQuestion = await questionService.filterQuestionByDifficulty(ClassID, 'Hard');
+        return res.render('Host_User/createQuiz.ejs', {currnetClassID : ClassID, user: user, easyQuestion, mediumQuestion, hardQuestion})
+    } catch (error) {
+        console.log(error);
+        
+    }
+   
 }
 
 let getLeaderboard = (req,res) =>{
@@ -21,9 +29,15 @@ let getManageClass = async (req,res) =>{
     const token = req.cookies.jwt;
     let IDUser = jwt.verifyToken(token)._id;
     const ClassID = req.params.idClass;
-    const listClass = await classService.getUserClasses(IDUser);
-    const currentClass = await classService.getCurrentClass(ClassID);
-    return res.render('Host_User/manageClass.ejs', {currnetClassID : ClassID, listClass:listClass, currentClass: currentClass})
+    try {
+        const user = await userService.findUserbyID(IDUser);
+        const listClass = await classService.getUserClasses(IDUser);
+        const currentClass = await classService.getCurrentClass(ClassID);
+        return res.render('Host_User/manageClass.ejs', {currnetClassID : ClassID, user, listClass:listClass, currentClass: currentClass})
+    } catch (error) {
+        
+    }
+
 }
 
 let getManageQuestion = async (req, res) => {
@@ -32,6 +46,7 @@ let getManageQuestion = async (req, res) => {
     const ClassID = req.params.id;
     const keyword = req.query.keyword; // Lấy từ khóa từ query string nếu có
     try {
+        const user = await userService.findUserbyID(IDUser);
         let questions;
         if (keyword) {
             questions = await questionService.searchQuestionsByKeyword(ClassID, keyword);
@@ -42,6 +57,7 @@ let getManageQuestion = async (req, res) => {
         const listClass = await classService.getUserClasses(IDUser);
         
         return res.render('Host_User/manageQuestion', {
+            user,
             questions: questions,
             currnetClassID : ClassID,
             listClass:listClass

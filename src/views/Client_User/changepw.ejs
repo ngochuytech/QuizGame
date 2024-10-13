@@ -12,15 +12,34 @@
 
 <body>
   <!-- Header -->
-  <nav class="navbar fixed-top navbar-expand-lg  bg-primary-subtle">
-    <div class="d-flex justify-content-between container-fluid">
-      <a class="navbar-brand" href="#">QUIZ PRO</a>
-      <div class="text-center">
-        <img src="/images/avatar.png" class="rounded-circle img-fluid" alt="Avatar" style="width: 40px;">
-      </div>
-    </div>
-  </nav>
+  <%- include('../utils/header.ejs'); %>
   <!-- End Header -->
+  
+  <!-- Modal -->
+  <div id="addClass" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="/client/createClass" method="post" onsubmit="AddClass(event)">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thêm lớp học mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div data-mdb-input-init class="form-floating mb-4">
+                        <input name="nameDisplay" type="text" id="form3Example3" class="form-control form-control-lg"
+                            placeholder="Nhập vào tên lớp học" />
+                        <label class="form-label" for="form3Example3">Tên lớp học</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                    <button type="submit" class="btn btn-primary" onclick="AddClass(event)">Hoàn tất</button>
+                </div>
+            </form>
+        </div>
+    </div>
+  </div>
+  <!-- End modal -->
 
   <!-- Main-Content Slidebar -->
   <div class="Main-Content d-flex" style="background-color: #F5F5F5; margin-top: 56px;">
@@ -66,14 +85,14 @@
       <div class="background-avatar ">
         <div id="space" style="height: 124px;"></div>
         <div class="avatar-Information">
-          <img src="/images/avatar.png" class="rounded-circle mb-3" alt="User Avatar" style="width: 175px;">
+          <img src="<%=user.avatar %>" class="rounded-circle mb-3 avatar-img" alt="User Avatar">
         </div>
       </div>
       <div class="profile-section">
 
         <div class="Name d-flex flex-column">
-          <h4><%=userAccount[0].nameDisplay%></h4>
-          <p>ID người dùng: <%=userAccount[0]._id%></p>
+          <h4><%=user.nameDisplay%></h4>
+          <p>ID người dùng: <%=user._id%></p>
         </div>
 
       </div>
@@ -114,7 +133,7 @@
         var enter_newpassword = document.form1.enter_newpassword.value;
 
         if(password_by_user && new_password && enter_newpassword){
-          if(password_by_user == <%=userAccount[0].password%>){
+          if(password_by_user == <%=user.password%>){
             if(new_password == enter_newpassword ){
               alert("Đổi mật khẩu thành công");
               event.target.form.submit();

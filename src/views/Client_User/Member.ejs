@@ -125,8 +125,8 @@ function deleteMember(ClassID, OwerOrNotOwer, UserID, OwnerID) {
                     <tbody>
                         <%for(var i=0; i<listMember.length; i++){%>
                             <tr>
-                                <td><img src="/images/avatar.png" class="rounded-circle" alt="User Avatar"
-                                        style="width: 30px;">
+                                <td><img src="<%=listMember[i].avatar%>" class="rounded-circle" alt="User Avatar"
+                                        style="width: 30px; height: 30px;">
                                     <%=listMember[i].nameDisplay%></td>
                                 <%if(i==0){%>
                                     <td>Chủ sở hữu</td>

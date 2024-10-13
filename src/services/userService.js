@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { User } from '../models/userModel';
 import { Class } from '../models/classModel';
 
+
 const createUserService = ({ accountName, password}) =>{
     return new Promise(async (resolve, reject) => {
         try {

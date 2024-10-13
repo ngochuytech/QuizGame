@@ -1,6 +1,17 @@
 import { Exam } from '../models/examModel'
 import { Class } from '../models/classModel'
 
+const filterExamByClass = (ExamIDfromClass) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const listExam = await Exam.find({_id:ExamIDfromClass});
+            resolve(listExam)
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 // Hàm tạo bài thi mới
 const createExam = (nameExam, descriptionExam, questionArray, ClassID) => {
     return new Promise(async (resolve, reject) => {
@@ -55,5 +66,5 @@ const cancelTest = (ClassID, ExamID)=>{
 }
 
 module.exports = {
-    createExam, findExambyID, cancelTest
+    createExam, findExambyID, cancelTest, filterExamByClass
 }
