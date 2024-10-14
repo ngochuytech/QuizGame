@@ -29,7 +29,7 @@
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link ms-3 " href="#">
-                            <b class="fs-6 text-dark">LỚP A</b>
+                            <b class="fs-6 text-dark"><%=currnetClass.nameDisplay%></b>
                         </a>
                     </li>
                     <li class="nav-item ">
@@ -60,15 +60,15 @@
         <div class="Content overflow-auto" style="background-color: #fff;">
             <!-- Exam Results -->
             <div class="p-4">
-                <%for(var i=0; i < listResult[0].length; i++) { %>
+                <%for(var i=0; i < resultOfUser.length; i++) { %>
                     <div class="exam-item mb-3">
                         <div class="row mb-3">
                             <div class="col-md-8">
-                                <h5>Bài thi số 1</h5>
-                                <p>Số câu: 30 câu</p>
+                                <h5><%=examOfUser[i].nameDisplay%></h5>
+                                <p>Số câu: <%=examOfUser[i].questions.length%> câu</p>
                             </div>
                             <div class="col-md-4 text-end">
-                                <button class="btn btn-secondary mt-3" >Kết quả: <%= listResult[0][i].grade %></button>
+                                <button class="btn btn-secondary mt-3" >Kết quả: <%= resultOfUser[i].grade%></button>
                             </div>
                         </div>
                     </div>

@@ -51,8 +51,8 @@ let getResult = async (req, res) => {
         const listClass = await classService.getUserClasses(IDUser);
         // Tìm class để lấy class hiện tại
         const currnetClass = await classService.getCurrentClass(ClassId);
-        
-        return res.render('Client_User/Result.ejs', { currnetClassID: ClassId, user: user, listClass: listClass})
+        const {resultOfUser, examOfUser} = await resultService.findResultsByUser(IDUser, currnetClass);
+        return res.render('Client_User/Result.ejs', { currnetClassID: ClassId, currnetClass, user: user, listClass: listClass, resultOfUser, examOfUser})
     } catch (error) {
         console.log(error);
     }
