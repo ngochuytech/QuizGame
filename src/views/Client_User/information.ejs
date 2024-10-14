@@ -118,14 +118,14 @@
             <input name="userDate" type="text" class="form-control form-control-sm" value="<%=userAccount[0].date.toLocaleDateString('vi-VN') %>">
             <button type="submit" class="btn btn-secondary mt-3">Lưu</button>
           </form>
-          <form method="POST" action="/client/upload-profile-pic" enctype="multipart/form-data" class="p-3">
+          <form name="form_img" method="POST" action="/client/upload-profile-pic" enctype="multipart/form-data" class="p-3" onsubmit="addImage(event)">
             <label for="text" class="form-label mt-3">Ảnh đại diện</label>
             <br>
             <img src="<%=userAccount[0].avatar %>" class="rounded-circle mb-3 avatar-img" alt="User Avatar" style="height: 70px; width: 70px;">
             <br>
             <label for="formFile" class="form-label">Chọn ảnh đại diện mới</label>
             <input class="form-control" name="img_upload" type="file" id="formFile">
-            <button type="submit" class="btn btn-secondary mt-3" name="">Lưu</button>
+            <button type="submit" class="btn btn-secondary mt-3" onclick="addImage(event)" >Lưu</button>  
           </form>
         </div>
       </div>
@@ -154,6 +154,19 @@
           }
           event.target.form.submit();
       } 
+      function addImage(event) {
+        event.preventDefault();
+        let nameImg = document.querySelector('input[name="img_upload"]').value.trim();
+        if (!nameImg) {
+              alert("Vui lòng chọn đường dẫn ảnh đại diện!");
+              return;
+          }
+        const validExtensions = /\.(jpg|jpeg|png|gif)$/i;
+        if(!validExtensions.test(nameImg)){
+          alert('Vui lòng chọn file có định dạng hợp lệ: jpg, jpeg, png, gif.');
+        }
+        event.target.form.submit();
+      }
     </script>
 </body>
 
