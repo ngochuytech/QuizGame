@@ -11,25 +11,21 @@
 
 <body>
     <!-- Header Navbar -->
-    <nav class="navbar fixed-top navbar-expand-lg bg-primary-subtle">
-        <div class="container-fluid d-flex justify-content-between">
-            <a class="navbar-brand" href="#">QUIZ.PRO</a>
-            <div class="text-center">
-                <img src="/images/avatar.png" class="rounded-circle img-fluid" alt="Avatar" style="width: 40px;">
-            </div>
-        </div>
-    </nav>
-
+    <%- include('../utils/header.ejs'); %>
+    
     <div class="container mt-5 pt-5">
         <h2 style="display: flex; justify-content: center;">TẠO BÀI THI</h2>
-        <form>
+        <form action="/host/createExam/<%=currnetClassID%>" method="post" id="myForm" onsubmit="AddExam(event)">
+            <!-- Question array -->
+            <input type="hidden" id="questionArray" name="questionArray"> <!-- Trường ẩn để chứa mảng -->
+            <!-- Question array end -->
             <div class="mb-3">
-                <label for="examName" class="form-label" style=" font-weight: bold;">Tên bài thi:</label>
-                <input type="text" class="form-control" id="examName" placeholder="Nhập tên bài thi">
+                <label for="examName" class="form-label" style=" font-weight: bold;" >Tên bài thi:</label>
+                <input type="text" class="form-control" name="examName" id="examName" placeholder="Nhập tên bài thi">
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label" style=" font-weight: bold;">Mô tả:</label>
-                <textarea class="form-control" id="description" rows="3" placeholder="Nhập mô tả bài thi"></textarea>
+                <textarea class="form-control" id="description" name="description" rows="3" placeholder="Nhập mô tả bài thi"></textarea>
             </div>
 
             <div class="question-selection">
@@ -63,7 +59,7 @@
                                     <td><%=i+1%></td>
                                     <td><%=easyQuestion[i].question%></td>
                                     <td>Cơ bản</td>
-                                    <td><input id="tickEasyQuestion<%=i%>" type="checkbox" onclick="chooseEasy('<%=i%>')"></td>
+                                    <td><input id="tickEasyQuestion<%=easyQuestion[i]._id%>" type="checkbox" onclick="chooseEasy('<%=easyQuestion[i]._id%>')"></td>
                                 </tr>
                             <%}%>
                         </tbody>
@@ -87,7 +83,7 @@
                                     <td><%=i+1%></td>
                                     <td><%=mediumQuestion[i].question%></td>
                                     <td>Trung bình</td>
-                                    <td><input id="tickMediumQuestion<%=i%>" type="checkbox" onclick="chooseMedium('<%=i%>')"></td>
+                                    <td><input id="tickMediumQuestion<%=mediumQuestion[i]._id%>" type="checkbox" onclick="chooseMedium('<%=mediumQuestion[i]._id%>')"></td>
                                 </tr>
                             <%}%>
                         </tbody>
@@ -111,7 +107,7 @@
                                     <td><%=i+1%></td>
                                     <td><%=hardQuestion[i].question%></td>
                                     <td>Khó</td>
-                                    <td><input id="tickHardQuestion<%=i%>" type="checkbox" onclick="chooseHard('<%=i%>')"></td>
+                                    <td><input id="tickHardQuestion<%=hardQuestion[i]._id%>" type="checkbox" onclick="chooseHard('<%=hardQuestion[i]._id%>')"></td>
                                 </tr>
                             <%}%>
                         </tbody>
@@ -130,30 +126,11 @@
                     </div>
                 </div>
                 
-                <div class="time-per-question mb-4">
-                    <label class="form-label">Thời gian mỗi câu:</label>
-                    <div class="row g-3">
-                        <div class="col text-center">
-                            <label for="timeBasic" class="form-label">Cơ bản</label>
-                            <input type="number" id="timeBasic" class="form-control" placeholder="0" min="0">
-                        </div>
-                        <div class="col text-center">
-                            <label for="timeMedium" class="form-label">Trung bình</label>
-                            <input type="number" id="timeMedium" class="form-control" placeholder="0" min="0">
-                        </div>
-                        <div class="col text-center">
-                            <label for="timeHard" class="form-label">Khó</label>
-                            <input type="number" id="timeHard" class="form-control" placeholder="0" min="0">
-                        </div>
-                    </div>
-                </div>
-                
-                
                 </div>
 
                 <div class="mt-4 d-flex justify-content-end">
                     <a href="/client/home/<%=currnetClassID%>" class="btn-danger me-2" style="width: 100px; display: flex; justify-content: center; text-decoration: none; color: black;">Thoát</a>
-                    <button type="submit" class="btn-success">Tạo bài thi</button>
+                    <button type="submit" class="btn-success" onclick="AddExam(event)">Tạo bài thi</button>
                 </div>
             </div>
         </form>
@@ -162,6 +139,26 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+        var selectedQuestion = [];
+
+        // Hàm kiểm tra tạo bài thi
+        function AddExam(event) {
+            event.preventDefault();// Dừng sự kiện xử lý một phần đỡ backend
+            document.getElementById('questionArray').value = JSON.stringify(selectedQuestion);
+            let nameExam = document.querySelector('input[name="examName"]').value.trim();
+            // let descriptionExam = document.querySelector('input[name="description"]').value.trim();
+            let questions = document.querySelector('input[name="questionArray"]').value;
+            if (!nameExam) {
+                alert("Vui lòng điền tên bài thi, không được bỏ trống");
+                return;
+            }
+            if(questions.length==2){
+                alert("Phải chọn ít nhất 1 câu hỏi vào bài thi để tạo !");
+                return;
+            }
+            event.target.form.submit();
+        } 
+
         function showTab(tab) {
             // Hide all tables
             document.getElementById('basic-content').style.display = 'none';
@@ -193,8 +190,13 @@
             // Check if the checkbox is checked
             if (item.checked) {
                 numberEasy++;
+                selectedQuestion.push(index);
             } else {
                 numberEasy--;
+                let i =  selectedQuestion.indexOf(index);
+                if(i!== -1){
+                    selectedQuestion.splice(i, 1);
+                }
             }
             document.getElementById('NumberOfEasy').innerHTML = '<strong style="color: green;">Cơ bản: </strong>' + numberEasy
         }
@@ -206,8 +208,13 @@
             // Check if the checkbox is checked
             if (item.checked) {
                 numberMedium++;
+                selectedQuestion.push(index);
             } else {
                 numberMedium--;
+                let i =  selectedQuestion.indexOf(index);
+                if(i!== -1){
+                    selectedQuestion.splice(i, 1);
+                }
             }
             document.getElementById('NumberOfMedium').innerHTML = '<strong style="color: #FAAF3A;">Trung bình: </strong>' + numberMedium
         }
@@ -219,8 +226,13 @@
             // Check if the checkbox is checked
             if (item.checked) {
                 numberHard++;
+                selectedQuestion.push(index);
             } else {
                 numberHard--;
+                let i =  selectedQuestion.indexOf(index);
+                if(i!== -1){
+                    selectedQuestion.splice(i, 1);
+                }
             }
             document.getElementById('NumberOfHard').innerHTML = '<strong style="color: red;">Khó: </strong>' + numberHard
         }

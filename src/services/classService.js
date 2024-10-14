@@ -1,13 +1,16 @@
 import mongoose from "mongoose";
 import { Class } from '../models/classModel';
 import { Questions } from '../models/questionModel'
+import { User } from '../models/userModel'
+import { Exam } from '../models/examModel'
 import userService from '../services/userService';
 
-const createClass = (nameClass) => {
+const createClass = (nameClass,IDUser) => {
     return new Promise(async (resolve, reject) => {
         try {
             const newClass = await Class.create({
                 _id: new mongoose.Types.ObjectId(),
+                ownerID:IDUser,
                 nameDisplay: nameClass
             });
             console.log('Class and questions created successfully');
@@ -48,8 +51,10 @@ const getUserClasses = async (userId) => {
     return new Promise(async (resolve, reject) => {
         try {
             const user = await userService.findUserbyID(userId);
-            const classOfUser = await Class.find({_id: user.MyClassId});
-            resolve(classOfUser)
+            const classOfUserNotOwner = await Class.find({_id: user.MyClassId}); // class mà user chỉ là thành viên không phải người tạo
+            const classOfUserOnwer = await Class.find({ownerID: user._id});// class mà user là người tạo
+            const all = classOfUserNotOwner.concat(classOfUserOnwer);
+            resolve(all)
         } catch (error) {
             reject(error)
         }
@@ -59,14 +64,21 @@ const getUserClasses = async (userId) => {
 const deleteClass = async (ClassID, IDUser) => {
     return new Promise(async (resolve, reject) => {
         try {
-            // Xóa lớp được lưu ở người dùng
-            await userService.deleteClass(ClassID, IDUser);
+            const classToDelete = await Class.findById(ClassID);
+            // Xoá các thành viên trong lớp
+            await User.updateMany(
+                { MyClassId: ClassID },
+                { $pull: {MyClassId: ClassID} }
+            )
             // Xoá các câu hỏi trong lớp đó và trong CSDL (QuesitonModel)
             await Questions.deleteMany({classID: ClassID})
-
+            // Xóa cái bài thi có trong lớp
+            await Exam.deleteMany({_id: {$in: classToDelete.Exams}});
+            // Xóa lớp
             const deleteclass = await Class.deleteOne({_id: ClassID});
             resolve(deleteclass)
         } catch (error) {
+            console.log('deleteClass in ClassService error = ', error); 
             reject(error)
         }
     })
@@ -82,8 +94,48 @@ const updateNameClass = async (ClassID, newNameOfClass) => {
         }
     })
 }
+const deleteMember = async (classId, userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            // Xóa thành viên ra khỏi lớp
+            const updatedClass = await Class.findByIdAndUpdate(
+                classId,
+                { $pull: { members: userId } }
+            );
+            // Xóa class đó trong User (MyclassID)
+            await User.findByIdAndUpdate(
+                userId,
+                { $pull: {MyClassId: classId}}
+            );
+            resolve(updatedClass);
+        } catch (error) {
+            console.error("Error removing member:", error);
+            reject(error)
+        }
+    });
+};
 
+// Thêm 1 thành viên mới vào class
+const addMember = async (classID, idMember) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            // Thêm thành viên vào class
+            await Class.findByIdAndUpdate(
+                classID,
+                { $push: { members: idMember } }
+            );
+            // Thêm class vào user đó
+            await User.findByIdAndUpdate(
+                idMember,
+                { $push: {MyClassId: classID} }
+            )
+            resolve();
+        } catch (error) {
+            reject(error)
+        }
+    });
+}
 
 module.exports ={
-    createClass, getAllClass, getCurrentClass,getUserClasses, deleteClass, updateNameClass
+    createClass, getAllClass, getCurrentClass,getUserClasses, deleteClass, updateNameClass,deleteMember,addMember
 }

@@ -1,0 +1,72 @@
+/* Tổng quan */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.Content p span {
+    margin-right: 40px;
+    /* Tạo khoảng cách giữa các thẻ span */
+}
+
+
+.Main-Content {
+    margin-top: 56px;
+    background-color: #EEEBEB;
+    /* Khoảng cách từ header xuống nội dung chính */
+}   
+
+.Sidebar {
+    width: 280px;
+    height: calc(100vh - 56px);
+    /* Thêm thanh cuộn dọc nếu nội dung vượt quá chiều cao */
+    background-color: #f0f0f0;
+}
+
+
+.Sidebar li {
+    margin-bottom: 5px;
+
+}
+
+.Content {
+    margin-left: 340px;
+    margin-right: 60px;
+    background-color: #fff;
+}
+
+.Content h1 {
+    font-size: 32px;
+}
+
+.Content p {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.description {
+    margin-top: 20px;
+    margin-left: 90px;
+}
+
+.description-box {
+    width: 93%;
+    height: 350px;
+    background-color: #e0e0e0;
+}
+
+.leave-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.leave-btn:hover {
+    background-color: darkred;
+}

@@ -1,14 +1,24 @@
 import questionService from '../services/questionService'
 import classService from '../services/classService'
+import examService from '../services/examService'
+import userService from '../services/userService'
 import jwt from '../middleware/jwtAction'
 
 let getCreateQuiz = async (req,res) =>{
+    const token = req.cookies.jwt;
+    let IDUser = jwt.verifyToken(token)._id;
     const ClassID = req.params.idClass;
-    const easyQuestion = await questionService.filterQuestionByDifficulty(ClassID, 'Easy');   
-    const mediumQuestion = await questionService.filterQuestionByDifficulty(ClassID, 'Medium');
-    const hardQuestion = await questionService.filterQuestionByDifficulty(ClassID, 'Hard');
-
-    return res.render('Host_User/createQuiz.ejs', {currnetClassID : ClassID, easyQuestion, mediumQuestion, hardQuestion})
+    try {
+        const user = await userService.findUserbyID(IDUser);
+        const easyQuestion = await questionService.filterQuestionByDifficulty(ClassID, 'Easy');   
+        const mediumQuestion = await questionService.filterQuestionByDifficulty(ClassID, 'Medium');
+        const hardQuestion = await questionService.filterQuestionByDifficulty(ClassID, 'Hard');
+        return res.render('Host_User/createQuiz.ejs', {currnetClassID : ClassID, user: user, easyQuestion, mediumQuestion, hardQuestion})
+    } catch (error) {
+        console.log(error);
+        
+    }
+   
 }
 
 let getLeaderboard = (req,res) =>{
@@ -19,23 +29,25 @@ let getManageClass = async (req,res) =>{
     const token = req.cookies.jwt;
     let IDUser = jwt.verifyToken(token)._id;
     const ClassID = req.params.idClass;
-    const listClass = await classService.getUserClasses(IDUser);
-    const currentClass = await classService.getCurrentClass(ClassID);
-    return res.render('Host_User/manageClass.ejs', {currnetClassID : ClassID, listClass:listClass, currentClass: currentClass})
+    try {
+        const user = await userService.findUserbyID(IDUser);
+        const listClass = await classService.getUserClasses(IDUser);
+        const currentClass = await classService.getCurrentClass(ClassID);
+        return res.render('Host_User/manageClass.ejs', {currnetClassID : ClassID, user, listClass:listClass, currentClass: currentClass})
+    } catch (error) {
+        
+    }
+
 }
-let deleteQuestion= async (req,res) =>{
-    const questionID = req.query.questionID;
-    const classID = req.query.classID;
-    questionService.deleteQuestionById(questionID, classID);
-    const questions = await questionService.getAllQuestionsByIDClass(classID);
-    return res.redirect(`/host/manageQuestion/${classID}`);
-}
+
 let getManageQuestion = async (req, res) => {
     const token = req.cookies.jwt;
     let IDUser = jwt.verifyToken(token)._id;
     const ClassID = req.params.id;
     const keyword = req.query.keyword; // Lấy từ khóa từ query string nếu có
     try {
+        const user = await userService.findUserbyID(IDUser);
+        const currentClass = await classService.getCurrentClass(ClassID);
         let questions;
         if (keyword) {
             questions = await questionService.searchQuestionsByKeyword(ClassID, keyword);
@@ -46,9 +58,11 @@ let getManageQuestion = async (req, res) => {
         const listClass = await classService.getUserClasses(IDUser);
         
         return res.render('Host_User/manageQuestion', {
+            user,
             questions: questions,
             currnetClassID : ClassID,
-            listClass:listClass
+            listClass:listClass,
+            currentClass
         });
     } catch (error) {
         console.error(error);
@@ -109,6 +123,19 @@ let UpdateQuestion  = async (req, res) => {
     }
 }
 
+let deleteQuestion= async (req,res) =>{
+    const questionID = req.query.questionID;
+    const classID = req.query.classID;
+    
+    const questionExitsInExam = await questionService.findQuestionInExam(classID, questionID);
+    if(!questionExitsInExam)
+        await questionService.deleteQuestionById(questionID, classID);
+    else
+        console.log("Không thể xóa câu hỏi đó vì có bài thi chứa câu hỏi đó !");
+
+    return res.redirect(`/host/manageQuestion/${classID}`);
+}
+
 let deleteClass = async(req,res) => {
     const token = req.cookies.jwt;
     let IDUser = jwt.verifyToken(token)._id;
@@ -139,7 +166,38 @@ let updateNameClass = async(req, res) =>{
     }
 }
 
+let createExam = async(req,res) =>{
+    const ClassID = req.params.idClass;
+    let examName = req.body.examName;
+    let description = req.body.description;
+    let questionArray = JSON.parse(req.body.questionArray);
+    try {
+        await examService.createExam(examName, description, questionArray, ClassID);
+        return res.redirect(`/client/home/${ClassID}`);
+    } catch (error) {
+        res.send(error);
+    }
+
+}
+
+let cancelTheTest = async(req,res) =>{
+    const ClassID = req.params.idClass;
+    let examID = req.params.idExam;
+    try {
+        let currentExam = await examService.findExambyID(examID);
+        if(currentExam.state==true)
+            await examService.cancelTest(ClassID, examID);
+        else
+            console.log("Không thể hủy bài thi đã bắt đầu !!!");
+            
+        return res.redirect(`/client/home/${ClassID}`);
+    } catch (error) {
+        res.send(error);
+    }
+
+}
+
 module.exports = {
     getCreateQuiz, getLeaderboard, getManageClass, getManageQuestion,deleteQuestion,AddQuestion,UpdateQuestion,
-    deleteClass, updateNameClass
+    deleteClass, updateNameClass, createExam, cancelTheTest
 }

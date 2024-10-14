@@ -12,272 +12,163 @@
 
 <body>
   <!-- Header -->
-  <nav class="navbar fixed-top navbar-expand-lg  bg-primary-subtle">
-    <div class="d-flex justify-content-between container-fluid">
-      <a class="navbar-brand" href="#">QUIZ PRO</a>
-      <div class="text-center">
-        <img src="/images/avatar.png" class="rounded-circle img-fluid" alt="Avatar" style="width: 40px;">
-      </div>
-    </div>
-  </nav>
+  <%- include('../utils/header.ejs'); %>
   <!-- End Header -->
-
-  <!-- Main-Content Slidebar -->
-  <div class="Main-Content d-flex" style="background-color: #F5F5F5; margin-top: 56px;">
-    <div class="Slidebar d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px; height: 100vh;">
-      <div class="d-flex justify-content-between align-items-center">
-        <p href="/" class=" mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-          <svg class="bi" width="0" height="30">
-            <use xlink:href="#bootstrap" />
-          </svg>
-          <span class="fs-4">Lớp học</span>
-        </p>
-        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus-circle"
-          viewBox="0 0 16 16">
-          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-          <path
-            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-        </svg>
-      </div>
-      <hr>
-      <p><small>Lớp của tôi</small></p>
-      <div class="overflow-auto">
-        <ul class="nav nav-pills flex-column mb-auto ">
-          <li>
-            <a href="#" class="nav-link active" aria-current="page">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#home" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#speedometer2" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#table" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#grid" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#people-circle" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#speedometer2" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#table" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#people-circle" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#speedometer2" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#table" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#people-circle" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#speedometer2" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#table" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#people-circle" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#speedometer2" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#table" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#people-circle" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#speedometer2" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#table" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-           <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#people-circle" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#speedometer2" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link link-dark">
-              <svg class="bi" width="16" height="16">
-                <use xlink:href="#table" />
-              </svg>
-              Lớp A
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-
-    <!-- End slidebar -->
-
-    <!-- Content -->
-    <div class="Content w-75" style="background-color: #fff;">
-      <!-- Section thông tin người dùng -->
-      <div class="background-avatar ">
-        <div id="space" style="height: 124px;"></div>
-        <div class="avatar-Information">
-          <img src="/images/avatar.png" class="rounded-circle mb-3" alt="User Avatar" style="width: 175px;">
+  
+  <!-- Modal -->
+  <div id="addClass" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="/client/createClass" method="post" onsubmit="AddClass(event)">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thêm lớp học mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div data-mdb-input-init class="form-floating mb-4">
+                        <input name="nameDisplay" type="text" id="form3Example3" class="form-control form-control-lg"
+                            placeholder="Nhập vào tên lớp học" />
+                        <label class="form-label" for="form3Example3">Tên lớp học</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+                    <button type="submit" class="btn btn-primary" onclick="AddClass(event)">Hoàn tất</button>
+                </div>
+            </form>
         </div>
-      </div>
-      <div class="profile-section">
-
-        <div class="Name d-flex flex-column">
-          <h4>Nguyễn Huy</h4>
-          <p>Mã sinh viên: 123456789</p>
-        </div>
-
-      </div>
-
-      <ul class="nav nav-tabs mb-4">
-        <li class="nav-item">
-          <a class="nav-link active" href="/client/information">Hồ sơ</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/client/changePW">Mật khẩu</a>
-        </li>
-      </ul>
-
-        <form class="p-3">
-            <div class="form-group">
-                <label for="text" class="form-label">Họ tên</label>
-                <input type="text" class="form-control form-control-sm">
-                <label for="text" class="form-label mt-3">Email</label>
-                <input type="email" class="form-control form-control-sm">
-                <label for="text" class="form-label mt-3">Ngày sinh</label>
-                <input type="text" class="form-control form-control-sm">
-                <label for="text" class="form-label mt-3">Ảnh đại diện</label>
-                <br>
-                <img src="/images/avatar.png" class="rounded-circle mb-3" alt="User Avatar" style="width: 70px;">
-                <br>
-                <label for="formFile" class="form-label">Chọn ảnh đại diện mới</label>
-                <input class="form-control" type="file" id="formFile">
-                <button type="submit" class="btn btn-secondary mt-3">Lưu</button>
-            </div>
-        </form>
     </div>
   </div>
-  <!-- End content, End Main-Content -->
+  <!-- End modal -->
 
-  <!-- Import JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <!-- Main-Content Slidebar -->
+    <div class="Main-Content d-flex" style="background-color: #F5F5F5; margin-top: 56px;">
+      <!-- Sidebar left -->
+      <div class="Sldebar_left d-flex flex-column flex-shrink-0 p-3 bg-light position-fixed"
+        style="width: 280px; height: 100vh;">
+        <div class="d-flex justify-content-between align-items-center">
+          <p href="#" class=" mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+            <svg class="bi" width="0" height="30">
+              <use xlink:href="#bootstrap" />
+            </svg>
+            <span class="fs-4">Lớp học</span>
+          </p>
+          <button type="button" data-bs-toggle="modal" data-bs-target="#addClass">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus-circle"
+              viewBox="0 0 16 16">
+              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+            </svg>
+          </button>
+        </div>
+        <hr>
+        <p><small>Lớp của tôi</small></p>
+        <div class="overflow-auto">
+          <ul class="nav nav-pills flex-column mb-auto ">
+            <% for(var i=0; i < listClass.length; i++) { %>
+              <li>
+                <a href="/client/home/<%=listClass[i]._id%>" class="nav-link" aria-current="page">
+                  <svg class="bi" width="16" height="16">
+                    <use xlink:href="#home" />
+                  </svg>
+                  <%= listClass[i].nameDisplay%>
+                </a>
+              </li>
+              <% } %>
+          </ul>
+        </div>
+      </div>
+      <!-- End sidebar -->
+
+      <!-- Content -->
+      <div class="Content w-75" style="background-color: #fff;">
+        <!-- Section thông tin người dùng -->
+        <div class="background-avatar ">
+          <div id="space" style="height: 124px;"></div>
+          <div class="avatar-Information">
+            <img src="<%=userAccount[0].avatar %>" class="rounded-circle mb-3 avatar-img" alt="User Avatar">
+          </div>
+        </div>
+        <div class="profile-section">
+          <div class="Name d-flex flex-column">
+            <h4 id="userName">
+              <%=userAccount[0].nameDisplay%>
+            </h4>
+            <p>ID người dùng: <%=userAccount[0]._id%>
+            </p>
+          </div>
+
+        </div>
+        <ul class="nav nav-tabs mb-4">
+          <li class="nav-item">
+            <a class="nav-link active" href="/client/information">Hồ sơ</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/client/changePW">Mật khẩu</a>
+          </li>
+        </ul>
+        <div class="form-group">
+          <form  action="/client/editAccount" method="post" class="p-3">
+            <label for="text" class="form-label">Họ tên</label>
+            <input name="userName" type="text" class="form-control form-control-sm" value="<%=userAccount[0].nameDisplay %>">
+            <label for="text" class="form-label mt-3">Email</label>
+            <input disabled type="email" class="form-control form-control-sm" value="<%=userAccount[0].accountName %>">
+            <label for="text" class="form-label mt-3">Ngày sinh</label>
+            <input name="userDate" type="text" class="form-control form-control-sm" value="<%=userAccount[0].date.toLocaleDateString('vi-VN') %>">
+            <button type="submit" class="btn btn-secondary mt-3">Lưu</button>
+          </form>
+          <form name="form_img" method="POST" action="/client/upload-profile-pic" enctype="multipart/form-data" class="p-3" onsubmit="addImage(event)">
+            <label for="text" class="form-label mt-3">Ảnh đại diện</label>
+            <br>
+            <img src="<%=userAccount[0].avatar %>" class="rounded-circle mb-3 avatar-img" alt="User Avatar" style="height: 70px; width: 70px;">
+            <br>
+            <label for="formFile" class="form-label">Chọn ảnh đại diện mới</label>
+            <input class="form-control" name="img_upload" type="file" id="formFile">
+            <button type="submit" class="btn btn-secondary mt-3" onclick="addImage(event)" >Lưu</button>  
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- End content, End Main-Content -->
+
+    <!-- Import JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+      integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+      crossorigin="anonymous"></script>
+    <!-- JS -->
+    <script>
+      // Hàm kiểm tra bên thêm lớp
+      function AddClass(event) {
+          event.preventDefault();// Dừng sự kiện xử lý một phần đỡ backend
+          let nameClass = document.querySelector('input[name="nameDisplay"]').value.trim();
+          if (!nameClass) {
+              alert("Vui lòng điền tên lớp, không được bỏ trống");
+              return;
+          }
+          event.target.form.submit();
+      } 
+      function addImage(event) {
+        event.preventDefault();
+        let nameImg = document.querySelector('input[name="img_upload"]').value.trim();
+        if (!nameImg) {
+              alert("Vui lòng chọn đường dẫn ảnh đại diện!");
+              return;
+          }
+        const validExtensions = /\.(jpg|jpeg|png|gif)$/i;
+        if(!validExtensions.test(nameImg)){
+          alert('Vui lòng chọn file có định dạng hợp lệ: jpg, jpeg, png, gif.');
+          return;
+        }
+        event.target.form.submit();
+      }
+    </script>
 </body>
 
 </html>
