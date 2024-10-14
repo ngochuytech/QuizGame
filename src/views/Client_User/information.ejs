@@ -164,6 +164,7 @@
         const validExtensions = /\.(jpg|jpeg|png|gif)$/i;
         if(!validExtensions.test(nameImg)){
           alert('Vui lòng chọn file có định dạng hợp lệ: jpg, jpeg, png, gif.');
+          return;
         }
         event.target.form.submit();
       }
