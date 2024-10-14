@@ -24,7 +24,7 @@ const UserSchema = new Schema({
     },
     avatar: {
         type: String,
-        default: './public/images/avatar.png'
+        default: '/images/defaultAvatar.jpg'
     },
     MyClassId: [{
         type: mongoose.Schema.Types.ObjectId,

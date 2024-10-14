@@ -47,6 +47,7 @@ let getManageQuestion = async (req, res) => {
     const keyword = req.query.keyword; // Lấy từ khóa từ query string nếu có
     try {
         const user = await userService.findUserbyID(IDUser);
+        const currentClass = await classService.getCurrentClass(ClassID);
         let questions;
         if (keyword) {
             questions = await questionService.searchQuestionsByKeyword(ClassID, keyword);
@@ -60,7 +61,8 @@ let getManageQuestion = async (req, res) => {
             user,
             questions: questions,
             currnetClassID : ClassID,
-            listClass:listClass
+            listClass:listClass,
+            currentClass
         });
     } catch (error) {
         console.error(error);
