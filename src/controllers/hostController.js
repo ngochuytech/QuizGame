@@ -168,12 +168,14 @@ let updateNameClass = async(req, res) =>{
 }
 
 let createExam = async(req,res) =>{
+    const token = req.cookies.jwt;
+    let IDUser = jwt.verifyToken(token)._id;
     const ClassID = req.params.idClass;
     let examName = req.body.examName;
     let description = req.body.description;
     let questionArray = JSON.parse(req.body.questionArray);
     try {
-        await examService.createExam(examName, description, questionArray, ClassID);
+        await examService.createExam(examName, description, questionArray, ClassID, IDUser);
         return res.redirect(`/client/home/${ClassID}`);
     } catch (error) {
         res.send(error);

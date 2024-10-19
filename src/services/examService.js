@@ -1,6 +1,6 @@
 import { Exam } from '../models/examModel'
 import { Class } from '../models/classModel'
-
+import userService from '../services/userService'
 const filterExamByClass = (ExamIDfromClass) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -13,14 +13,17 @@ const filterExamByClass = (ExamIDfromClass) => {
 }
 
 // Hàm tạo bài thi mới
-const createExam = (nameExam, descriptionExam, questionArray, ClassID) => {
+const createExam = (nameExam, descriptionExam, questionArray, ClassID, IDUser) => {
     return new Promise(async (resolve, reject) => {
         try {
+            const user = await userService.findUserbyID(IDUser);
+            const creator = { idCreator: user._id, nameCreator: user.nameDisplay}
             // Tạo bài thi mới
             const newExam = await Exam.create({
                 nameDisplay: nameExam,
                 description: descriptionExam,
-                questions: questionArray
+                questions: questionArray,
+                creator: creator
             })
             // Cập nhật exam này vào class tương ứng
             const updateExamIntoClass = await Class.findByIdAndUpdate(
