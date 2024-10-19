@@ -55,39 +55,10 @@ function UpdateQuestion(questionID,classID)
         <!-- End slidebar left -->
 
         <!-- Sidebar right -->
-        <div class="SidebarRight <%=(currnetClassID=='-1')?'d-none':''%>">
+        <div class="SidebarRight <%=(currentClassID=='-1')?'d-none':''%>">
             <!-- Header of class -->
-            <div class="Header_of_class">
-                <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #F6E8E8;">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link ms-3 " href="#">
-                                <b class="fs-6 text-dark"><%=currentClass.nameDisplay%></b>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link ms-3 text-dark" href="#">Thông báo</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link ms-3" href="/client/home/<%=currnetClassID%>">Bài thi</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link ms-3" href="/client/result/<%=currnetClassID%>">Kết quả</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link ms-3" href="/host/manageQuestion/<%=currnetClassID%>" style="color: #E000D7"><b>Câu hỏi</b></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link ms-3" href="/client/member/<%=currnetClassID%>">Thành viên</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link ms-3" href="/host/manageClass/<%=currnetClassID%>">Cài đặt</a>
-                        </li>
-                    </ul>
-                    <button class="btn btn-danger ms-auto">Rời lớp</button>
-                </nav>
-            </div>
-        <!-- End header of class -->
+            <%- include('../utils/headerOfClass.ejs'); %>
+            <!-- End header of class -->
 
         <!-- Content -->
         <div class="Content overflow-auto" style="background-color: #fff;">
@@ -100,7 +71,7 @@ function UpdateQuestion(questionID,classID)
                     <div class="input-group mb-2">
                         <input type="text" id="searchKeyword" class="form-control " placeholder="Tìm câu hỏi..." >
                         <div class="input-group-append">
-                            <button class="btn btn-outline-secondary rounded" type="button" onclick="searchQuestions('<%= currnetClassID %>')">
+                            <button class="btn btn-outline-secondary rounded" type="button" onclick="searchQuestions('<%= currentClassID %>')">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-search" viewBox="0 0 16 16">
                                     <path
@@ -144,7 +115,7 @@ function UpdateQuestion(questionID,classID)
                                         </svg>
                                         <i class="bi bi-gear-fill"></i>
                                         </button>
-                                        <button class="btn btn-sm" onclick="DeleteQuestion('<%= Qs.id%>','<%= currnetClassID %>')">
+                                        <button class="btn btn-sm" onclick="DeleteQuestion('<%= Qs.id%>','<%= currentClassID %>')">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
                                             <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
@@ -157,7 +128,7 @@ function UpdateQuestion(questionID,classID)
                             <div id="editQuestion<%=Qs._id%>" class="modal fade">
                                 <div class="modal-dialog modal-dialog-centered modal-lg">
                                     <div class="modal-content">
-                                        <form action="/host/UpdateQuestion/<%=currnetClassID%>" method="get">
+                                        <form action="/host/UpdateQuestion/<%=currentClassID%>" method="get">
                                             <div class="modal-header">
                                                 <h5 class="modal-title">Chỉnh sửa câu hỏi</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -248,6 +219,41 @@ function UpdateQuestion(questionID,classID)
 
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            let currentAnswer = 2; // Hiện đang có 2 câu trả lời ban đầu
+
+            // Lắng nghe sự kiện click vào nút "Thêm đáp án"
+            document.getElementById('addAnswerBtn').addEventListener('click', function() {
+                currentAnswer++; // Tăng số lượng đáp án hiện có
+
+                if (currentAnswer === 3) {
+                    document.getElementById('answer3').style.display = 'flex'; // Hiển thị câu trả lời 3
+                } else if (currentAnswer === 4) {
+                    document.getElementById('answer4').style.display = 'flex'; // Hiển thị câu trả lời 4
+                    this.style.display = 'none'; // Ẩn nút "Thêm đáp án" sau khi đã thêm đáp án 4
+                }
+                 // Hiển thị nút "Xóa đáp án" nếu số lượng đáp án > 2
+                if (currentAnswer > 2) {
+                    document.getElementById('removeAnswerBtn').style.display = 'inline-block';
+                }
+            });
+
+            document.getElementById('removeAnswerBtn').addEventListener('click', function() {
+                if (currentAnswer === 4) {
+                    document.getElementById('answer4').style.display = 'none'; // Ẩn câu trả lời 4
+                    document.getElementById('addAnswerBtn').style.display = 'inline-block'; // Hiển thị lại nút "Thêm đáp án"
+                } else if (currentAnswer === 3) {
+                    document.getElementById('answer3').style.display = 'none'; // Ẩn câu trả lời 3
+                }
+
+                currentAnswer--; // Giảm số lượng đáp án hiện có
+
+                // Ẩn nút "Xóa đáp án" nếu chỉ còn 2 đáp án
+                if (currentAnswer === 2) {
+                    this.style.display = 'none';
+                }
+            });
+        </script>
 </body>
 
 </html>

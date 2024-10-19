@@ -15,7 +15,7 @@
     
     <div class="container mt-5 pt-5">
         <h2 style="display: flex; justify-content: center;">TẠO BÀI THI</h2>
-        <form action="/host/createExam/<%=currnetClassID%>" method="post" id="myForm" onsubmit="AddExam(event)">
+        <form action="/host/createExam/<%=currentClassID%>" method="post" id="myForm" onsubmit="AddExam(event)">
             <!-- Question array -->
             <input type="hidden" id="questionArray" name="questionArray"> <!-- Trường ẩn để chứa mảng -->
             <!-- Question array end -->
@@ -129,7 +129,7 @@
                 </div>
 
                 <div class="mt-4 d-flex justify-content-end">
-                    <a href="/client/home/<%=currnetClassID%>" class="btn-danger me-2" style="width: 100px; display: flex; justify-content: center; text-decoration: none; color: black;">Thoát</a>
+                    <a href="/client/home/<%=currentClassID%>" class="btn-danger me-2" style="width: 100px; display: flex; justify-content: center; text-decoration: none; color: black;">Thoát</a>
                     <button type="submit" class="btn-success" onclick="AddExam(event)">Tạo bài thi</button>
                 </div>
             </div>

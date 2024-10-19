@@ -17,7 +17,7 @@ let getHome = async (req, res) => {
         let IDUser = jwt.verifyToken(token)._id;
         const user = await userService.findUserbyID(IDUser);
         const listClass = await classService.getUserClasses(IDUser); 
-        return res.render('Client_User/HomeDefault.ejs', { currnetClassID: '-1',user: user, currnetClass: "None", listClass: listClass, listExam: [] });
+        return res.render('Client_User/HomeDefault.ejs', { currentClassID: '-1',user: user, currentClass: "None", listClass: listClass});
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: 'Internal server error' });
@@ -32,9 +32,9 @@ let getHomeClass = async (req, res) => {
     try {
         const listClass = await classService.getUserClasses(IDUser);
         const user = await userService.findUserbyID(IDUser);
-        const currnetClass = await classService.getCurrentClass(ClassId);
-        const listCurrentExam = await examService.filterExamByClass(currnetClass.Exams);     
-        return res.render('Client_User/Home.ejs', { currnetClassID: ClassId, user: user, currnetClass: currnetClass, listClass: listClass, listExam: listCurrentExam })
+        const currentClass = await classService.getCurrentClass(ClassId);
+        const listCurrentExam = await examService.filterExamByClass(currentClass.Exams);     
+        return res.render('Client_User/Home.ejs', { currentClassID: ClassId, user: user, page: 'baithi', currentClass: currentClass, listClass: listClass, listExam: listCurrentExam })
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: 'Internal server error' });
@@ -50,9 +50,9 @@ let getResult = async (req, res) => {
         // Lấy danh sách các lớp hiện có của user
         const listClass = await classService.getUserClasses(IDUser);
         // Tìm class để lấy class hiện tại
-        const currnetClass = await classService.getCurrentClass(ClassId);
-        const {resultOfUser, examOfUser} = await resultService.findResultsByUser(IDUser, currnetClass);
-        return res.render('Client_User/Result.ejs', { currnetClassID: ClassId, currnetClass, user: user, listClass: listClass, resultOfUser, examOfUser})
+        const currentClass = await classService.getCurrentClass(ClassId);
+        const {resultOfUser, examOfUser} = await resultService.findResultsByUser(IDUser, currentClass);
+        return res.render('Client_User/Result.ejs', { currentClassID: ClassId, page: 'ketqua', currentClass, user: user, listClass: listClass, resultOfUser, examOfUser})
     } catch (error) {
         console.log(error);
     }
@@ -69,21 +69,22 @@ let getMember = async (req, res) => {
         // Chờ kết quả của IDOwnerClass
         let IDOwnerClass = await userService.getOwnerIDClass(ClassId);
         const OwerOrNotOwer = (IDOwnerClass==IDUser)?true:false;
-        const currnetClass = await classService.getCurrentClass(ClassId);
+        const currentClass = await classService.getCurrentClass(ClassId);
         let listMember;
         if (keyword) {
             listMember = await userService.searchMembersByKeyword(ClassId, keyword);
         } else {
             // Lấy tất cả thành viên trong lớp
-            listMember = await userService.getMemberInClass(currnetClass);
+            listMember = await userService.getMemberInClass(currentClass);
         }
 
         const listClass = await classService.getUserClasses(IDUser);
 
         // Render view với lớp hiện tại, danh sách lớp và thành viên
         return res.render('Client_User/Member.ejs', {
-            currnetClassID: ClassId,
-            currnetClass: currnetClass,
+            currentClassID: ClassId,
+            page: 'thanhvien',
+            currentClass: currentClass,
             listClass: listClass,
             listMember: listMember,
             IDOwnerClass: IDOwnerClass,
@@ -111,7 +112,7 @@ let getWaitingRoom = async(req,res) =>{
                 user: user,
                 currentExam: currentExam,
                 numberDiffculty: numberDiffculty,
-                currnetClassID: ClassId
+                currentClassID: ClassId
             }
         );
     } catch (error) {
@@ -179,6 +180,18 @@ let createClass = async (req, res) => {
 
 }
 
+let leaveClass = async (req,res) =>{
+    const token = req.cookies.jwt;
+    let IDUser = jwt.verifyToken(token)._id;
+    const classID = req.params.classID;
+    try {
+        await classService.leaveClass(IDUser, classID);
+        return res.redirect("/client/home");
+    } catch (error) {
+        console.log("Loi tai leaveClass" ,error);
+    }
+}
+
 // Thao tac trang member
 
 let addMember = async (req,res) =>{ 
@@ -189,9 +202,15 @@ let addMember = async (req,res) =>{
         return res.redirect(`/client/member/${classID}`);
     }
     try {
+        // Kiểm tra người dùng có tài khoản không ?
         let checkUserExist = await userService.findUserbyID(idMember); 
+        // Kiểm tra người dùng đã có trong lớp này chưa ?
+        let checkUserInClass = await classService.findUserInClass(idMember, classID);
         if(checkUserExist)
-            await classService.addMember(classID, idMember);
+            if(!checkUserInClass)
+                await classService.addMember(classID, idMember);
+            else
+                console.log('Users already in this class');
         else
             console.log('This user does not register');
         return res.redirect(`/client/member/${classID}`);
@@ -312,5 +331,5 @@ let handleUpLoadFile = async (req, res) => {
 
 module.exports = {
     getHome, getResult, getMember, createClass, getAllClasses, getHomeClass, getInformation, getChangePW, 
-    editAccount, editPassword, handleUpLoadFile,deleteMember,addMember,getWaitingRoom
+    editAccount, editPassword, handleUpLoadFile,deleteMember,addMember,getWaitingRoom, leaveClass
 }

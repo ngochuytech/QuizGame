@@ -24,43 +24,14 @@
         <!-- End slidebar left -->
 
         <!-- Sidebar right -->
-        <div class="SidebarRight <%=(currnetClassID=='-1')?'d-none':''%>">
+        <div class="SidebarRight <%=(currentClassID=='-1')?'d-none':''%>">
             <!-- Header of class -->
-            <div class="Header_of_class">
-                <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #F6E8E8;">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link ms-3 " href="#">
-                                <b class="fs-6 text-dark"><%=currnetClass.nameDisplay%></b>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link ms-3 text-dark" href="#">Thông báo</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link ms-3" href="/client/home/<%=currnetClassID%>" style="color: #E000D7"><b>Bài thi</b></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link ms-3" href="/client/result/<%=currnetClassID%>">Kết quả</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link ms-3" href="/host/manageQuestion/<%=currnetClassID%>">Câu hỏi</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link ms-3" href="/client/member/<%=currnetClassID%>">Thành viên</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link ms-3" href="/host/manageClass/<%=currnetClassID%>">Cài đặt</a>
-                        </li>
-                    </ul>
-                    <button class="btn btn-danger ms-auto">Rời lớp</button>
-                </nav>
-            </div>
+            <%- include('../utils/headerOfClass.ejs'); %>
             <!-- End header of class -->
 
             <!-- Content -->
             <div class="Content overflow-auto" style="background-color: #fff;">
-                <form action="/host/createQuiz/<%=currnetClassID%>" method="get">
+                <form action="/host/createQuiz/<%=currentClassID%>" method="get">
                     <button type="submit" style="width: 176px; height: 33px; background-color: #0acaf5; margin-left: 25px; margin-top: 15px;border-radius: 20px;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
                             <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5"/>
@@ -87,7 +58,7 @@
                                     </p>
                                 </div>
                                 <div class="col-md-4 text-end">
-                                    <a href="/client/waitingRoom/<%=currnetClassID%>/<%=listExam[i]._id%>"><button class="btn btn-primary mt-3">Vào thi</button></a>
+                                    <a href="/client/waitingRoom/<%=currentClassID%>/<%=listExam[i]._id%>"><button class="btn btn-primary mt-3">Vào thi</button></a>
                                 </div>
                             </div>
                         </div>

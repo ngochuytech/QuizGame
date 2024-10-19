@@ -39,8 +39,8 @@ const getAllClass = () => {
 const getCurrentClass = (ClassID) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const currnetClass = await Class.findById(ClassID);
-            resolve(currnetClass)
+            const currentClass = await Class.findById(ClassID);
+            resolve(currentClass)
         } catch (error) {
             reject(error)
         }
@@ -139,6 +139,39 @@ const addMember = async (classID, idMember) => {
     });
 }
 
+// Nguời dùng rời lớp
+const leaveClass = async (userID, ClassID) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            // Xóa người dùng ra khỏi lớp
+            await Class.findByIdAndUpdate(ClassID, {
+                $pull: {members: userID}
+            })
+            // Xóa lớp ra khỏi người dùng
+            await User.findByIdAndUpdate(userID, {
+                $pull: {MyClassId: ClassID}
+            })
+            resolve();
+        } catch (error) {
+            reject(error)
+        }
+    });
+}
+
+// Tìm người dùng có trong lớp đó
+const findUserInClass = async (userID, ClassID) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            // Tìm kiếm class và kiểm tra xem thành viên có userID trong mảng members không
+            let _class = await Class.findOne({ _id: ClassID, members: userID });
+            resolve(_class);
+        } catch (error) {
+            reject(error)
+        }
+    });
+}
+
 module.exports ={
-    createClass, getAllClass, getCurrentClass,getUserClasses, deleteClass, updateNameClass,deleteMember,addMember
+    createClass, getAllClass, getCurrentClass,getUserClasses, deleteClass, updateNameClass,deleteMember,addMember, leaveClass,
+    findUserInClass
 }

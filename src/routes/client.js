@@ -10,6 +10,7 @@ const router = express.Router()
 
 router.get('/home/:classID',clientController.getHomeClass)
 router.get('/home',clientController.getHome)
+router.post('/leaveClass/:classID', clientController.leaveClass)
 
 router.get('/result/:classID',clientController.getResult)
 

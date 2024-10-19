@@ -53,36 +53,7 @@ function deleteMember(ClassID, OwerOrNotOwer, UserID, OwnerID) {
         <!-- End slidebar left -->
 
         <!-- Header of class -->
-        <div class="Header_of_class">
-            <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #F6E8E8;">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link ms-3 " href="#">
-                            <b class="fs-6 text-dark"><%=currnetClass.nameDisplay%></b>
-                        </a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link ms-3 text-dark" href="#">Thông báo</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link ms-3" href="/client/home/<%=currnetClassID%>">Bài thi</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link ms-3" href="/client/result/<%=currnetClassID%>">Kết quả</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link ms-3" href="/host/manageQuestion/<%=currnetClassID%>">Câu hỏi</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link ms-3" href="/client/member/<%=currnetClassID%>" style="color: #E000D7"><b>Thành viên</b></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link ms-3" href="/host/manageClass/<%=currnetClassID%>">Cài đặt</a>
-                    </li>
-                </ul>
-                <button class="btn btn-danger ms-auto">Rời lớp</button>
-            </nav>
-        </div>
+        <%- include('../utils/headerOfClass.ejs'); %>
         <!-- End header of class -->
 
         <!-- Content -->
@@ -101,7 +72,7 @@ function deleteMember(ClassID, OwerOrNotOwer, UserID, OwnerID) {
                     <div class="input-group mb-2">
                         <input type="text" class="form-control " placeholder="Tìm thành viên" id="searchQuestion">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="button" onclick="searchMember('<%= currnetClassID %>')" >
+                            <button class="btn btn-outline-secondary" type="button" onclick="searchMember('<%= currentClassID %>')" >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-search" viewBox="0 0 16 16">
                                     <path
@@ -134,7 +105,7 @@ function deleteMember(ClassID, OwerOrNotOwer, UserID, OwnerID) {
                                     <td>Thành viên</td>
                                 <%}%>
                                 <td class="text-success">Trực tuyến</td>
-                                <td><button class="btn btn-warning btn-sm" onclick="deleteMember('<%= currnetClassID %>','<%= OwerOrNotOwer %>','<%=listMember[i]._id%>','<%=listMember[0]._id%>')">Xóa</button></td>
+                                <td><button class="btn btn-warning btn-sm" onclick="deleteMember('<%= currentClassID %>','<%= OwerOrNotOwer %>','<%=listMember[i]._id%>','<%=listMember[0]._id%>')">Xóa</button></td>
                             </tr>
                         <%}%>
                     </tbody>

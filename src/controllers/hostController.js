@@ -13,7 +13,7 @@ let getCreateQuiz = async (req,res) =>{
         const easyQuestion = await questionService.filterQuestionByDifficulty(ClassID, 'Easy');   
         const mediumQuestion = await questionService.filterQuestionByDifficulty(ClassID, 'Medium');
         const hardQuestion = await questionService.filterQuestionByDifficulty(ClassID, 'Hard');
-        return res.render('Host_User/createQuiz.ejs', {currnetClassID : ClassID, user: user, easyQuestion, mediumQuestion, hardQuestion})
+        return res.render('Host_User/createQuiz.ejs', {currentClassID : ClassID, user: user, easyQuestion, mediumQuestion, hardQuestion})
     } catch (error) {
         console.log(error);
         
@@ -33,7 +33,7 @@ let getManageClass = async (req,res) =>{
         const user = await userService.findUserbyID(IDUser);
         const listClass = await classService.getUserClasses(IDUser);
         const currentClass = await classService.getCurrentClass(ClassID);
-        return res.render('Host_User/manageClass.ejs', {currnetClassID : ClassID, user, listClass:listClass, currentClass: currentClass})
+        return res.render('Host_User/manageClass.ejs', {currentClassID : ClassID, user, page: 'caidat',listClass:listClass, currentClass: currentClass})
     } catch (error) {
         
     }
@@ -60,7 +60,8 @@ let getManageQuestion = async (req, res) => {
         return res.render('Host_User/manageQuestion', {
             user,
             questions: questions,
-            currnetClassID : ClassID,
+            page: 'cauhoi',
+            currentClassID : ClassID,
             listClass:listClass,
             currentClass
         });
