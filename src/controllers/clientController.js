@@ -17,7 +17,7 @@ let getHome = async (req, res) => {
         let IDUser = jwt.verifyToken(token)._id;
         const user = await userService.findUserbyID(IDUser);
         const listClass = await classService.getUserClasses(IDUser); 
-        return res.render('Client_User/Home.ejs', { currnetClassID: '-1',user: user, currnetClass: "None", listClass: listClass, listExam: [] });
+        return res.render('Client_User/HomeDefault.ejs', { currnetClassID: '-1',user: user, currnetClass: "None", listClass: listClass, listExam: [] });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: 'Internal server error' });

@@ -3,6 +3,7 @@ import { Class } from '../models/classModel';
 import { Questions } from '../models/questionModel'
 import { User } from '../models/userModel'
 import { Exam } from '../models/examModel'
+import { Result } from '../models/resultModel'
 import userService from '../services/userService';
 
 const createClass = (nameClass,IDUser) => {
@@ -74,6 +75,8 @@ const deleteClass = async (ClassID, IDUser) => {
             await Questions.deleteMany({classID: ClassID})
             // Xóa cái bài thi có trong lớp
             await Exam.deleteMany({_id: {$in: classToDelete.Exams}});
+            // Xóa các kết quả của các bài thi trong lớp (CHƯA CHECK !!!)
+            await Result.deleteMany({examID: {$in: classToDelete.Exams}})
             // Xóa lớp
             const deleteclass = await Class.deleteOne({_id: ClassID});
             resolve(deleteclass)
