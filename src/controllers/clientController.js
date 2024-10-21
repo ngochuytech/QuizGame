@@ -251,10 +251,10 @@ let editAccount = async(req, res) => {
     let IDUser = jwt.verifyToken(token)._id;
     const{userName, userDate} = req.body;
     try {
-        const parts = userDate.split('/');
-        const year = parseInt(parts[2], 10);
+        const parts = userDate.split('-');
+        const year = parseInt(parts[0], 10);
         const month = parseInt(parts[1], 10) - 1; // Giảm 1 vì tháng bắt đầu từ 0
-        const day = parseInt(parts[0], 10);
+        const day = parseInt(parts[2], 10);
 
         // Tạo đối tượng Date với giờ UTC
         const formattedDate = new Date(Date.UTC(year, month, day));
