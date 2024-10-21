@@ -109,14 +109,19 @@
           </li>
         </ul>
         <div class="form-group">
-          <form  action="/client/editAccount" method="post" class="p-3">
+          <form name="form_date" action="/client/editAccount" method="post" class="p-3" onsubmit="addDate(event)">
             <label for="text" class="form-label">Họ tên</label>
             <input name="userName" type="text" class="form-control form-control-sm" value="<%=userAccount[0].nameDisplay %>">
             <label for="text" class="form-label mt-3">Email</label>
             <input disabled type="email" class="form-control form-control-sm" value="<%=userAccount[0].accountName %>">
             <label for="text" class="form-label mt-3">Ngày sinh</label>
-            <input name="userDate" type="text" class="form-control form-control-sm" value="<%=userAccount[0].date.toLocaleDateString('vi-VN') %>">
-            <button type="submit" class="btn btn-secondary mt-3">Lưu</button>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label"><%= userAccount[0].date.toLocaleDateString('vi-VN') %></label>
+              <div class="col-sm-10">
+                <input name="userDate" type="date" class="form-control form-control-sm">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-secondary mt-3" onclick="addDate(event)">Lưu</button>
           </form>
           <form name="form_img" method="POST" action="/client/upload-profile-pic" enctype="multipart/form-data" class="p-3" onsubmit="addImage(event)">
             <label for="text" class="form-label mt-3">Ảnh đại diện</label>
@@ -144,6 +149,26 @@
       crossorigin="anonymous"></script>
     <!-- JS -->
     <script>
+      //Hàm kiểm tra ngày tháng năm
+      function addDate(event){
+        event.preventDefault();
+        let nameDate = document.querySelector('input[name="userDate"]').value.trim();
+        let parts = nameDate.split('-');
+        let year = parseInt(parts[0], 10);
+        let month = parseInt(parts[1], 10) - 1; // Giảm 1 vì tháng bắt đầu từ 0
+        let day = parseInt(parts[2], 10);
+        let inputDate = new Date(year, month, day);
+        var today = new Date();
+        if(year < 1900 || year > 2024){
+          alert("Năm sinh không hợp lệ, vui lòng nhập lại năm sinh!");
+          return;
+        }
+        if(inputDate > today){
+          alert("Vui lòng nhập lại ngày sinh, ngày sinh không thể lớn hơn ngày hiện tại!");
+          return;
+        }
+        event.target.form.submit();
+      }
       // Hàm kiểm tra bên thêm lớp
       function AddClass(event) {
           event.preventDefault();// Dừng sự kiện xử lý một phần đỡ backend
