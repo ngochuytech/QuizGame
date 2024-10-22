@@ -37,14 +37,15 @@
                     <a class="nav-link ms-3" href="/client/member/<%=currentClassID%>">Thành viên</a>
                 <% } %>
             </li>
-            <li class="nav-item">
-                <%if(page == 'caidat'){%>
-                    <a class="nav-link ms-3" href="/host/manageClass/<%=currentClassID%>" style="color: #E000D7"><b>Cài đặt</b></a>
-                <% } else {%>
-                    <a class="nav-link ms-3" href="/host/manageClass/<%=currentClassID%>">Cài đặt</a>
-                <% } %>
-                    
-            </li>
+            <% if(currentClass.ownerID.equals(user._id)){ %>
+                <li class="nav-item">
+                    <%if(page == 'caidat'){%>
+                        <a class="nav-link ms-3" href="/host/manageClass/<%=currentClassID%>" style="color: #E000D7"><b>Cài đặt</b></a>
+                    <% } else {%>
+                        <a class="nav-link ms-3" href="/host/manageClass/<%=currentClassID%>">Cài đặt</a>
+                    <% } %>
+                </li>
+            <% } %>
         </ul>
         <%if(currentClass != "None" && !currentClass.ownerID.equals(user._id)){%>
             <form action="/client/leaveClass/<%=currentClassID%>" method="post" class="ms-auto">

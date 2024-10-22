@@ -1,16 +1,29 @@
 <script>
+   function showToast(message) {
+    // Cập nhật nội dung thông báo
+    document.querySelector('#liveToast .toast-body').textContent = message;
+
+    // Cấu hình thời gian delay lâu hơn (ví dụ: 10 giây)
+    var toastEl = document.getElementById('liveToast');
+    var toast = new bootstrap.Toast(toastEl, { delay: 10000 }); // 10000ms = 10 giây
+
+    // Hiển thị toast
+    toast.show();
+}
+
     // Hàm kiểm tra bên thêm lớp
     function AddClass(event) {
         event.preventDefault();// Dừng sự kiện xử lý một phần đỡ backend
         let nameClass = document.querySelector('input[name="nameDisplay"]').value.trim();
         if (!nameClass) {
-            alert("Vui lòng điền tên lớp, không được bỏ trống");
+            showToast("Vui lòng điền tên lớp, không được bỏ trống");
             return;
         }
         if (nameClass.length > 50){
-            alert("Không nhập quá 50 ký tự !");
+            showToast("Không nhập quá 50 ký tự !");
             return;
         }
+        showToast("Thêm lớp thành công");
         event.target.form.submit();
     } 
     // Hàm kiểm tra bên thêm câu hỏi
@@ -34,18 +47,22 @@
         }
 
         if (!questionTitle) {
-            alert("Vui lòng điền nội dung câu hỏi");
+            showToast("Vui lòng điền nội dung câu hỏi");
             return;
         }
 
         if (answers.some(answer => answer === "")) {
-            alert("Vui lòng điền đủ đáp án");
+            showToast("Vui lòng điền đủ đáp án");
             return;
         }
 
         if (!correctAnswers.some(isCorrect => isCorrect)) {
-            alert("Vui lòng lựa chọn đáp án đúng");
+            showToast("Vui lòng lựa chọn đáp án đúng");
             return;
+        }
+        elif()
+        {
+            showToast("Thêm câu hỏi thành công");
         }
         event.target.form.submit();
     }
@@ -55,10 +72,11 @@
         event.preventDefault();// Dừng sự kiện xử lý một phần đỡ backend
         let memberID = document.querySelector('input[name="idMember"]').value.trim();
         if (!memberID) {
-            alert("Vui lòng điền id thành viên, không được bỏ trống");
+            showToast("Vui lòng điền id thành viên, không được bỏ trống");
             return;
         }
         event.target.form.submit();
+        showToast("Thêm thành viên thành công");
     } 
 </script>
 <div id="addClass" class="modal fade">
@@ -366,6 +384,19 @@
                     <button type="submit" class="btn btn-primary" onclick="AddMember(event)">Thêm mới</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+<!-- Toast thông báo -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+        <div class="toast-header">
+            <strong class="me-auto">Thông báo</strong>
+            <small class="text-muted">Vừa xong</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Đây là thông báo từ hệ thống.
         </div>
     </div>
 </div>

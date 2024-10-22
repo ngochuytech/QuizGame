@@ -30,6 +30,8 @@ router.get('/waitingRoom/:classID/:examID', clientController.getWaitingRoom);
 
 router.get('/quizStart/:classID/:examID', clientController.quizStart);
 
+router.get('/resultexam', clientController.getRessultExam);
+router.get('/logout', clientController.logout);
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, path.join(appRoot.path, 'public/images'));

@@ -344,8 +344,28 @@ let handleUpLoadFile = async (req, res) => {
 
     });
 };
-
+let getRessultExam = async(req, res) => {
+    try {
+        const token = req.cookies.jwt;
+        let IDUser = jwt.verifyToken(token)._id;
+        const user = await userService.findUserbyID(IDUser); 
+        return res.render('Client_User/ResultExam.ejs', { user: user});
+ 
+    } catch (error) {
+        console.log(error)
+    }
+}
+let logout = async(req, res) => {
+    try{
+    res.clearCookie('jwt');
+    return res.redirect('/client/login');
+    } catch (error) {
+    console.log(error);
+    return res.status(500).send('Có lỗi xảy ra. Vui lòng thử lại sau.');
+}
+}
 module.exports = {
     getHome, getResult, getMember, createClass, getAllClasses, getHomeClass, getInformation, getChangePW, 
-    editAccount, editPassword, handleUpLoadFile,deleteMember,addMember,getWaitingRoom, leaveClass, quizStart
+    editAccount, editPassword, handleUpLoadFile,deleteMember,addMember,getWaitingRoom, leaveClass,
+    quizStart, getRessultExam,logout
 }

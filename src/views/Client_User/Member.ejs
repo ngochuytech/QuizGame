@@ -9,10 +9,22 @@
     <link rel="stylesheet" href="/css/Client_User/Member.css">
 </head>
 <script>    
+function showToast(message) {
+    // Cập nhật nội dung thông báo
+    document.querySelector('#liveToast .toast-body').textContent = message;
+
+    // Tùy chọn thời gian hiển thị toast (ví dụ: 10 giây)
+    var toastEl = document.getElementById('liveToast');
+    var toast = new bootstrap.Toast(toastEl, { delay: 10000 }); // 10000ms = 10 giây
+
+    // Hiển thị toast
+    toast.show();
+}
+
 function searchMember(ClassID) {
     const keyword = document.getElementById('searchQuestion').value;
     if (!keyword) {
-        alert('Vui lòng nhập từ khóa để tìm kiếm!');
+        showToast('Vui lòng nhập từ khóa để tìm kiếm!');
         return;
     }
     // Tạo URL mới với từ khóa
@@ -24,14 +36,11 @@ function searchMember(ClassID) {
 function deleteMember(ClassID, OwerOrNotOwer, UserID, OwnerID) {
     const isOwner = OwerOrNotOwer.toLowerCase() === 'true'; // Ép kiểu sang boolean
     if (!isOwner) {
-        alert('Del phải chủ phòng, nhót!!!!');
-        const url = `http://localhost:3000/client/member/${ClassID}`;
-        window.location.href = url;
+        showToast('Bạn không phải là chủ phòng');
     } else if (isOwner && UserID === OwnerID) {
-        alert('Mi là chủ phòng, không xóa được');
-        const url = `http://localhost:3000/client/member/${ClassID}`;
-        window.location.href = url;
+        showToast('Không thể xóa chủ phòng');
     } else {
+        showToast('Xóa thành viên thành công');
         const url = `http://localhost:3000/client/deleteMember/${ClassID}?userID=${encodeURIComponent(UserID)}&ClassID=${encodeURIComponent(ClassID)}`;
         // Chuyển hướng đến URL mới
         window.location.href = url;
@@ -114,7 +123,19 @@ function deleteMember(ClassID, OwerOrNotOwer, UserID, OwnerID) {
         </div>
 
     </div>
-
+    <!-- Toast -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Thông báo</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Đây là nội dung thông báo.
+            </div>
+        </div>
+    </div>
+    
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

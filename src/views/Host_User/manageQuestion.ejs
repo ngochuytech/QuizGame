@@ -9,12 +9,21 @@
     <link rel="stylesheet" href="/css/Host_User/manageQuestion.css">
 </head>
 <script>
+    function showToast(message) {
+    // Cập nhật nội dung thông báo
+    document.querySelector('#liveToast .toast-body').textContent = message;
+
+    // Hiển thị toast
+    var toastEl = document.getElementById('liveToast');
+    var toast = new bootstrap.Toast(toastEl);
+    toast.show();
+}
     function searchQuestions(ClassID) {
     // Lấy giá trị từ input
     const keyword = document.getElementById('searchKeyword').value;
 
     if (!keyword) {
-        alert('Vui lòng nhập từ khóa để tìm kiếm!');
+        showToast('Vui lòng nhập từ khóa để tìm kiếm!');
         return;
     }
     // Tạo URL mới với từ khóa
@@ -28,14 +37,15 @@ function DeleteQuestion(questionID,classID)
     const userConfirmed = confirm("Bạn có chắc chắn xóa câu hỏi không?");
 
         if (userConfirmed) {
+            showToast('Xóa câu hỏi thành công');
             const url = `http://localhost:3000/host/deleteQuestion?questionID=${encodeURIComponent(questionID)}&classID=${encodeURIComponent(classID)}`;
             window.location.href = url;
         } else {
         }
 }
-function UpdateQuestion(questionID,classID)
-{
-    
+function UpdateQuestion()
+{    
+    showToast('Thay đổi nội dung câu hỏi thành công');
 }
     </script>
 <body>
@@ -198,7 +208,7 @@ function UpdateQuestion(questionID,classID)
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                                                <button type="submit" class="btn btn-primary">Hoàn tất</button>
+                                                <button type="submit" class="btn btn-primary" onclick="UpdateQuestion()">Hoàn tất</button>
                                             </div>
                                         </form>
                                     </div>
@@ -254,6 +264,20 @@ function UpdateQuestion(questionID,classID)
                 }
             });
         </script>
+        <!-- Toast thông báo -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+        <div class="toast-header">
+            <strong class="me-auto">Thông báo</strong>
+            <small class="text-muted">Vừa xong</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Đây là thông báo từ hệ thống.
+        </div>
+    </div>
+</div>
+
 </body>
 
 </html>

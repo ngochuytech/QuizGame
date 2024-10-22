@@ -13,33 +13,33 @@
 <body>
   <!-- Header -->
   <%- include('../utils/header.ejs'); %>
-  <!-- End Header -->
-  
-  <!-- Modal -->
-  <div id="addClass" class="modal fade">
-    <div class="modal-dialog">
+    <!-- End Header -->
+
+    <!-- Modal -->
+    <div id="addClass" class="modal fade">
+      <div class="modal-dialog">
         <div class="modal-content">
-            <form action="/client/createClass" method="post" onsubmit="AddClass(event)">
-                <div class="modal-header">
-                    <h5 class="modal-title">Thêm lớp học mới</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div data-mdb-input-init class="form-floating mb-4">
-                        <input name="nameDisplay" type="text" id="form3Example3" class="form-control form-control-lg"
-                            placeholder="Nhập vào tên lớp học" />
-                        <label class="form-label" for="form3Example3">Tên lớp học</label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                    <button type="submit" class="btn btn-primary" onclick="AddClass(event)">Hoàn tất</button>
-                </div>
-            </form>
+          <form action="/client/createClass" method="post" onsubmit="AddClass(event)">
+            <div class="modal-header">
+              <h5 class="modal-title">Thêm lớp học mới</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div data-mdb-input-init class="form-floating mb-4">
+                <input name="nameDisplay" type="text" id="form3Example3" class="form-control form-control-lg"
+                  placeholder="Nhập vào tên lớp học" />
+                <label class="form-label" for="form3Example3">Tên lớp học</label>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
+              <button type="submit" class="btn btn-primary" onclick="AddClass(event)">Hoàn tất</button>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
-  </div>
-  <!-- End modal -->
+    <!-- End modal -->
 
     <!-- Main-Content Slidebar -->
     <div class="Main-Content d-flex" style="background-color: #F5F5F5; margin-top: 56px;">
@@ -97,6 +97,8 @@
             </h4>
             <p>ID người dùng: <%=userAccount[0]._id%>
             </p>
+            <a href="/client/logout" class="btn btn-outline-danger btn-sm p-1 mt-1" style="font-size: 0.8rem;">Đăng
+              xuất</a>
           </div>
 
         </div>
@@ -111,30 +113,49 @@
         <div class="form-group">
           <form name="form_date" action="/client/editAccount" method="post" class="p-3" onsubmit="addDate(event)">
             <label for="text" class="form-label">Họ tên</label>
-            <input name="userName" type="text" class="form-control form-control-sm" value="<%=userAccount[0].nameDisplay %>">
+            <input name="userName" type="text" class="form-control form-control-sm"
+              value="<%=userAccount[0].nameDisplay %>">
             <label for="text" class="form-label mt-3">Email</label>
             <input disabled type="email" class="form-control form-control-sm" value="<%=userAccount[0].accountName %>">
             <label for="text" class="form-label mt-3">Ngày sinh</label>
             <div class="form-group row">
-              <label class="col-sm-2 col-form-label"><%= userAccount[0].date.toLocaleDateString('vi-VN') %></label>
+              <label class="col-sm-2 col-form-label">
+                <%= userAccount[0].date.toLocaleDateString('vi-VN') %>
+              </label>
               <div class="col-sm-10">
                 <input name="userDate" type="date" class="form-control form-control-sm">
               </div>
             </div>
             <button type="submit" class="btn btn-secondary mt-3" onclick="addDate(event)">Lưu</button>
           </form>
-          <form name="form_img" method="POST" action="/client/upload-profile-pic" enctype="multipart/form-data" class="p-3" onsubmit="addImage(event)">
+          <form name="form_img" method="POST" action="/client/upload-profile-pic" enctype="multipart/form-data"
+            class="p-3" onsubmit="addImage(event)">
             <label for="text" class="form-label mt-3">Ảnh đại diện</label>
             <br>
-            <img src="<%=userAccount[0].avatar %>" class="rounded-circle mb-3 avatar-img" alt="User Avatar" style="height: 70px; width: 70px;">
+            <img src="<%=userAccount[0].avatar %>" class="rounded-circle mb-3 avatar-img" alt="User Avatar"
+              style="height: 70px; width: 70px;">
             <br>
             <label for="formFile" class="form-label">Chọn ảnh đại diện mới</label>
             <input class="form-control" name="img_upload" type="file" id="formFile">
-            <button type="submit" class="btn btn-secondary mt-3" onclick="addImage(event)" >Lưu</button>  
+            <button type="submit" class="btn btn-secondary mt-3" onclick="addImage(event)">Lưu</button>
           </form>
         </div>
       </div>
     </div>
+    <!-- Toast thông báo -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+        <div class="toast-header">
+          <strong class="me-auto">Thông báo</strong>
+          <small class="text-muted">Vừa xong</small>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+          Đây là thông báo từ hệ thống.
+        </div>
+      </div>
+    </div>
+
     <!-- End content, End Main-Content -->
 
     <!-- Import JS -->
@@ -150,7 +171,7 @@
     <!-- JS -->
     <script>
       //Hàm kiểm tra ngày tháng năm
-      function addDate(event){
+      function addDate(event) {
         event.preventDefault();
         let nameDate = document.querySelector('input[name="userDate"]').value.trim();
         let parts = nameDate.split('-');
@@ -159,36 +180,49 @@
         let day = parseInt(parts[2], 10);
         let inputDate = new Date(year, month, day);
         var today = new Date();
-        if(year < 1900 || year > 2024){
+        if (year < 1900 || year > 2024) {
           alert("Năm sinh không hợp lệ, vui lòng nhập lại năm sinh!");
           return;
         }
-        if(inputDate > today){
+        if (inputDate > today) {
           alert("Vui lòng nhập lại ngày sinh, ngày sinh không thể lớn hơn ngày hiện tại!");
+          return;
+        }
+        UpdateInformation();
+        event.target.form.submit();
+      }
+      function UpdateInformation() {
+        showToast("Thay đổi thông tin thành công");
+      }
+      function showToast(message) {
+        // Cập nhật nội dung thông báo
+        document.querySelector('#liveToast .toast-body').textContent = message;
+
+        // Hiển thị toast
+        var toastEl = document.getElementById('liveToast');
+        var toast = new bootstrap.Toast(toastEl);
+        toast.show();
+      }
+      // Hàm kiểm tra bên thêm lớp
+      function AddClass(event) {
+        event.preventDefault();// Dừng sự kiện xử lý một phần đỡ backend
+        let nameClass = document.querySelector('input[name="nameDisplay"]').value.trim();
+        if (!nameClass) {
+          showToast("Vui lòng điền tên lớp, không được bỏ trống");
           return;
         }
         event.target.form.submit();
       }
-      // Hàm kiểm tra bên thêm lớp
-      function AddClass(event) {
-          event.preventDefault();// Dừng sự kiện xử lý một phần đỡ backend
-          let nameClass = document.querySelector('input[name="nameDisplay"]').value.trim();
-          if (!nameClass) {
-              alert("Vui lòng điền tên lớp, không được bỏ trống");
-              return;
-          }
-          event.target.form.submit();
-      } 
       function addImage(event) {
         event.preventDefault();
         let nameImg = document.querySelector('input[name="img_upload"]').value.trim();
         if (!nameImg) {
-              alert("Vui lòng chọn đường dẫn ảnh đại diện!");
-              return;
-          }
+          showToast("Vui lòng chọn đường dẫn ảnh đại diện!");
+          return;
+        }
         const validExtensions = /\.(jpg|jpeg|png|gif)$/i;
-        if(!validExtensions.test(nameImg)){
-          alert('Vui lòng chọn file có định dạng hợp lệ: jpg, jpeg, png, gif.');
+        if (!validExtensions.test(nameImg)) {
+          showToast('Vui lòng chọn file có định dạng hợp lệ: jpg, jpeg, png, gif.');
           return;
         }
         event.target.form.submit();
