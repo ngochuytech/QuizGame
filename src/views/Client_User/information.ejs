@@ -97,6 +97,7 @@
             </h4>
             <p>ID người dùng: <%=userAccount[0]._id%>
             </p>
+            <a href="/client/logout" class="btn btn-outline-danger btn-sm p-1 mt-1" style="font-size: 0.8rem;">Đăng xuất</a>
           </div>
 
         </div>
@@ -116,20 +117,34 @@
             <input disabled type="email" class="form-control form-control-sm" value="<%=userAccount[0].accountName %>">
             <label for="text" class="form-label mt-3">Ngày sinh</label>
             <input name="userDate" type="text" class="form-control form-control-sm" value="<%=userAccount[0].date.toLocaleDateString('vi-VN') %>">
-            <button type="submit" class="btn btn-secondary mt-3">Lưu</button>
+            <button type="submit" class="btn btn-secondary mt-3" onclick="UpdateInformation()">Lưu</button>
           </form>
-          <form method="POST" action="/client/upload-profile-pic" enctype="multipart/form-data" class="p-3">
+          <form name="form_img" method="POST" action="/client/upload-profile-pic" enctype="multipart/form-data" class="p-3" onsubmit="addImage(event)">
             <label for="text" class="form-label mt-3">Ảnh đại diện</label>
             <br>
             <img src="<%=userAccount[0].avatar %>" class="rounded-circle mb-3 avatar-img" alt="User Avatar" style="height: 70px; width: 70px;">
             <br>
             <label for="formFile" class="form-label">Chọn ảnh đại diện mới</label>
             <input class="form-control" name="img_upload" type="file" id="formFile">
-            <button type="submit" class="btn btn-secondary mt-3" name="">Lưu</button>
+            <button type="submit" class="btn btn-secondary mt-3" onclick="addImage(event)" >Lưu</button>  
           </form>
         </div>
       </div>
     </div>
+    <!-- Toast thông báo -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+      <div class="toast-header">
+          <strong class="me-auto">Thông báo</strong>
+          <small class="text-muted">Vừa xong</small>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+          Đây là thông báo từ hệ thống.
+      </div>
+  </div>
+</div>
+
     <!-- End content, End Main-Content -->
 
     <!-- Import JS -->
@@ -144,16 +159,43 @@
       crossorigin="anonymous"></script>
     <!-- JS -->
     <script>
+    function UpdateInformation()
+    {
+      showToast("Thay đổi thông tin thành công");
+    }
+      function showToast(message) {
+    // Cập nhật nội dung thông báo
+    document.querySelector('#liveToast .toast-body').textContent = message;
+
+    // Hiển thị toast
+    var toastEl = document.getElementById('liveToast');
+    var toast = new bootstrap.Toast(toastEl);
+    toast.show();
+}
       // Hàm kiểm tra bên thêm lớp
       function AddClass(event) {
           event.preventDefault();// Dừng sự kiện xử lý một phần đỡ backend
           let nameClass = document.querySelector('input[name="nameDisplay"]').value.trim();
           if (!nameClass) {
-              alert("Vui lòng điền tên lớp, không được bỏ trống");
+            showToast("Vui lòng điền tên lớp, không được bỏ trống");
               return;
           }
           event.target.form.submit();
       } 
+      function addImage(event) {
+        event.preventDefault();
+        let nameImg = document.querySelector('input[name="img_upload"]').value.trim();
+        if (!nameImg) {
+          showToast("Vui lòng chọn đường dẫn ảnh đại diện!");
+              return;
+          }
+        const validExtensions = /\.(jpg|jpeg|png|gif)$/i;
+        if(!validExtensions.test(nameImg)){
+          showToast('Vui lòng chọn file có định dạng hợp lệ: jpg, jpeg, png, gif.');
+          return;
+        }
+        event.target.form.submit();
+      }
     </script>
 </body>
 

@@ -15,7 +15,7 @@
     
     <div class="container mt-5 pt-5">
         <h2 style="display: flex; justify-content: center;">TẠO BÀI THI</h2>
-        <form action="/host/createExam/<%=currnetClassID%>" method="post" id="myForm" onsubmit="AddExam(event)">
+        <form action="/host/createExam/<%=currentClassID%>" method="post" id="myForm" onsubmit="AddExam(event)">
             <!-- Question array -->
             <input type="hidden" id="questionArray" name="questionArray"> <!-- Trường ẩn để chứa mảng -->
             <!-- Question array end -->
@@ -129,16 +129,38 @@
                 </div>
 
                 <div class="mt-4 d-flex justify-content-end">
-                    <a href="/client/home/<%=currnetClassID%>" class="btn-danger me-2" style="width: 100px; display: flex; justify-content: center; text-decoration: none; color: black;">Thoát</a>
+                    <a href="/client/home/<%=currentClassID%>" class="btn-danger me-2" style="width: 100px; display: flex; justify-content: center; text-decoration: none; color: black;">Thoát</a>
                     <button type="submit" class="btn-success" onclick="AddExam(event)">Tạo bài thi</button>
                 </div>
             </div>
         </form>
     </div>
+<!-- Toast thông báo -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+        <div class="toast-header">
+            <strong class="me-auto text-primary">Thông báo</strong> <!-- Thay đổi màu tiêu đề -->
+            <small class="text-muted">Vừa xong</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body text-danger">
+            Đây là thông báo từ hệ thống. <!-- Thay đổi màu chữ nội dung -->
+        </div>
+    </div>
+</div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+    function showToast(message) {
+    // Cập nhật nội dung thông báo
+    document.querySelector('#liveToast .toast-body').textContent = message;
+
+    // Hiển thị toast
+    var toastEl = document.getElementById('liveToast');
+    var toast = new bootstrap.Toast(toastEl);
+    toast.show();
+}
         var selectedQuestion = [];
 
         // Hàm kiểm tra tạo bài thi
@@ -149,13 +171,14 @@
             // let descriptionExam = document.querySelector('input[name="description"]').value.trim();
             let questions = document.querySelector('input[name="questionArray"]').value;
             if (!nameExam) {
-                alert("Vui lòng điền tên bài thi, không được bỏ trống");
+                showToast("Vui lòng điền tên bài thi, không được bỏ trống");
                 return;
             }
             if(questions.length==2){
-                alert("Phải chọn ít nhất 1 câu hỏi vào bài thi để tạo !");
+                showToast("Phải chọn ít nhất 1 câu hỏi vào bài thi để tạo !");
                 return;
             }
+            showToast("Tạo bài thi thành công");
             event.target.form.submit();
         } 
 

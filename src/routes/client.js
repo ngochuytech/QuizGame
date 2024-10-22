@@ -10,6 +10,7 @@ const router = express.Router()
 
 router.get('/home/:classID',clientController.getHomeClass)
 router.get('/home',clientController.getHome)
+router.post('/leaveClass/:classID', clientController.leaveClass)
 
 router.get('/result/:classID',clientController.getResult)
 
@@ -26,7 +27,8 @@ router.post('/editAccount', clientController.editAccount)
 router.post('/changePW', clientController.editPassword)
 
 router.get('/waitingRoom/:classID/:examID', clientController.getWaitingRoom);
-
+router.get('/resultexam', clientController.getRessultExam);
+router.get('/logout', clientController.logout);
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, path.join(appRoot.path, 'public/images'));

@@ -24,51 +24,22 @@
         <!-- End slidebar left -->
 
         <!-- Header of class -->
-        <div class="Header_of_class">
-            <nav class="navbar navbar-expand-lg navbar-light " style="background-color: #F6E8E8;">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link ms-3 " href="#">
-                            <b class="fs-6 text-dark">LỚP A</b>
-                        </a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link ms-3 text-dark" href="#">Thông báo</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link ms-3" href="/client/home/<%=currnetClassID%>" >Bài thi</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link ms-3" href="/client/result/<%=currnetClassID%>" style="color: #E000D7"><b>Kết quả</b></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link ms-3" href="/host/manageQuestion/<%=currnetClassID%>">Câu hỏi</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link ms-3" href="/client/member/<%=currnetClassID%>">Thành viên</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link ms-3" href="/host/manageClass/<%=currnetClassID%>">Cài đặt</a>
-                    </li>
-                </ul>
-                <button class="btn btn-danger ms-auto">Rời lớp</button>
-            </nav>
-        </div>
+        <%- include('../utils/headerOfClass.ejs'); %>
         <!-- End header of class -->
 
         <!-- Content -->
         <div class="Content overflow-auto" style="background-color: #fff;">
             <!-- Exam Results -->
             <div class="p-4">
-                <%for(var i=0; i < listResult[0].length; i++) { %>
+                <%for(var i=0; i < resultOfUser.length; i++) { %>
                     <div class="exam-item mb-3">
                         <div class="row mb-3">
                             <div class="col-md-8">
-                                <h5>Bài thi số 1</h5>
-                                <p>Số câu: 30 câu</p>
+                                <h5><%=examOfUser[i].nameDisplay%></h5>
+                                <p>Số câu: <%=examOfUser[i].questions.length%> câu</p>
                             </div>
                             <div class="col-md-4 text-end">
-                                <button class="btn btn-secondary mt-3" >Kết quả: <%= listResult[0][i].grade %></button>
+                                <button class="btn btn-secondary mt-3" >Kết quả: <%= resultOfUser[i].grade%></button>
                             </div>
                         </div>
                     </div>

@@ -122,10 +122,33 @@
       </form>
     </div>
   </div>
+  <!-- Toast thông báo -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+      <div class="toast-header">
+          <strong class="me-auto">Thông báo</strong>
+          <small class="text-muted">Vừa xong</small>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+          Đây là thông báo từ hệ thống.
+      </div>
+  </div>
+</div>
+
   <!-- End content, End Main-Content -->
 
    <!-- Handle enter password-->
   <script>
+    function showToast(message) {
+    // Cập nhật nội dung thông báo
+    document.querySelector('#liveToast .toast-body').textContent = message;
+
+    // Hiển thị toast
+    var toastEl = document.getElementById('liveToast');
+    var toast = new bootstrap.Toast(toastEl);
+    toast.show();
+}
     function checkPassword(event){
       event.preventDefault();  
         var password_by_user = document.form1.current_password.value;
@@ -135,17 +158,17 @@
         if(password_by_user && new_password && enter_newpassword){
           if(password_by_user == <%=user.password%>){
             if(new_password == enter_newpassword ){
-              alert("Đổi mật khẩu thành công");
+              showToast("Đổi mật khẩu thành công");
               event.target.form.submit();
             }else{
-              alert("Mật khẩu mới và xác nhận mật khẩu mới không giống nhau")
+              showToast("Mật khẩu mới và xác nhận mật khẩu mới không giống nhau")
             }
         } else {
-          alert("Mật khẩu hiện tại không đúng");
+          showToast("Mật khẩu hiện tại không đúng");
           return;
         }
         }else{
-          alert("Vui lòng nhập đầy đủ thông tin các trường còn trống!")
+          showToast("Vui lòng nhập đầy đủ thông tin các trường còn trống!")
         }
         
     }

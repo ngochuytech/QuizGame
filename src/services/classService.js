@@ -3,6 +3,7 @@ import { Class } from '../models/classModel';
 import { Questions } from '../models/questionModel'
 import { User } from '../models/userModel'
 import { Exam } from '../models/examModel'
+import { Result } from '../models/resultModel'
 import userService from '../services/userService';
 
 const createClass = (nameClass,IDUser) => {
@@ -38,8 +39,8 @@ const getAllClass = () => {
 const getCurrentClass = (ClassID) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const currnetClass = await Class.findById(ClassID);
-            resolve(currnetClass)
+            const currentClass = await Class.findById(ClassID);
+            resolve(currentClass)
         } catch (error) {
             reject(error)
         }
@@ -74,6 +75,8 @@ const deleteClass = async (ClassID, IDUser) => {
             await Questions.deleteMany({classID: ClassID})
             // Xóa cái bài thi có trong lớp
             await Exam.deleteMany({_id: {$in: classToDelete.Exams}});
+            // Xóa các kết quả của các bài thi trong lớp (CHƯA CHECK !!!)
+            await Result.deleteMany({examID: {$in: classToDelete.Exams}})
             // Xóa lớp
             const deleteclass = await Class.deleteOne({_id: ClassID});
             resolve(deleteclass)
@@ -136,6 +139,39 @@ const addMember = async (classID, idMember) => {
     });
 }
 
+// Nguời dùng rời lớp
+const leaveClass = async (userID, ClassID) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            // Xóa người dùng ra khỏi lớp
+            await Class.findByIdAndUpdate(ClassID, {
+                $pull: {members: userID}
+            })
+            // Xóa lớp ra khỏi người dùng
+            await User.findByIdAndUpdate(userID, {
+                $pull: {MyClassId: ClassID}
+            })
+            resolve();
+        } catch (error) {
+            reject(error)
+        }
+    });
+}
+
+// Tìm người dùng có trong lớp đó
+const findUserInClass = async (userID, ClassID) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            // Tìm kiếm class và kiểm tra xem thành viên có userID trong mảng members không
+            let _class = await Class.findOne({ _id: ClassID, members: userID });
+            resolve(_class);
+        } catch (error) {
+            reject(error)
+        }
+    });
+}
+
 module.exports ={
-    createClass, getAllClass, getCurrentClass,getUserClasses, deleteClass, updateNameClass,deleteMember,addMember
+    createClass, getAllClass, getCurrentClass,getUserClasses, deleteClass, updateNameClass,deleteMember,addMember, leaveClass,
+    findUserInClass
 }
