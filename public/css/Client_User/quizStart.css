@@ -1,0 +1,67 @@
+/* General reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.bold-label {
+    font-weight: bold;
+}
+body {
+    font-family: Arial, sans-serif;
+    background-color: #37AFE1;
+    padding-top: 70px; /* To accommodate the fixed header */
+}
+
+/* Quiz Content */
+.quiz-container {
+    max-width: 1200px;
+    margin: 140px auto;
+    padding: 20px;
+    background-color: #dee2e6;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    font-size: 1.2em;
+}
+
+.question-body {
+    padding: 20px 0;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.answer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.answer-option {
+    background-color: #f1f3f5;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.correct {
+    background-color: #4caf50; /* Màu xanh cho đáp án đúng */
+    color: white;
+    pointer-events: none; /* Ngăn chặn sự kiện hover hoặc click */
+}
+
+/* Đáp án sai */
+.wrong {
+    background-color: #f44336; /* Màu đỏ cho đáp án sai */
+    color: white;
+    pointer-events: none; /* Ngăn chặn sự kiện hover hoặc click */
+}

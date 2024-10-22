@@ -50,8 +50,9 @@
                     <form action="/host/cancelTheTest/<%=currentClassID%>/<%=currentExam._id%>" method="post">
                         <button class="btn btn-danger" style="margin-right: 20px;">Hủy bài thi</button>
                     </form>
-                    <form action="#" method="post">
-                        <button class="btn btn-success">Bắt đầu</button>
+                    <form action="/client/quizStart/<%=currentClassID%>/<%=currentExam._id%>" method="get" onsubmit="StartQuiz(event)">
+                        <!-- <input type="hidden" id="joinedIDUsers" name="joinedIDUsers"> -->
+                        <button id="startQuizBtn" class="btn btn-success" onclick="StartQuiz(event)">Bắt đầu</button>
                     </form>
                 <% } %>
             </div>
@@ -62,13 +63,14 @@
     <!-- Socket.IO -->
     <script src="/socket.io/socket.io.js"></script>
     <script>
+        let joinedUsers = [];
         const socket = io();
 
         // Khi người dùng vào phòng chờ
         const idUser = '<%= user._id %>';
-        const username = '<%= user.nameDisplay %>';  // Lấy thông tin người dùng từ server
-        const room = '<%= currentExam._id %>';  // Lấy thông tin phòng thi từ server
-        socket.emit('joinRoom', { idUser, username, room }); // Gửi lên server có tên sự kiện là 'JoinRoom' với tham số là username và room
+        const username = '<%= user.nameDisplay %>'; 
+        const room = '<%= currentExam._id %>';
+        socket.emit('joinRoom', { idUser, username, room }); // Gửi lên server có tên sự kiện là 'JoinRoom' với tham số là idUser, username và room
 
         // Cập nhật danh sách người dùng đã tham gia
         socket.on('updateUserList', (users) => {
@@ -78,16 +80,33 @@
             // Xóa danh sách cũ
             joinedUsersList.innerHTML = '';
 
+            // Xóa danh sách những người tham gia cũ
+            joinedUsers = [];
             // Cập nhật danh sách người tham gia
             users.forEach(user => {
                 const li = document.createElement('li');
                 li.classList.add('list-group-item');
                 li.innerText = user.username;
                 joinedUsersList.appendChild(li);
+                joinedUsers.push(user.idUser);
             });
 
             // Cập nhật số lượng người đã tham gia
             joinedCount.innerText = users.length;
+        });
+
+        // Khi người tạo bài thi nhấn nút "Bắt đầu"
+        function StartQuiz(event){
+            event.preventDefault();
+            // document.getElementById('joinedIDUsers').value = JSON.stringify(joinedUsers);
+   
+            socket.emit('quiz:redirect', {room});  // Phát sự kiện 'startQuiz' tới server
+            event.target.form.submit();
+        }
+
+        // Nhận sự kiện từ server để chuyển sang trang QuizStart
+        socket.on('redirectToQuiz', () => {
+            window.location.href = `/client/quizStart/<%=currentClassID%>/${room}`;  // Chuyển hướng sang trang QuizStart
         });
 
         socket.on('error', (errorMessage) => {

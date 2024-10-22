@@ -1,0 +1,58 @@
+/* General styles */
+body, html {
+    height: 100%; /* Make sure body and html are 100% height */
+    margin: 0;
+}
+
+/* Adjust top padding to avoid header overlap */
+.Main-Content {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
+    background-color: white;
+    padding: 100px 20px 20px; /* Add padding to the top to account for the fixed header */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .Main-Content {
+        padding: 120px 10px 10px; /* Adjust top padding for smaller screens */
+    }
+}
+
+/* Header styles */
+h1 {
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.card {
+    margin-bottom: auto;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 15px;
+}
+
+/* Button styles */
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+

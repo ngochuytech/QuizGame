@@ -143,10 +143,9 @@
 
         // Hàm kiểm tra tạo bài thi
         function AddExam(event) {
-            event.preventDefault();// Dừng sự kiện xử lý một phần đỡ backend
+            event.preventDefault();
             document.getElementById('questionArray').value = JSON.stringify(selectedQuestion);
             let nameExam = document.querySelector('input[name="examName"]').value.trim();
-            // let descriptionExam = document.querySelector('input[name="description"]').value.trim();
             let questions = document.querySelector('input[name="questionArray"]').value;
             if (!nameExam) {
                 alert("Vui lòng điền tên bài thi, không được bỏ trống");

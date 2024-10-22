@@ -230,6 +230,23 @@ let deleteMember = async (req, res) => {
 
 // Ket thuc thao tac trang member
 
+
+let quizStart = async (req, res) =>{
+    const token = req.cookies.jwt;
+    let IDUser = jwt.verifyToken(token)._id;
+    const classID = req.params.classID;
+    const examID = req.params.examID;
+    try {
+        const user = await userService.findUserbyID(IDUser);
+        const currentExam = await examService.findExambyID(examID);
+        const listQuestion = await questionSerivce.filterQuestionByExam(currentExam);
+        return res.render('Client_User/quizStart.ejs', {user, currentExam, listQuestion});
+    } catch (error) {
+        
+    }
+}
+
+
 let getAllClasses = async (req, res) => {
     try {
         const listClass = await classService.getAllClass();
@@ -328,8 +345,7 @@ let handleUpLoadFile = async (req, res) => {
     });
 };
 
-
 module.exports = {
     getHome, getResult, getMember, createClass, getAllClasses, getHomeClass, getInformation, getChangePW, 
-    editAccount, editPassword, handleUpLoadFile,deleteMember,addMember,getWaitingRoom, leaveClass
+    editAccount, editPassword, handleUpLoadFile,deleteMember,addMember,getWaitingRoom, leaveClass, quizStart
 }

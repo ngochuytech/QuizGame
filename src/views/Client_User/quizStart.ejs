@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizStart - <%=currentExam.nameDisplay%>
+    </title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/Client_User/quizStart.css">
+</head>
+
+<body onload="getStart()">
+
+    <!-- Header -->
+    <nav class="navbar fixed-top navbar-expand-lg bg-primary-subtle">
+        <div class="container-fluid d-flex justify-content-between">
+            <a class="navbar-brand" href="#">QUIZ.PRO</a>
+            <div class="text-center">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Quiz Content -->
+    <div class="quiz-container">
+        <div class="question-header">
+            <h2>Câu hỏi <span id="questionNumber">1</span></h2>
+            <span>Thời gian: <span id="timer">60</span> giây</span>
+        </div>
+        <div class="question-body">
+            <p id="question-title">DNS viết tắt của từ gì?</p>
+        </div>
+        <div class="answer-grid">
+            <div class="answer-option" id="answer-option-1" >A. <span id="answer1">Domain Nomarl Server</span></div>
+            <div class="answer-option" id="answer-option-2" >B. <span id="answer2">Domain Name System</span></div>
+            <div class="answer-option" id="answer-option-3"  style=" display: none;">C. <span id="answer3">Domain Next System</span></div>
+            <div class="answer-option" id="answer-option-4"  style="display: none;">D. <span id="answer4">Discovernt Name System</span></div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (optional for additional functionality) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        const userId = '<%= user._id %>'
+        const userName = '<%= user.nameDisplay %>';
+        const room = '<%= currentExam._id %>'
+        let timer; // Biến để lưu timer
+        let timeRemaining = 60; // Thời gian bắt đầu
+        socket.on('currentQuestion', ({ questionNumber, question_text, result }) => {
+            // Hiển thị câu hỏi dựa trên questionNumber
+            const questionNum = document.getElementById('questionNumber');
+            const question_title = document.getElementById('question-title');
+            const timerDisplay = document.getElementById('timer');
+
+            questionNum.innerText = questionNumber + 1;
+            question_title.innerText = question_text;
+
+            result.forEach((item, index) => {
+                document.getElementById(`answer${index + 1}`).innerText = item.text;
+             
+                if(item.isCorrect == true)
+                    document.getElementById(`answer-option-${index + 1}`).setAttribute('data-correct', 'true');
+                else
+                    document.getElementById(`answer-option-${index + 1}`).setAttribute('data-correct', 'false');
+                if (index >= 2)
+                    document.getElementById(`answer-option-${index + 1}`).style.display = "block";
+            });
+
+            // Đặt lại thời gian còn lại và bắt đầu đếm ngược
+            timeRemaining = 60;
+            timerDisplay.innerText = timeRemaining;
+
+            clearInterval(timer); // Dừng timer nếu có chạy trước đó
+            timer = setInterval(() => {
+                timeRemaining--;
+                timerDisplay.innerText = timeRemaining;
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timer); // Dừng timer
+                    socket.emit('quiz:nextQuestion', ({room, userId, userName, correct: false}))
+                }
+            }, 1000); // Giảm mỗi giây
+
+        });
+
+        // Đã làm xong câu hỏi, chuyển trang đến kết quả bài thi
+        socket.on('finishQuiz', ({}) => {
+            window.location.href = '/client/home'
+        })
+
+        // Đoạn mã JavaScript để kiểm tra đáp án và thay đổi giao diện
+        document.addEventListener('DOMContentLoaded', function () {
+            const options = document.querySelectorAll('.answer-option');
+            const quizContainer = document.querySelector('.quiz-container');
+            let selected = false; // Trạng thái để tránh chọn nhiều đáp án
+            let correct;
+
+            options.forEach(option => {
+                option.addEventListener('click', function () {
+                    if (!selected) {
+                        const isCorrect = option.getAttribute('data-correct') === 'true';
+
+                        // Thêm class để hiển thị màu cho đáp án đúng hoặc sai ngay lập tức
+                        if (isCorrect) {
+                            option.classList.add('correct');
+                            correct = true;
+                        } else {
+                            option.classList.add('wrong');
+                            correct = false;
+                        }
+
+                        option.style.pointerEvents = 'none'; // Vô hiệu hóa click tiếp theo cho đáp án này
+
+                        selected = true;
+
+                        setTimeout(() => {
+                            nextQuestion();
+                        }, 1500);
+                    }
+                });
+            });
+
+            function nextQuestion() {
+                // Reset lại các trạng thái và UI cho câu hỏi mới
+                selected = false;
+                quizContainer.classList.remove('no-hover'); // Bỏ class no-hover để bật lại hover cho câu hỏi mới
+                options.forEach(option => {
+                    option.classList.remove('correct', 'wrong'); // Xóa các class màu xanh và đỏ
+                    option.style.pointerEvents = 'auto'; // Cho phép chọn lại
+                });
+            
+                socket.emit('quiz:nextQuestion', ({room, userId, userName, correct}))
+                console.log('Chuyển sang câu tiếp theo');
+            }
+        });
+
+        function getStart() {
+            socket.emit('quiz:start', ({ room, userId, userName }));
+        }
+
+    </script>
+</body>
+
+</html>

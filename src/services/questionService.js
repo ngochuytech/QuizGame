@@ -153,7 +153,19 @@ const findQuestionInExam = async(ClassID, questionID) =>{
     })
 }
 
+// Lọc những câu hỏi theo bài thi
+const filterQuestionByExam = async(currentExam) =>{
+    return new Promise(async (resolve, reject) => {
+        try {
+            const listQuestion = await Questions.find({_id: {$in: currentExam.questions}})   
+            resolve(listQuestion);
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 module.exports = {
     getAllQuestions,getAllQuestionsByIDClass,searchQuestionsByKeyword,deleteQuestionById,AddQuestion,UpdateQuestion,
-    filterQuestionByDifficulty, getNumberOfQuestionByDiffculty, findQuestionInExam
+    filterQuestionByDifficulty, getNumberOfQuestionByDiffculty, findQuestionInExam, filterQuestionByExam
 }

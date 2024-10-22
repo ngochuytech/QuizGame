@@ -71,7 +71,7 @@ let loginUser = async(req, res) =>{
               const token = jwt.createJWT({_id: user._id});
               
               // Gửi token qua cookie
-              res.cookie('jwt', token, { httpOnly: true, secure: true });
+              res.cookie('jwt', token, { httpOnly: true, secure: false});
     
               // Chuyển hướng về trang home
               return res.redirect('/client/Home');

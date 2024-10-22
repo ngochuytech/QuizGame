@@ -1,3 +1,5 @@
+import quiz from './quiz'
+
 let rooms = {};  // Để lưu trữ danh sách người dùng theo từng phòng
 
 module.exports = (io) => {
@@ -26,6 +28,8 @@ module.exports = (io) => {
             }
             
         });
+
+        quiz(io, socket);
 
         // Khi người dùng rời khỏi phòng hoặc mất kết nối
         socket.on('disconnect', () => {
