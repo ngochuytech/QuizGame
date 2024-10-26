@@ -189,17 +189,17 @@ function UpdateQuestion()
                             
                                                         <div class="input-group mb-3">
                                                             <span class="input-group-text">Câu trả lời 3</span>
-                                                            <input type="text" name="answer3" class="form-control" value="<%=Qs.answer[2].text%>">
+                                                            <input type="text" name="answer3" class="form-control" value="<%=Qs.answer[2]?.text%>">
                                                             <div class="input-group-text">
-                                                                <input class="form-check-input mt-0" type="checkbox" name="isCorrect3" <%=(Qs.answer[2].isCorrect==true)?'checked':''%>>
+                                                                <input class="form-check-input mt-0" type="checkbox" name="isCorrect3" <%=(Qs.answer[2]?.isCorrect==true)?'checked':''%>>
                                                               </div>
                                                         </div>
                             
                                                         <div class="input-group mb-3">
                                                             <span class="input-group-text">Câu trả lời 4</span>
-                                                            <input type="text" name="answer4" class="form-control" value="<%=Qs.answer[3].text%>">
+                                                            <input type="text" name="answer4" class="form-control" value="<%=Qs.answer[3]?.text%>">
                                                             <div class="input-group-text">
-                                                                <input class="form-check-input mt-0" type="checkbox" name="isCorrect4" <%=(Qs.answer[3].isCorrect==true)?'checked':''%>>
+                                                                <input class="form-check-input mt-0" type="checkbox" name="isCorrect4" <%=(Qs.answer[3]?.isCorrect==true)?'checked':''%>>
                                                               </div>
                                                         </div>
                                                     </div>

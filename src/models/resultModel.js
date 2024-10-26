@@ -3,7 +3,6 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const resultSchema = new Schema({
-    _id: ObjectId,
     examID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Exam'

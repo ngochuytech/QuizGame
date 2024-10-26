@@ -40,6 +40,26 @@ const findResultsByUser = (IDUser, currentClass) =>{
     })
 }
 
+// Lưu kết quả khi người dùng thi xong
+const saveResult = (examID, userID, score) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const newResult = await Result.create({
+                examID,
+                particantID: userID,
+                grade: score
+            })
+
+            await Exam.findByIdAndUpdate(examID, {
+                $push: {results: newResult._id}
+            })
+            resolve(newResult);
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 module.exports = {
-    filterResultByExam, findResultsByUser
+    filterResultByExam, findResultsByUser, saveResult
 }

@@ -240,7 +240,7 @@ let quizStart = async (req, res) =>{
         const user = await userService.findUserbyID(IDUser);
         const currentExam = await examService.findExambyID(examID);
         const listQuestion = await questionSerivce.filterQuestionByExam(currentExam);
-        return res.render('Client_User/quizStart.ejs', {user, currentExam, listQuestion});
+        return res.render('Client_User/quizStart.ejs', {user, currentExam, listQuestion, classID});
     } catch (error) {
         
     }
@@ -344,13 +344,16 @@ let handleUpLoadFile = async (req, res) => {
 
     });
 };
-let getRessultExam = async(req, res) => {
+let getResultExam = async(req, res) => {
+    const token = req.cookies.jwt;
+    let IDUser = jwt.verifyToken(token)._id;
+    const {examID, numberCorrect, score, timeDoExam} = req.body;
+    const classID = req.params.classID;
     try {
-        const token = req.cookies.jwt;
-        let IDUser = jwt.verifyToken(token)._id;
-        const user = await userService.findUserbyID(IDUser); 
-        return res.render('Client_User/ResultExam.ejs', { user: user});
- 
+        const user = await userService.findUserbyID(IDUser);
+        const exam = await examService.findExambyID(examID);
+        const result = await resultService.saveResult(examID, IDUser, score)
+        return res.render('Client_User/ResultExam.ejs', { user, exam, numberCorrect, score, timeDoExam, classID});
     } catch (error) {
         console.log(error)
     }
@@ -367,5 +370,5 @@ let logout = async(req, res) => {
 module.exports = {
     getHome, getResult, getMember, createClass, getAllClasses, getHomeClass, getInformation, getChangePW, 
     editAccount, editPassword, handleUpLoadFile,deleteMember,addMember,getWaitingRoom, leaveClass,
-    quizStart, getRessultExam,logout
+    quizStart, getResultExam,logout
 }
