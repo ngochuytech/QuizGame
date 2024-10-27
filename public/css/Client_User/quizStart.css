@@ -9,8 +9,45 @@
 }
 body {
     font-family: Arial, sans-serif;
-    background-color: #5a6569;
+    background-color: #84109e;
     padding-top: 70px; /* To accommodate the fixed header */
+}
+
+
+#countdown-container {
+    text-align: center;
+}
+
+#countdown {
+    font-size: 6em;
+    font-weight: bold;
+    color: #007bff;
+    animation: pop 1s ease-in-out infinite;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+@keyframes pop {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.3);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.score-update {
+    animation: scoreBounce 0.5s ease-in-out;
+    color: #28a745; /* Màu xanh lá cây cho thấy điểm tăng lên */
+}
+
+@keyframes scoreBounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.3); }
 }
 
 /* Quiz Content */
@@ -21,6 +58,7 @@ body {
     background-color: #dee2e6;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1s forwards;
 }
 
 .question-header {
