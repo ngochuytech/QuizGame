@@ -57,20 +57,18 @@ const searchQuestionsByKeyword = (ClassID, keyword) => {
 const AddQuestion = async (ClassID, questionTitle, difficulty, answers, correctAnswers) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const Answers = [
-                { text: answers[0], isCorrect: correctAnswers[0] ? true : false },
-                { text: answers[1], isCorrect: correctAnswers[1] ? true : false },
-                { text: answers[2], isCorrect: correctAnswers[2] ? true : false },
-                { text: answers[3], isCorrect: correctAnswers[3] ? true : false }
-            ];
+            const Answers = [];
+            for (let i = 0; i < answers.length; i++) {
+                Answers.push({ text: answers[i], isCorrect: correctAnswers[i] ? true : false });
+            }
             
+            console.log(Answers);     
             const question = await Questions.create({
                 classID: ClassID,
                 question: questionTitle,
                 difficulty: difficulty,
                 answer: Answers 
             });
-            // Cập nhật question vào class đó
             await Class.findByIdAndUpdate(ClassID, {$push: { questions: question._id}})
             resolve(question)
         } catch (error) {
@@ -81,12 +79,10 @@ const AddQuestion = async (ClassID, questionTitle, difficulty, answers, correctA
 };
 const UpdateQuestion = async (ClassID, QuestionID,questionTitle, difficulty, answers, correctAnswers) => {
     try {
-        const Answers = [
-            { text: answers[0], isCorrect: correctAnswers[0] ? true : false },
-            { text: answers[1], isCorrect: correctAnswers[1] ? true : false },
-            { text: answers[2], isCorrect: correctAnswers[2] ? true : false },
-            { text: answers[3], isCorrect: correctAnswers[3] ? true : false }
-        ];
+        const Answers = [];
+        for (let i = 0; i < answers.length; i++) {
+            Answers.push({ text: answers[i], isCorrect: correctAnswers[i] ? true : false });
+        }
         const question = await Questions.replaceOne(
             { _id: QuestionID},
             {

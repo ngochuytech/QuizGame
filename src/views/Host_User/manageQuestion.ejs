@@ -32,17 +32,27 @@
     // // Chuyển hướng đến URL mới
     window.location.href = url;
 }
-function DeleteQuestion(questionID,classID)
-{
+async function DeleteQuestion(questionID, classID) {
     const userConfirmed = confirm("Bạn có chắc chắn xóa câu hỏi không?");
-
-        if (userConfirmed) {
-            showToast('Xóa câu hỏi thành công');
-            const url = `http://localhost:3000/host/deleteQuestion?questionID=${encodeURIComponent(questionID)}&classID=${encodeURIComponent(classID)}`;
-            window.location.href = url;
-        } else {
+    if (userConfirmed) {
+        try {
+            const response = await fetch(`/host/deleteQuestion?questionID=${encodeURIComponent(questionID)}&classID=${encodeURIComponent(classID)}`, {
+                method: 'GET'
+            });
+            if (response.status==200) {
+                showToast('Xóa câu hỏi thành công');
+                setTimeout(() => {
+                location.reload(); 
+                }, 500);
+            } else {
+                showToast('Không thể xóa câu hỏi vì câu hỏi nằm trong bài thi');
+            }
+        } catch (error) {
+            showToast('Có lỗi xảy ra khi xóa câu hỏi');
         }
+    }
 }
+
 function UpdateQuestion()
 {    
     showToast('Thay đổi nội dung câu hỏi thành công');
@@ -171,39 +181,17 @@ function UpdateQuestion()
                                                             <p class="col-6">Nội dung câu trả lời</p>
                                                             <p class="col-1">Đúng</p>
                                                         </div>
-                                                        <div class="input-group mb-3">
-                                                            <span class="input-group-text">Câu trả lời 1</span>
-                                                            <input type="text" name="answer1" class="form-control" value="<%=Qs.answer[0].text%>">
-                                                            <div class="input-group-text">
-                                                                <input class="form-check-input mt-0" type="checkbox" name="isCorrect1" <%=(Qs.answer[0].isCorrect==true)?'checked':''%> >
-                                                            </div>
-                                                        </div>
-                            
-                                                        <div class="input-group mb-3">
-                                                            <span class="input-group-text">Câu trả lời 2</span>
-                                                            <input type="text" name="answer2" class="form-control" value="<%=Qs.answer[1].text%>">
-                                                            <div class="input-group-text">
-                                                                <input class="form-check-input mt-0" type="checkbox" name="isCorrect2" <%=(Qs.answer[1].isCorrect==true)?'checked':''%>>
-                                                              </div>
-                                                        </div>
-                            
-                                                        <div class="input-group mb-3">
-                                                            <span class="input-group-text">Câu trả lời 3</span>
-                                                            <input type="text" name="answer3" class="form-control" value="<%=Qs.answer[2].text%>">
-                                                            <div class="input-group-text">
-                                                                <input class="form-check-input mt-0" type="checkbox" name="isCorrect3" <%=(Qs.answer[2].isCorrect==true)?'checked':''%>>
-                                                              </div>
-                                                        </div>
-                            
-                                                        <div class="input-group mb-3">
-                                                            <span class="input-group-text">Câu trả lời 4</span>
-                                                            <input type="text" name="answer4" class="form-control" value="<%=Qs.answer[3].text%>">
-                                                            <div class="input-group-text">
-                                                                <input class="form-check-input mt-0" type="checkbox" name="isCorrect4" <%=(Qs.answer[3].isCorrect==true)?'checked':''%>>
-                                                              </div>
-                                                        </div>
-                                                    </div>
-                            
+                                                        <div id="answers-container">
+                                                            <% for (let i = 0; i < Qs.answer.length; i++) { %>
+                                                                <div class="input-group mb-3">
+                                                                    <span class="input-group-text">Câu trả lời <%= i + 1 %></span>
+                                                                    <input type="text" name="answer<%= i + 1 %>" class="form-control" value="<%= Qs.answer[i].text %>">
+                                                                    <div class="input-group-text">
+                                                                        <input class="form-check-input mt-0" type="checkbox" name="isCorrect<%= i + 1 %>" <%= (Qs.answer[i].isCorrect == true) ? 'checked' : '' %> >
+                                                                    </div>
+                                                                </div>
+                                                            <% } %>
+                                                        </div>                            
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
