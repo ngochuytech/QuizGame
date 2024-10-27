@@ -22,7 +22,7 @@
         <ul class="nav nav-pills flex-column mb-auto ">
             <% for(var i=0; i < listClass.length; i++) { %>
                 <li>
-                    <% if(listClass[i]._id==currnetClassID) {%>
+                    <% if(listClass[i]._id==currentClassID) {%>
                         <a href='/client/home/<%=listClass[i]._id%>' class="nav-link active" aria-current="page">
                     <%} else {%>
                         <a href="/client/home/<%=listClass[i]._id%>" class="nav-link" aria-current="page">

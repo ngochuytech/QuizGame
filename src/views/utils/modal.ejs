@@ -1,12 +1,29 @@
 <script>
+   function showToast(message) {
+    // Cập nhật nội dung thông báo
+    document.querySelector('#liveToast .toast-body').textContent = message;
+
+    // Cấu hình thời gian delay lâu hơn (ví dụ: 10 giây)
+    var toastEl = document.getElementById('liveToast');
+    var toast = new bootstrap.Toast(toastEl, { delay: 10000 }); // 10000ms = 10 giây
+
+    // Hiển thị toast
+    toast.show();
+}
+
     // Hàm kiểm tra bên thêm lớp
     function AddClass(event) {
         event.preventDefault();// Dừng sự kiện xử lý một phần đỡ backend
         let nameClass = document.querySelector('input[name="nameDisplay"]').value.trim();
         if (!nameClass) {
-            alert("Vui lòng điền tên lớp, không được bỏ trống");
+            showToast("Vui lòng điền tên lớp, không được bỏ trống");
             return;
         }
+        if (nameClass.length > 50){
+            showToast("Không nhập quá 50 ký tự !");
+            return;
+        }
+        showToast("Thêm lớp thành công");
         event.target.form.submit();
     } 
     // Hàm kiểm tra bên thêm câu hỏi
@@ -30,18 +47,22 @@
         }
 
         if (!questionTitle) {
-            alert("Vui lòng điền nội dung câu hỏi");
+            showToast("Vui lòng điền nội dung câu hỏi");
             return;
         }
 
         if (answers.some(answer => answer === "")) {
-            alert("Vui lòng điền đủ đáp án");
+            showToast("Vui lòng điền đủ đáp án");
             return;
         }
 
         if (!correctAnswers.some(isCorrect => isCorrect)) {
-            alert("Vui lòng lựa chọn đáp án đúng");
+            showToast("Vui lòng lựa chọn đáp án đúng");
             return;
+        }
+        elif()
+        {
+            showToast("Thêm câu hỏi thành công");
         }
         event.target.form.submit();
     }
@@ -51,10 +72,11 @@
         event.preventDefault();// Dừng sự kiện xử lý một phần đỡ backend
         let memberID = document.querySelector('input[name="idMember"]').value.trim();
         if (!memberID) {
-            alert("Vui lòng điền id thành viên, không được bỏ trống");
+            showToast("Vui lòng điền id thành viên, không được bỏ trống");
             return;
         }
         event.target.form.submit();
+        showToast("Thêm thành viên thành công");
     } 
 </script>
 <div id="addClass" class="modal fade">
@@ -71,6 +93,7 @@
                             placeholder="Nhập vào tên lớp học" />
                         <label class="form-label" for="form3Example3">Tên lớp học</label>
                     </div>
+                    <p><small class="text-warning">Chỉ tối đa 50 ký tự !</small></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
@@ -84,7 +107,7 @@
 <div id="addQuestion" class="modal fade">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <form action="/host/UpdateQuestion/<%=currnetClassID%>" method="post" onsubmit="AddQuestion(event)">
+            <form action="/host/UpdateQuestion/<%=currentClassID%>" method="post" onsubmit="AddQuestion(event)">
                 <div class="modal-header">
                     <h5 class="modal-title">Thêm câu hỏi mới</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -134,7 +157,9 @@
                                 </div>
                             </div>
 
-                            <div class="input-group mb-3">
+
+                            <!-- Câu trả lời 3 (Ẩn ban đầu) -->
+                            <div class="input-group mb-3" id="answer3" style="display: none;">
                                 <span class="input-group-text">Câu trả lời 3</span>
                                 <input type="text" name="Answer3" class="form-control" id="Answer3">
                                 <div class="input-group-text">
@@ -143,7 +168,8 @@
                                 </div>
                             </div>
 
-                            <div class="input-group mb-3">
+                            <!-- Câu trả lời 4 (Ẩn ban đầu) -->
+                            <div class="input-group mb-3" id="answer4" style="display: none;">
                                 <span class="input-group-text">Câu trả lời 4</span>
                                 <input type="text" name="Answer4" class="form-control" id="Answer4">
                                 <div class="input-group-text">
@@ -152,6 +178,12 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Nút thêm đáp án -->
+                        <button type="button" class="btn btn-outline-success" id="addAnswerBtn">Thêm đáp án</button>
+                        
+                         <!-- Nút xóa đáp án (Ẩn ban đầu) -->
+                         <button type="button" class="btn btn-outline-danger" id="removeAnswerBtn" style="display: none;">Xóa đáp án</button>
 
                     </div>
                 </div>
@@ -167,7 +199,7 @@
 <div id="editQuestion" class="modal fade">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <form action="/host/UpdateQuestion/<%=currnetClassID%>?" method="get">
+            <form action="/host/UpdateQuestion/<%=currentClassID%>?" method="get">
                 <div class="modal-header">
                     <h5 class="modal-title">Chỉnh sửa câu hỏi mới</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -252,7 +284,7 @@
 <div id="addQuestion" class="modal fade">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <form action="/host/UpdateQuestion/<%=currnetClassID%>" method="post">
+            <form action="/host/UpdateQuestion/<%=currentClassID%>" method="post">
                 <div class="modal-header">
                     <h5 class="modal-title">Thêm câu hỏi mới</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -335,7 +367,7 @@
 <div id="addMember" class="modal fade">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
-            <form action="/client/addMember/<%=currnetClassID%>" method="post" onsubmit="AddMember(event)">
+            <form action="/client/addMember/<%=currentClassID%>" method="post" onsubmit="AddMember(event)">
                 <div class="modal-header">
                     <h5 class="modal-title">Thêm thành viên mới</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -352,6 +384,19 @@
                     <button type="submit" class="btn btn-primary" onclick="AddMember(event)">Thêm mới</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+<!-- Toast thông báo -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+        <div class="toast-header">
+            <strong class="me-auto">Thông báo</strong>
+            <small class="text-muted">Vừa xong</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Đây là thông báo từ hệ thống.
         </div>
     </div>
 </div>

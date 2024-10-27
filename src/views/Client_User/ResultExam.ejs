@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết quả làm bài</title>
+    <link rel="stylesheet" href="/css/Client_User/ResultExam.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Header -->
+    <%- include('../utils/header.ejs'); %>
+
+    <!-- Main-content -->
+    <div class="Main-Content d-flex flex-column justify-content-between container-fluid">
+        <div class="text-center mt-4">
+            <h1>Kết quả bài thi: History</h1>
+            <p>Số lượng câu hỏi: 20/10</p>
+        </div>
+
+        <!-- Results Overview -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4 class="card-title">Thông tin kết quả</h4>
+                <p>Điểm số của bạn: <b>6.3</b></p>
+                <p>Số câu đúng: <b>10/30</b></p>
+                <p>Thời gian hoàn thành: <b>25 phút</b></p>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="d-flex justify-content-end mt-auto mb-4">
+            <a href="/client/home" class="btn btn-primary">Trở về trang chính</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
