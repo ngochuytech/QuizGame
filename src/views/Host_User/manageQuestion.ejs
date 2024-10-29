@@ -57,7 +57,7 @@ function UpdateQuestion(event, id_question, answer_length) {
     event.preventDefault(); // Ngăn chặn hành động mặc định của form
     
     let allAnswersValid = true; // Cờ để kiểm tra xem tất cả đáp án có hợp lệ không
-    let correctAnswerSelected = true; // Cờ để kiểm tra xem có ít nhất 1 đáp án đúng hay không
+    let correctAnswerSelected = false; // Cờ để kiểm tra xem có ít nhất 1 đáp án đúng hay không
     const TextQuestion = document.getElementById('textQuestions'+id_question).value;
     if(TextQuestion.trim()==='')
     {
@@ -70,6 +70,7 @@ function UpdateQuestion(event, id_question, answer_length) {
         if (!answer || answer.value.trim() === '') { 
             showToast('Đáp án không được để trống!');
             allAnswersValid = false;
+            correctAnswerSelected = true;
             break; 
         }
 
