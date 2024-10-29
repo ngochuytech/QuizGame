@@ -19,7 +19,7 @@
     height: 175px; /* Đặt chiều cao bằng với chiều rộng để tạo hình tròn */
     border-radius: 50%; /* Tạo hình tròn cho ảnh */
     object-fit: cover; /* Đảm bảo ảnh không bị méo và cắt phần thừa */
-    border: 2px solid white; /* Đường viền trắng để nổi bật hơn */
+    border: 1px solid white; /* Đường viền trắng để nổi bật hơn */
 }
 
 .Main-Content .background-avatar{
@@ -31,10 +31,10 @@
 .Main-Content .profile-section{
     height: 100px;
     background-color: #ccc;
-    padding-left: 315px;
-    padding-top: 10px;
+    padding-left: 250px;
+    padding-top: 5px;
 }
 
 .Main-Content .avatar-Information{
-    margin-left: 116px;
+    margin-left: 50px;
 }
