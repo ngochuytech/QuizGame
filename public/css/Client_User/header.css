@@ -1,0 +1,12 @@
+.sitename {
+    color: #3e5055; 
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: black;
+}
+.Narbar {
+    background-color: #89d6fa !important; 
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
+}
+

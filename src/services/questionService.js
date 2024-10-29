@@ -61,8 +61,7 @@ const AddQuestion = async (ClassID, questionTitle, difficulty, answers, correctA
             for (let i = 0; i < answers.length; i++) {
                 Answers.push({ text: answers[i], isCorrect: correctAnswers[i] ? true : false });
             }
-            
-            console.log(Answers);     
+                
             const question = await Questions.create({
                 classID: ClassID,
                 question: questionTitle,
@@ -92,7 +91,7 @@ const UpdateQuestion = async (ClassID, QuestionID,questionTitle, difficulty, ans
                 answer: Answers 
             }
         );
-        console.log('Update câu hỏi thành công',question);
+
     } catch (error) {
         console.error('Lỗi khi update câu hỏi:', error);
         throw error;
