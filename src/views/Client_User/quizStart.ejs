@@ -35,6 +35,7 @@
         </div>
         <div class="question-body">
             <p id="question-title">DNS viết tắt của từ gì?</p>
+            <p id="timeOut-message" style="color: red; display: none;">Đã hết thời gian trả lời!</p>
             <p id="wrong-message" style="color: red; display: none;">Bạn đã trả lời sai!</p>
             <p id="partial-correct-message" style="color: orange; display: none;">Bạn đã trả lời đúng một phần!</p>
             <p id="correct-message" style="color: green; display: none;">Bạn đã trả lời đúng!</p>
@@ -197,6 +198,7 @@
 
                 if (timeRemaining <= 0) {
                     clearInterval(timer); // Dừng timer
+                    document.getElementById('timeOut-message').style.display = 'block';
                     handleNextQuestion(outOfTime = true);
 
                 }
@@ -245,6 +247,7 @@
                 document.getElementById('correct-message').style.display = 'none';
                 document.getElementById('partial-correct-message').style.display = 'none';
                 document.getElementById('wrong-message').style.display = 'none';
+                document.getElementById('timeOut-message').style.display = 'none';
                 socket.emit('quiz:nextQuestion', ({ room, userId, userName, difficultyQuestion: diff, correct: correct, timeRemaining }))
             }, 1500)
 

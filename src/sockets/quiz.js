@@ -49,6 +49,8 @@ module.exports = (io, socket) => {
 
     socket.on('quiz:nextQuestion', ({room, userId, userName, difficultyQuestion, correct, timeRemaining})=>{
         // Xử lý khi đã trả lời câu hỏi
+        console.log("listQuestionOfExam[room] = ", listQuestionOfExam[room]);
+        
         ROOMS[room].players[socket.id].currentQuestion++;
         if(correct == true){
             ROOMS[room].players[socket.id].score += calculatingScore(difficultyQuestion, timeRemaining);

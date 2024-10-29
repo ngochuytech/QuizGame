@@ -76,12 +76,13 @@ let AddQuestion = async (req, res) => {
     const questionTitle = req.body.questionTitle;
     const diffculty = req.body.diffculty;
     const answers = [
-        req.body.Answer1,
-        req.body.Answer2,
-        req.body.Answer3,
-        req.body.Answer4
-    ];
+        req.body.Answer1 || '',
+        req.body.Answer2 || '',
+        req.body.Answer3 || '',
+        req.body.Answer4 || ''
+    ].filter(answer => answer !== '');
     
+    console.log(answers)
     const correctAnswers = [
         req.body.isCorrect1 || '',
         req.body.isCorrect2 || '',
@@ -103,11 +104,11 @@ let UpdateQuestion  = async (req, res) => {
     const questionTitle = req.query.questionTitle;
     const diffculty = req.query.diffculty;
     const answers = [
-        req.query.answer1,
-        req.query.answer2,
-        req.query.answer3,
-        req.query.answer4
-    ];
+        req.query.answer1||'',
+        req.query.answer2||'',
+        req.query.answer3||'',
+        req.query.answer4||''
+    ].filter(answer => answer !== '');
     const correctAnswers = [
         req.query.isCorrect1 || '',
         req.query.isCorrect2 || '',
@@ -124,18 +125,24 @@ let UpdateQuestion  = async (req, res) => {
     }
 }
 
-let deleteQuestion= async (req,res) =>{
-    const questionID = req.query.questionID;
-    const classID = req.query.classID;
-    
-    const questionExitsInExam = await questionService.findQuestionInExam(classID, questionID);
-    if(!questionExitsInExam)
-        await questionService.deleteQuestionById(questionID, classID);
-    else
-        console.log("Không thể xóa câu hỏi đó vì có bài thi chứa câu hỏi đó !");
+let deleteQuestion = async (req, res) => {
+    const { questionID, classID } = req.query;
 
-    return res.redirect(`/host/manageQuestion/${classID}`);
-}
+    try {
+        const questionExistsInExam = await questionService.findQuestionInExam(classID, questionID);
+
+        if (!questionExistsInExam) {
+            await questionService.deleteQuestionById(questionID, classID);
+            return res.status(200).json({ success: true, message: 'Xóa câu hỏi thành công' });
+        } else {
+            return res.status(400).json({ success: false, message: 'Không thể xóa câu hỏi vì có bài thi chứa câu hỏi đó!' });
+        }
+    } catch (error) {
+        console.error('Lỗi khi xóa câu hỏi:', error);
+        return res.status(500).json({ success: false, message: 'Có lỗi xảy ra khi xóa câu hỏi' });
+    }
+};
+
 
 let deleteClass = async(req,res) => {
     const token = req.cookies.jwt;

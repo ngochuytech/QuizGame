@@ -32,21 +32,66 @@
     // // Chuyển hướng đến URL mới
     window.location.href = url;
 }
-function DeleteQuestion(questionID,classID)
-{
+async function DeleteQuestion(questionID, classID) {
     const userConfirmed = confirm("Bạn có chắc chắn xóa câu hỏi không?");
-
-        if (userConfirmed) {
-            showToast('Xóa câu hỏi thành công');
-            const url = `http://localhost:3000/host/deleteQuestion?questionID=${encodeURIComponent(questionID)}&classID=${encodeURIComponent(classID)}`;
-            window.location.href = url;
-        } else {
+    if (userConfirmed) {
+        try {
+            const response = await fetch(`/host/deleteQuestion?questionID=${encodeURIComponent(questionID)}&classID=${encodeURIComponent(classID)}`, {
+                method: 'GET'
+            });
+            if (response.status==200) {
+                showToast('Xóa câu hỏi thành công');
+                setTimeout(() => {
+                location.reload(); 
+                }, 500);
+            } else {
+                showToast('Không thể xóa câu hỏi vì câu hỏi nằm trong bài thi');
+            }
+        } catch (error) {
+            showToast('Có lỗi xảy ra khi xóa câu hỏi');
         }
+    }
 }
-function UpdateQuestion()
-{    
-    showToast('Thay đổi nội dung câu hỏi thành công');
+
+function UpdateQuestion(event, id_question, answer_length) { 
+    event.preventDefault(); // Ngăn chặn hành động mặc định của form
+    
+    let allAnswersValid = true; // Cờ để kiểm tra xem tất cả đáp án có hợp lệ không
+    let correctAnswerSelected = true; // Cờ để kiểm tra xem có ít nhất 1 đáp án đúng hay không
+    const TextQuestion = document.getElementById('textQuestions'+id_question).value;
+    if(TextQuestion.trim()==='')
+    {
+        allAnswersValid = false;
+        showToast('Không để trống câu hỏi!!');
+    }
+    for (let i = 0; i < answer_length; i++) { 
+        const answer = document.getElementById('answer' + id_question + i);
+        
+        if (!answer || answer.value.trim() === '') { 
+            showToast('Đáp án không được để trống!');
+            allAnswersValid = false;
+            break; 
+        }
+
+        // Kiểm tra nếu đáp án này là đúng
+        const check = document.getElementById('isCorrect' + id_question + i);
+        if (check && check.checked) {
+            correctAnswerSelected = true;
+        }
+    }
+
+    if (!correctAnswerSelected) {
+        showToast('Cần chọn 1 đáp án đúng!');
+        allAnswersValid = false;
+    }
+
+    if (allAnswersValid) { 
+        event.target.submit(); 
+        showToast('Thay đổi nội dung câu hỏi thành công');
+    }
 }
+
+
     </script>
 <body>
     <!-- Header -->
@@ -138,7 +183,8 @@ function UpdateQuestion()
                             <div id="editQuestion<%=Qs._id%>" class="modal fade">
                                 <div class="modal-dialog modal-dialog-centered modal-lg">
                                     <div class="modal-content">
-                                        <form action="/host/UpdateQuestion/<%=currentClassID%>" method="get">
+                                        
+                                        <form action="/host/UpdateQuestion/<%=currentClassID%>" onsubmit="UpdateQuestion(event,'<%= Qs._id %>','<%=Qs.answer.length%>')" method="get">
                                             <div class="modal-header">
                                                 <h5 class="modal-title">Chỉnh sửa câu hỏi</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -147,7 +193,7 @@ function UpdateQuestion()
                                                 <!-- Đưa question ID vô đây -->
                                                 <input name="questionID" value="<%=Qs._id%>" hidden>
                                                 <div data-mdb-input-init class="form-floating mb-4">
-                                                    <input name="questionTitle" type="text" id="form3Example3" class="form-control form-control-lg"  value="<%=Qs.question%>" />
+                                                    <input name="questionTitle" type="text" id="textQuestions<%=Qs._id%>" class="form-control form-control-lg"  value="<%=Qs.question%>" />
                                                     <label class="form-label" for="form3Example3">Tiêu đề câu hỏi</label>
                                                     <div class="diffculty mt-3 d-flex">
                                                         <p class="col-3">Độ khó: </p>
@@ -171,44 +217,24 @@ function UpdateQuestion()
                                                             <p class="col-6">Nội dung câu trả lời</p>
                                                             <p class="col-1">Đúng</p>
                                                         </div>
-                                                        <div class="input-group mb-3">
-                                                            <span class="input-group-text">Câu trả lời 1</span>
-                                                            <input type="text" name="answer1" class="form-control" value="<%=Qs.answer[0].text%>">
-                                                            <div class="input-group-text">
-                                                                <input class="form-check-input mt-0" type="checkbox" name="isCorrect1" <%=(Qs.answer[0].isCorrect==true)?'checked':''%> >
-                                                            </div>
-                                                        </div>
-                            
-                                                        <div class="input-group mb-3">
-                                                            <span class="input-group-text">Câu trả lời 2</span>
-                                                            <input type="text" name="answer2" class="form-control" value="<%=Qs.answer[1].text%>">
-                                                            <div class="input-group-text">
-                                                                <input class="form-check-input mt-0" type="checkbox" name="isCorrect2" <%=(Qs.answer[1].isCorrect==true)?'checked':''%>>
-                                                              </div>
-                                                        </div>
-                            
-                                                        <div class="input-group mb-3">
-                                                            <span class="input-group-text">Câu trả lời 3</span>
-                                                            <input type="text" name="answer3" class="form-control" value="<%=Qs.answer[2]?.text%>">
-                                                            <div class="input-group-text">
-                                                                <input class="form-check-input mt-0" type="checkbox" name="isCorrect3" <%=(Qs.answer[2]?.isCorrect==true)?'checked':''%>>
-                                                              </div>
-                                                        </div>
-                            
-                                                        <div class="input-group mb-3">
-                                                            <span class="input-group-text">Câu trả lời 4</span>
-                                                            <input type="text" name="answer4" class="form-control" value="<%=Qs.answer[3]?.text%>">
-                                                            <div class="input-group-text">
-                                                                <input class="form-check-input mt-0" type="checkbox" name="isCorrect4" <%=(Qs.answer[3]?.isCorrect==true)?'checked':''%>>
-                                                              </div>
-                                                        </div>
-                                                    </div>
-                            
+                                                        <div id="answers-container">
+                                                            <% for (let i = 0; i < Qs.answer.length; i++) { %>
+                                                                <div class="input-group mb-3">
+                                                                    <span class="input-group-text">Câu trả lời <%= i + 1 %></span>
+                                                                    <input type="text" id="answer<%=Qs._id%><%=i%>" name="answer<%= i + 1 %>" class="form-control" value="<%= Qs.answer[i].text %>">
+                                                                    
+
+                                                                    <div class="input-group-text">
+                                                                        <input class="form-check-input mt-0" type="checkbox" id="isCorrect<%=Qs._id%><%=i%>" name="isCorrect<%= i + 1 %>" <%= (Qs.answer[i].isCorrect == true) ? 'checked' : '' %> >
+                                                                    </div>
+                                                                </div>
+                                                            <% } %>
+                                                        </div>                            
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Thoát</button>
-                                                <button type="submit" class="btn btn-primary" onclick="UpdateQuestion()">Hoàn tất</button>
+                                                <button type="submit" class="btn btn-primary">Hoàn tất</button>
                                             </div>
                                         </form>
                                     </div>
