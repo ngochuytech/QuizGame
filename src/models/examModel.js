@@ -39,8 +39,8 @@ const examsSchema = new Schema({
         default: Date.now()
     },
     state:{
-        type:Boolean,
-        default:true
+        type:String,
+        default: 'Open'
     },
     time:{
         hard: {

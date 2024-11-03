@@ -1,4 +1,5 @@
 import quiz from './quiz'
+import leaderboard from './leaderboard';
 
 let rooms = {};  // Để lưu trữ danh sách người dùng theo từng phòng
 
@@ -30,6 +31,7 @@ module.exports = (io) => {
         });
 
         quiz(io, socket);
+        leaderboard(io, socket);
 
         // Khi người dùng rời khỏi phòng hoặc mất kết nối
         socket.on('disconnect', () => {

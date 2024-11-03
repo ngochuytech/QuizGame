@@ -21,8 +21,20 @@ let getCreateQuiz = async (req,res) =>{
    
 }
 
-let getLeaderboard = (req,res) =>{
-    return res.render('Host_User/leaderboard.ejs')
+let getLeaderboard = async (req,res) =>{
+    const token = req.cookies.jwt;
+    let IDUser = jwt.verifyToken(token)._id;
+    const ClassID = req.params.idClass;
+    const examID = req.params.idExam
+    try {
+        const user = await userService.findUserbyID(IDUser);
+        const currentClass = await classService.getCurrentClass(ClassID);
+        const currentExam = await examService.findExambyID(examID);
+        return res.render('Host_User/leaderboard.ejs', {user, currentClass, currentExam})
+    } catch (error) {
+        console.log(error);
+    }
+    
 }
 
 let getManageClass = async (req,res) =>{
@@ -195,7 +207,7 @@ let cancelTheTest = async(req,res) =>{
     let examID = req.params.idExam;
     try {
         let currentExam = await examService.findExambyID(examID);
-        if(currentExam.state==true)
+        if(currentExam.state=='Open')
             await examService.cancelTest(ClassID, examID);
         else
             console.log("Không thể hủy bài thi đã bắt đầu !!!");
@@ -207,7 +219,20 @@ let cancelTheTest = async(req,res) =>{
 
 }
 
+let endQuiz = async(req, res) => {
+    const ClassID = req.params.idClass;
+    let examID = req.params.idExam;
+    try {
+        let currentExam = await examService.findExambyID(examID);
+        if(currentExam.state=='Examining')
+            await examService.updateState(currentExam._id, 'Closed');
+        return res.redirect(`/client/home/${ClassID}`);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports = {
     getCreateQuiz, getLeaderboard, getManageClass, getManageQuestion,deleteQuestion,AddQuestion,UpdateQuestion,
-    deleteClass, updateNameClass, createExam, cancelTheTest
+    deleteClass, updateNameClass, createExam, cancelTheTest, endQuiz
 }
