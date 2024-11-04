@@ -30,7 +30,12 @@ router.get('/waitingRoom/:classID/:examID', clientController.getWaitingRoom);
 
 router.get('/quizStart/:classID/:examID', clientController.quizStart);
 
-router.post('/resultexam/:classID', clientController.getResultExam);
+router.post('/createResultExam/:classID', clientController.createResultExam);
+
+router.post('/resultexam/:resultID', clientController.postResultExam);
+
+router.get('/resultexam/:classID/:examID/:resultID', clientController.getResultExam);
+
 router.get('/logout', clientController.logout);
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {

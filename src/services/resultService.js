@@ -41,13 +41,15 @@ const findResultsByUser = (IDUser, currentClass) =>{
 }
 
 // Lưu kết quả khi người dùng thi xong
-const saveResult = (examID, userID, score) => {
+const saveResult = (examID, userID, score,numberCorrect,timeExam) => {
     return new Promise(async (resolve, reject) => {
         try {
             const newResult = await Result.create({
                 examID,
                 particantID: userID,
-                grade: score
+                grade: score,
+                numberCorrect:numberCorrect,
+                timeExam:timeExam
             })
 
             await Exam.findByIdAndUpdate(examID, {
@@ -59,7 +61,16 @@ const saveResult = (examID, userID, score) => {
         }
     })
 }
-
+const getResult = (resultID) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const resultUser = await Result.findOne({_id:resultID});
+            resolve(resultUser);
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
 module.exports = {
-    filterResultByExam, findResultsByUser, saveResult
+    filterResultByExam, findResultsByUser, saveResult,getResult
 }

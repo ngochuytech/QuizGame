@@ -348,7 +348,7 @@ let handleUpLoadFile = async (req, res) => {
 
     });
 };
-let getResultExam = async(req, res) => {
+let createResultExam = async(req, res) => {
     const token = req.cookies.jwt;
     let IDUser = jwt.verifyToken(token)._id;
     const {examID, numberCorrect, score, timeDoExam} = req.body;
@@ -357,8 +357,41 @@ let getResultExam = async(req, res) => {
         const user = await userService.findUserbyID(IDUser);
         const exam = await examService.findExambyID(examID);
         const result = await resultService.saveResult(examID, IDUser, score)
-        return res.render('Client_User/ResultExam.ejs', { user, exam, numberCorrect, score, timeDoExam, classID});
+        return res.redirect(`/client/resultexam/${classID}/${examID}/${result._id}`);
     } catch (error) {
+        console.log(error)
+    }
+}
+
+let postResultExam = async(req, res) => {
+    const token = req.cookies.jwt;
+    let IDUser = jwt.verifyToken(token)._id;
+    const {name, score, length,classID} = req.body;
+    const resultID = req.params.resultID;
+    try {
+        const user = await userService.findUserbyID(IDUser);
+       const result = await resultService.getResult(resultID);
+       const exam  = await examService.findExambyID(result.examID);
+        return res.render('Client_User/ResultExam.ejs', { user,exam,result,classID});
+    } catch (error) {
+        console.log(error)
+    }
+}
+let getResultExam = async(req, res) => {
+    const token = req.cookies.jwt;
+    let IDUser = jwt.verifyToken(token)._id;
+    const IDresult = req.params.resultID;
+    const IDexam = req.params.examID;
+    const classID = req.params.classID;
+
+    try{
+        const user = await userService.findUserbyID(IDUser);
+        const result = await resultService.getResult(IDresult);
+        const exam  = await examService.findExambyID(IDexam);
+        return res.render('Client_User/ResultExam.ejs', { classID,user,result,exam});
+       }
+    catch(error)
+    {
         console.log(error)
     }
 }
@@ -374,5 +407,5 @@ let logout = async(req, res) => {
 module.exports = {
     getHome, getResult, getMember, createClass, getAllClasses, getHomeClass, getInformation, getChangePW, 
     editAccount, editPassword, handleUpLoadFile,deleteMember,addMember,getWaitingRoom, leaveClass,
-    quizStart, getResultExam,logout
+    quizStart, postResultExam,getResultExam,logout,createResultExam
 }
