@@ -356,7 +356,7 @@ let createResultExam = async(req, res) => {
     try {
         const user = await userService.findUserbyID(IDUser);
         const exam = await examService.findExambyID(examID);
-        const result = await resultService.saveResult(examID, IDUser, score)
+        const result = await resultService.saveResult(examID, IDUser, score,numberCorrect,timeDoExam)
         return res.redirect(`/client/resultexam/${classID}/${examID}/${result._id}`);
     } catch (error) {
         console.log(error)
