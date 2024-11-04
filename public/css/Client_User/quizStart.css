@@ -9,7 +9,7 @@
 }
 body {
     font-family: Arial, sans-serif;
-    background-color: #84109e;
+    background-color: #bbdfe4;
     padding-top: 70px; /* To accommodate the fixed header */
 }
 
@@ -19,11 +19,11 @@ body {
 }
 
 #countdown {
-    font-size: 6em;
+    font-size: 4em;
     font-weight: bold;
     color: #007bff;
     animation: pop 1s ease-in-out infinite;
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    transition: transform 0.1s ease, opacity 0.1s ease;
 }
 
 @keyframes pop {
@@ -31,7 +31,7 @@ body {
         transform: scale(1);
     }
     50% {
-        transform: scale(1.3);
+        transform: scale(1.2);
     }
 }
 
