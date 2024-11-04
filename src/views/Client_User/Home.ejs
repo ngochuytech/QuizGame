@@ -54,8 +54,10 @@
                                     </h5>
                                     <p>Số câu: <%= listExam[i].questions.length %> câu | 
                                         Người tạo: <%= listExam[i].creator?.nameCreator %> | Trạng thái: 
-                                        <%if(listExam[i].state==true){ %>
+                                        <%if(listExam[i].state=='Open'){ %>
                                             <span class="text-success">Đang mở</span>
+                                        <%} else if (listExam[i].state=='Examining'){%>
+                                            <span class="text-primary">Đang diễn ra</span>
                                         <%} else {%>
                                             <span class="text-danger">Đã kết thúc</span>
                                         <%}%>
@@ -63,7 +65,11 @@
                                     </p>
                                 </div>
                                 <div class="col-md-4 text-end">
+                                <%if(listExam[i].state=='Open'){ %>
                                     <a href="/client/waitingRoom/<%=currentClassID%>/<%=listExam[i]._id%>"><button class="btn btn-primary mt-3">Vào thi</button></a>
+                                <%} else if (listExam[i].state=='Examining'){%>
+                                    <a href="/host/leaderboard/<%=currentClassID%>/<%=listExam[i]._id%>"><button class="btn btn-primary mt-3">Bảng xếp hạng</button></a>
+                                <%}%>
                                 </div>
                             </div>
                         </div>

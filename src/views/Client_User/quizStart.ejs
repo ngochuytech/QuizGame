@@ -70,6 +70,7 @@
         const socket = io();
         const userId = '<%= user._id %>'
         const userName = '<%= user.nameDisplay %>';
+        const avatar = '<%= user.avatar%>'
         const room = '<%= currentExam._id %>'
         // Diff = Difficulty
         let diff;
@@ -85,8 +86,9 @@
         let quizContainer = document.querySelector('.quiz-container');
         let submitButton = document.getElementById('submitQuestion');
         let score = 0;
+        let numberCorrect = 0;
         const scoreDisplay = document.getElementById('score-display'); // Phần tử hiển thị điểm
-
+        const questionNum = document.getElementById('questionNumber');
         let countdownNumber = 3;
         const countdownElement = document.getElementById("countdown");
         const quizElement = document.getElementById("quiz");
@@ -138,7 +140,6 @@
 
         socket.on('currentQuestion', ({ questionNumber, question_text, difficulty, result }) => {
             // Hiển thị câu hỏi dựa trên questionNumber
-            const questionNum = document.getElementById('questionNumber');
             const question_title = document.getElementById('question-title');
             const timerDisplay = document.getElementById('timer');
 
@@ -159,14 +160,24 @@
 
             result.forEach((item, index) => {
                 document.getElementById(`answer${index + 1}`).innerText = item.text;
-
                 if (item.isCorrect == true)
                     document.getElementById(`answer-option-${index + 1}`).setAttribute('data-correct', 'true');
                 else
                     document.getElementById(`answer-option-${index + 1}`).setAttribute('data-correct', 'false');
-                if (index >= 2)
-                    document.getElementById(`answer-option-${index + 1}`).style.display = "block";
             });
+            
+            if(result.length==3){
+                document.getElementById(`answer-option-3`).style.display = "block";
+                document.getElementById(`answer-option-4`).style.display = "none";
+            }
+            else if(result.length==4){
+                document.getElementById(`answer-option-3`).style.display = "block";
+                document.getElementById(`answer-option-4`).style.display = "block";
+            }
+            else{
+                document.getElementById(`answer-option-3`).style.display = "none";
+                document.getElementById(`answer-option-4`).style.display = "none";
+            }
 
             options = document.querySelectorAll('.answer-option');
             options.forEach(option => {
@@ -254,6 +265,10 @@
                 document.getElementById('wrong-message').style.display = 'none';
                 document.getElementById('timeOut-message').style.display = 'none';
                 socket.emit('quiz:nextQuestion', ({ room, userId, userName, difficultyQuestion: diff, correct: correct, timeRemaining }))
+                // LeaderBoard handle
+                if(correct)
+                    numberCorrect++;     
+                socket.emit('leaderboard:update', ({room, userId, numberComplete: Number(questionNum.textContent), numberCorrect, score}))
             }, 1500)
 
             setTimeout(() => {
@@ -351,6 +366,7 @@
 
         function getStart() {
             socket.emit('quiz:start', ({ room, userId, userName }));
+            socket.emit('leaderboard:start', ({ room, userId, userName, avatar, numberCorrect:0 , score: 0}))
         }
 
     </script>
