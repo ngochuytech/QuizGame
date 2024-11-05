@@ -14,12 +14,18 @@ router.post('/leaveClass/:classID', clientController.leaveClass)
 
 router.get('/result/:classID',clientController.getResult)
 
+router.get('/notice/:classID',clientController.getNotice)
+router.get('/deleteNotice/:classID',clientController.deleteNotice)
+
+
+
 router.get('/member/:classID', clientController.getMember)
 router.get('/deleteMember/:classID', clientController.deleteMember)
 router.post('/addMember/:classID', clientController.addMember);
 
 router.post('/createClass', clientController.createClass)
 router.get('/getAllClass',clientController.getAllClasses)
+router.get('/joinClass/:classID',clientController.joinClass)
 
 router.get('/information',clientController.getInformation)
 router.get('/changePW', clientController.getChangePW)

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Pro - Bài thi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/Client_User/Home.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch&display=swap" rel="stylesheet">
+</head>
+<script>
+    async function Check(type,noticeID,IDuser,IDClass)
+    {
+        if(type==='access')
+        {
+            try {
+                let response = await fetch(`/client/addMember/${IDClass}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({ idMember: IDuser })
+                }); 
+                response = await fetch(`/client/deleteNotice/${IDClass}?IDuser=${IDuser}`, {
+                    method: 'GET',
+                }); 
+                if (response.ok) {
+                    const result = await response.json();
+                    showToast('Đã gửi yêu cầu thành công', result);
+                    location.reload();
+                } else {
+                    showToast('Đã xảy ra lỗi', response.status);
+                }
+            } 
+            catch (error) {
+                alert('Đã xảy ra lỗi'+error);
+                // Hiển thị thông báo lỗi nếu cần
+            }
+        }
+        if(type==='deny')
+        {
+            try {
+                const response = await fetch(`/client/deleteNotice/${IDClass}?IDuser=${IDuser}`, {
+                    method: 'GET',
+
+                }); 
+                if (response.ok) {
+                    const result = await response.json();
+                    showToast('Đã gửi yêu cầu thành công', result);
+                    location.reload();
+                } else {
+                    showToast('Đã xảy ra lỗi', response.status);
+                }
+            } 
+            catch (error) {
+                showToast('Đã xảy ra lỗi'+error);
+                // Hiển thị thông báo lỗi nếu cần
+            }
+        }
+    }
+</script>
+<body>
+    <!-- Header Navbar -->
+    <%- include('../utils/header.ejs'); %>
+
+    <!-- Modal -->
+    <%- include('../utils/modal.ejs'); %>
+    <!-- End modal -->
+
+    <!-- Container -->
+    <div class="Main-Content" style="margin-top: 56px;">
+        <!-- Sidebar left -->
+        <%- include('../utils/sidebar.ejs'); %>
+        <!-- End slidebar left -->
+
+        <!-- Sidebar right -->
+        <div class="SidebarRight <%=(currentClassID=='-1')?'d-none':''%>">
+            <!-- Header of class -->
+            <%- include('../utils/headerOfClass.ejs'); %>
+            <!-- End header of class -->
+
+            <!-- Content -->
+            <div class="Content overflow-auto" style="background-color: #fff;">
+                <!-- Exam Results -->
+                <div class="p-4">
+                    <%for(var i=0; i < AllNotice.length; i++) { %>
+                        <div class="exam-item mb-1">
+                            <div class="row mb-3">
+                                <div class="col-md-8">
+                                    <h5>
+                                        <%= AllNotice[i].content %>
+                                    </h5>
+                                    <p><%=userInNotice[i].nameDisplay%></p>
+                                    <input type="button" onclick="Check('access','<%=AllNotice[i]._id%>','<%=userInNotice[i]._id%>','<%=currentClassID%>')" value="Đồng ý">
+                                    <input type="button" onclick="Check('deny','<%=AllNotice[i]._id%>','<%=userInNotice[i]._id%>','<%=currentClassID%>')" value="Từ chối">
+
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- End sidebar right -->
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
