@@ -12,6 +12,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch&display=swap" rel="stylesheet">
 </head>
 <script>
+      function showToast(message) {
+     // Cập nhật nội dung thông báo
+     document.querySelector('#liveToast .toast-body').textContent = message;
+ 
+     // Cấu hình thời gian delay lâu hơn (ví dụ: 10 giây)
+     var toastEl = document.getElementById('liveToast');
+     var toast = new bootstrap.Toast(toastEl, { delay: 10000 }); // 10000ms = 10 giây
+ 
+     // Hiển thị toast
+     toast.show();
+ }
     async function Check(type,noticeID,IDuser,IDClass)
     {
         if(type==='access')
@@ -29,7 +40,7 @@
                 }); 
                 if (response.ok) {
                     const result = await response.json();
-                    showToast('Đã gửi yêu cầu thành công', result);
+                    showToast('Chấp nhận yêu cầu', result);
                     location.reload();
                 } else {
                     showToast('Đã xảy ra lỗi', response.status);
@@ -49,7 +60,7 @@
                 }); 
                 if (response.ok) {
                     const result = await response.json();
-                    showToast('Đã gửi yêu cầu thành công', result);
+                    showToast('Từ chối yêu cầu', result);
                     location.reload();
                 } else {
                     showToast('Đã xảy ra lỗi', response.status);
@@ -107,7 +118,19 @@
         </div>
     </div>
     <!-- End sidebar right -->
-
+<!-- Toast thông báo -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+        <div class="toast-header">
+            <strong class="me-auto text-primary">Thông báo</strong> <!-- Thay đổi màu tiêu đề -->
+            <small class="text-muted">Vừa xong</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body text-danger">
+            Đây là thông báo từ hệ thống. <!-- Thay đổi màu chữ nội dung -->
+        </div>
+    </div>
+</div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

@@ -27,6 +27,7 @@
     // Hiển thị toast
     var toastEl = document.getElementById('liveToast');
     var toast = new bootstrap.Toast(toastEl);
+    var toast = new bootstrap.Toast(toastEl, { delay: 10000 }); // 10000ms = 10 giây
     toast.show();
 }
     async function JoinClass(ClassID) {
