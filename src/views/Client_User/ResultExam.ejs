@@ -27,23 +27,8 @@
         <div class="card mb-4">
             <div class="card-body">
                 <h4 class="card-title">Thông tin kết quả</h4>
-                <p>Điểm số của bạn: <b><%=score%></b></p>
-                <p>Số câu đúng: <b><%=numberCorrect%> / <%=exam.questions.length%></b></p>
-                <p>Thời gian hoàn thành:
-                    <%
-                        const hours = Math.floor(timeDoExam / 3600);
-                        const minutes = Math.floor((timeDoExam % 3600) / 60);
-                        const seconds = timeDoExam % 60;
-                    %>
-                    <% if (hours > 0) { %>
-                        <b><%= hours %> giờ</b>
-                    <% } %>
-                    <% if (minutes > 0 || hours > 0) { %>
-                        <b><%= minutes %> phút</b>
-                    <% } %>
-                    <b><%= seconds %> giây</b>
-                </p>
-                
+                <p>Điểm số của bạn: <b><%=result.grade%></b></p>
+           
             </div>
         </div>
 

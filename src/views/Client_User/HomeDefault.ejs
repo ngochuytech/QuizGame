@@ -19,6 +19,36 @@
             height: auto;
         }
     </style>
+<script>
+    function showToast(message) {
+    // Cập nhật nội dung thông báo
+    document.querySelector('#liveToast .toast-body').textContent = message;
+
+    // Hiển thị toast
+    var toastEl = document.getElementById('liveToast');
+    var toast = new bootstrap.Toast(toastEl);
+    var toast = new bootstrap.Toast(toastEl, { delay: 10000 }); // 10000ms = 10 giây
+    toast.show();
+}
+    async function JoinClass(ClassID) {
+        try {
+            const response = await fetch(`/client/joinClass/${ClassID}`, {
+                method: 'GET',
+            }); 
+
+            if (response.ok) {
+                const result = await response.json();
+                showToast('Đã gửi yêu cầu thành công', result);
+            } else {
+                showToast('Đã xảy ra lỗi', response.status);
+            }
+        } catch (error) {
+            showToast('Đã xảy ra lỗi', error);
+            // Hiển thị thông báo lỗi nếu cần
+        }
+    }
+</script>
+
 </head>
 
 <body>
@@ -38,16 +68,45 @@
         <!-- Sidebar right -->
         <div class="SidebarRight">
             <div class="text-description">
-                <img src="/images/brand.png" alt="Brand Image">
+                <!-- <img src="/images/brand.png" alt="Brand Image">
                 <p>Chào mừng bạn đến với Quiz.PRO</p>
                 <p>Quiz.PRO - Nơi kiến thức thăng hoa, thử thách kết nối bạn bè</p>
+                 -->
+                 <div class="p-4">
+                    <% for (var i = 0; i < notOwerClass.length; i++) { %>
+                        <div class="exam-item mb-3 p-3 border rounded bg-light">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h5 class="mb-0">
+                                        <%= notOwerClass[i].nameDisplay %>
+                                    </h5>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <button class="btn btn-primary" onclick="JoinClass('<%=notOwerClass[i]._id%>')" >Tham gia</button>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>                    
+                </div>
             </div>
             
         </div>
     </div>
 
     <!-- End Sidebar right -->
-
+    <!-- Toast thông báo -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+            <div class="toast-header">
+                <strong class="me-auto text-primary">Thông báo</strong> <!-- Thay đổi màu tiêu đề -->
+                <small class="text-muted">Vừa xong</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body text-danger">
+                Đây là thông báo từ hệ thống. <!-- Thay đổi màu chữ nội dung -->
+            </div>
+        </div>
+    </div>
     <!-- Import JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

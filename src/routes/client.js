@@ -15,12 +15,18 @@ router.post('/leaveClass/:classID', clientController.leaveClass)
 
 router.get('/result/:classID',clientController.getResult)
 
+router.get('/notice/:classID',clientController.getNotice)
+router.get('/deleteNotice/:classID',clientController.deleteNotice)
+
+
+
 router.get('/member/:classID', clientController.getMember)
 router.get('/deleteMember/:classID', clientController.deleteMember)
 router.post('/addMember/:classID', clientController.addMember);
 
 router.post('/createClass', clientController.createClass)
 router.get('/getAllClass',clientController.getAllClasses)
+router.get('/joinClass/:classID',clientController.joinClass)
 
 router.get('/information',clientController.getInformation)
 router.get('/changePW', clientController.getChangePW)
@@ -31,7 +37,12 @@ router.get('/waitingRoom/:classID/:examID',clientMiddleWare.checkStateExam, clie
 
 router.get('/quizStart/:classID/:examID',clientMiddleWare.checkStateExam, clientController.quizStart);
 
-router.post('/resultexam/:classID', clientController.getResultExam);
+router.post('/createResultExam/:classID', clientController.createResultExam);
+
+router.post('/resultexam/:resultID', clientController.postResultExam);
+
+router.get('/resultexam/:classID/:examID/:resultID', clientController.getResultExam);
+
 router.get('/logout', clientController.logout);
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {

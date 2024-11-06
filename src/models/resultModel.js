@@ -14,6 +14,14 @@ const resultSchema = new Schema({
     grade: {
         type: Number,
         default: 0
+    },
+    numberCorrect: {
+        type: Number,
+        default:0
+    },
+    timeExam:{
+        type: Number,
+        default:0
     }
 })
 

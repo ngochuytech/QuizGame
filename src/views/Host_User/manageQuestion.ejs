@@ -12,15 +12,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch&display=swap" rel="stylesheet">
 </head>
 <script>
-    function showToast(message) {
-    // Cập nhật nội dung thông báo
-    document.querySelector('#liveToast .toast-body').textContent = message;
-
-    // Hiển thị toast
-    var toastEl = document.getElementById('liveToast');
-    var toast = new bootstrap.Toast(toastEl);
-    toast.show();
-}
+      function showToast(message) {
+     // Cập nhật nội dung thông báo
+     document.querySelector('#liveToast .toast-body').textContent = message;
+ 
+     // Cấu hình thời gian delay lâu hơn (ví dụ: 10 giây)
+     var toastEl = document.getElementById('liveToast');
+     var toast = new bootstrap.Toast(toastEl, { delay: 10000 }); // 10000ms = 10 giây
+ 
+     // Hiển thị toast
+     toast.show();
+ }
     function searchQuestions(ClassID) {
     // Lấy giá trị từ input
     const keyword = document.getElementById('searchKeyword').value;

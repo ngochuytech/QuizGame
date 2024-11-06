@@ -54,7 +54,7 @@
         <button class="btn btn-primary mt-3" id="submitQuestion" style="display: none;">Nộp kết quả</button>
     </div>
 
-    <form id="postForm" method="POST" action="/client/resultexam/<%=classID%>" style="display: none;">
+    <form id="postForm" method="POST" action="/client/createResultExam/<%=classID%>" style="display: none;">
         <input type="hidden" name="examID" value="<%=currentExam._id%>">
         <input type="hidden" name="numberCorrect">
         <input type="hidden" name="score">

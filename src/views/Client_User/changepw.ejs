@@ -149,6 +149,7 @@
 
     // Hiển thị toast
     var toastEl = document.getElementById('liveToast');
+    var toast = new bootstrap.Toast(toastEl, { delay: 10000 }); // 10000ms = 10 giây
     var toast = new bootstrap.Toast(toastEl);
     toast.show();
 }
