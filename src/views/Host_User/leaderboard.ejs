@@ -16,10 +16,12 @@
     <!-- Header -->
     <%- include('../utils/header.ejs'); %>
     
+    <%if (currentExam.creator?.idCreator.equals(user._id)){ %>
     <form action="/host/endQuiz/<%=currentClass._id%>/<%=currentExam._id%>" method="post" onsubmit="endQuiz(event)">
         <!-- Nút kết thúc bài thi -->
         <button class="btn btn-danger" style="float: right;" onclick="endQuiz(event)">Kết thúc bài thi</button>
     </form>
+    <%}%>
     <!-- Main Content -->
     <div class="container mt-5">
         <h2 class="text-center">Bảng xếp hạng</h2>

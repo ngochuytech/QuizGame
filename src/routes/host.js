@@ -1,9 +1,10 @@
 import express from "express"
 import hostController from "../controllers/hostController"
+import hostMiddleware from '../middleware/hostMiddleware'
 const router = express.Router()
 
 router.get('/createQuiz/:idClass', hostController.getCreateQuiz)
-router.get('/leaderboard/:idClass/:idExam', hostController.getLeaderboard)
+router.get('/leaderboard/:idClass/:idExam',hostMiddleware.checkStateExam , hostController.getLeaderboard)
 router.get('/manageClass/:idClass', hostController.getManageClass)
 router.get('/deleteQuestion', hostController.deleteQuestion)
 router.get('/manageQuestion/:id', hostController.getManageQuestion)
