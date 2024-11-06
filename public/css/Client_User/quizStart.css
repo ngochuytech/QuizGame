@@ -10,7 +10,7 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #bbdfe4;
-    padding-top: 70px; /* To accommodate the fixed header */
+    padding-top: 70px;
 }
 
 
@@ -20,8 +20,9 @@ body {
 
 #countdown {
     font-size: 4em;
+    padding-top: 15%;
     font-weight: bold;
-    color: #007bff;
+    color: #1838a0;
     animation: pop 1s ease-in-out infinite;
     transition: transform 0.1s ease, opacity 0.1s ease;
 }

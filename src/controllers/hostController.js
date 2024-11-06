@@ -224,8 +224,8 @@ let endQuiz = async(req, res) => {
     let examID = req.params.idExam;
     try {
         let currentExam = await examService.findExambyID(examID);
-        if(currentExam.state=='Examining')
-            await examService.updateState(currentExam._id, 'Closed');
+        // if(currentExam.state=='Examining')
+        //     await examService.updateState(currentExam._id, 'Closed');
         return res.redirect(`/client/home/${ClassID}`);
     } catch (error) {
         console.log(error);

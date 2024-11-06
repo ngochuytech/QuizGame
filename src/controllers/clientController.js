@@ -242,8 +242,8 @@ let quizStart = async (req, res) =>{
         const listQuestion = await questionSerivce.filterQuestionByExam(currentExam);
         console.log(currentExam);
         
-        if(currentExam.state=='Open')
-            await examService.updateState(currentExam._id, 'Examining');
+        // if(currentExam.state=='Open')
+        //     await examService.updateState(currentExam._id, 'Examining');
         return res.render('Client_User/quizStart.ejs', {user, currentExam, listQuestion, classID});
     } catch (error) {
         console.log(error);
