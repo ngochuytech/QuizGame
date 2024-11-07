@@ -2,6 +2,7 @@ import questionService from '../services/questionService'
 import classService from '../services/classService'
 import examService from '../services/examService'
 import userService from '../services/userService'
+import noticeService from '../services/noticeService'
 import jwt from '../middleware/jwtAction'
 
 let getCreateQuiz = async (req,res) =>{
@@ -45,7 +46,8 @@ let getManageClass = async (req,res) =>{
         const user = await userService.findUserbyID(IDUser);
         const listClass = await classService.getUserClasses(IDUser);
         const currentClass = await classService.getCurrentClass(ClassID);
-        return res.render('Host_User/manageClass.ejs', {currentClassID : ClassID, user, page: 'caidat',listClass:listClass, currentClass: currentClass})
+        const notice = await noticeService.getAllNoticeByClassID(ClassID);
+        return res.render('Host_User/manageClass.ejs', {currentClassID : ClassID, user, page: 'caidat',notice:notice,listClass:listClass, currentClass: currentClass})
     } catch (error) {
         
     }
@@ -60,6 +62,7 @@ let getManageQuestion = async (req, res) => {
     try {
         const user = await userService.findUserbyID(IDUser);
         const currentClass = await classService.getCurrentClass(ClassID);
+        const notice = await noticeService.getAllNoticeByClassID(ClassID)
         let questions;
         if (keyword) {
             questions = await questionService.searchQuestionsByKeyword(ClassID, keyword);
@@ -75,7 +78,8 @@ let getManageQuestion = async (req, res) => {
             page: 'cauhoi',
             currentClassID : ClassID,
             listClass:listClass,
-            currentClass
+            currentClass,
+            notice:notice
         });
     } catch (error) {
         console.error(error);

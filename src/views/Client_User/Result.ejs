@@ -11,7 +11,26 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch&display=swap" rel="stylesheet">
 </head>
+<script>
+function Ketqua(id, Name, Length, score, classID) {
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = `/client/resultexam/${id}`;
 
+  // Thêm các trường dữ liệu vào biểu mẫu
+  const inputs = { name: Name, length: Length, score: score, classID: classID };
+  for (const key in inputs) {
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = key;
+    input.value = inputs[key];
+    form.appendChild(input);
+  }
+
+  document.body.appendChild(form); // Thêm biểu mẫu vào tài liệu
+  form.submit(); // Gửi biểu mẫu
+}
+</script>
 <body>
     <!-- Header -->
     <%- include('../utils/header.ejs'); %>
@@ -42,7 +61,7 @@
                                 <p>Số câu: <%=examOfUser[i].questions.length%> câu</p>
                             </div>
                             <div class="col-md-4 text-end">
-                                <button class="btn mt-3 text-light" style="background-color: #268b07;">Kết quả: <%= resultOfUser[i].grade%></button>
+                                <button class="btn btn-secondary mt-3" onclick="Ketqua('<%=resultOfUser[i]._id%>','<%=examOfUser[i].nameDisplay%>','<%=examOfUser[i].questions.length%>','<%= resultOfUser[i].grade%>','<%=currentClassID%>')">Kết quả: <%= resultOfUser[i].grade%></button>
                             </div>
                         </div>
                     </div>

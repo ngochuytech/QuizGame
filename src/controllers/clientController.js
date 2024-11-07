@@ -4,6 +4,7 @@ import classService from '../services/classService'
 import examService from '../services/examService'
 import resultService from '../services/resultService'
 import userService from '../services/userService'
+import noticeService from '../services/noticeService'
 import questionSerivce from '../services/questionService'
 import jwt from '../middleware/jwtAction'
 import 'dotenv/config'
@@ -16,8 +17,13 @@ let getHome = async (req, res) => {
         const token = req.cookies.jwt;
         let IDUser = jwt.verifyToken(token)._id;
         const user = await userService.findUserbyID(IDUser);
+
         const listClass = await classService.getUserClasses(IDUser); 
-        return res.render('Client_User/HomeDefault.ejs', { currentClassID: '-1',user: user, currentClass: "None", listClass: listClass});
+        const allClass= await classService.getAllClass(IDUser); 
+        const notOwnerClass = allClass.filter(
+            (classItem) => !listClass.some((userClass) => userClass._id.toString() === classItem._id.toString())
+        );        
+        return res.render('Client_User/HomeDefault.ejs', { currentClassID: '-1',user: user, currentClass: "None", listClass: listClass,notOwerClass:notOwnerClass});
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: 'Internal server error' });
@@ -33,14 +39,31 @@ let getHomeClass = async (req, res) => {
         const listClass = await classService.getUserClasses(IDUser);
         const user = await userService.findUserbyID(IDUser);
         const currentClass = await classService.getCurrentClass(ClassId);
-        const listCurrentExam = await examService.filterExamByClass(currentClass.Exams);     
-        return res.render('Client_User/Home.ejs', { currentClassID: ClassId, user: user, page: 'baithi', currentClass: currentClass, listClass: listClass, listExam: listCurrentExam })
+        const listCurrentExam = await examService.filterExamByClass(currentClass.Exams);
+        const notice = await noticeService.getAllNoticeByClassID(ClassId);
+        return res.render('Client_User/Home.ejs', { currentClassID: ClassId, user: user, page: 'baithi', currentClass: currentClass, listClass: listClass, listExam: listCurrentExam,notice:notice })
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: 'Internal server error' });
     }
 }
-
+let getNotice = async (req, res) => {
+    const token = req.cookies.jwt;
+    let IDUser = jwt.verifyToken(token)._id;
+    let ClassId = req.params.classID;
+    try{
+        const listClass = await classService.getUserClasses(IDUser);
+        const {notice, userInNotice} = await noticeService.getAllNoticeAndUserInNoticeByClassID(ClassId);
+        const user = await userService.findUserbyID(IDUser);
+        const currentClass = await classService.getCurrentClass(ClassId);
+        return res.render('Client_User/notice.ejs', {AllNotice:notice,userInNotice:userInNotice,currentClassID: ClassId,currentClass: currentClass,user:user,listClass: listClass, page: 'thongbao'})
+    }
+    catch(error)
+    {
+        console.log(error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+}
 let getResult = async (req, res) => {
     const token = req.cookies.jwt;
     let IDUser = jwt.verifyToken(token)._id;
@@ -51,8 +74,9 @@ let getResult = async (req, res) => {
         const listClass = await classService.getUserClasses(IDUser);
         // Tìm class để lấy class hiện tại
         const currentClass = await classService.getCurrentClass(ClassId);
+        const notice = await noticeService.getAllNoticeByClassID(ClassId);
         const {resultOfUser, examOfUser} = await resultService.findResultsByUser(IDUser, currentClass);
-        return res.render('Client_User/Result.ejs', { currentClassID: ClassId, page: 'ketqua', currentClass, user: user, listClass: listClass, resultOfUser, examOfUser})
+        return res.render('Client_User/Result.ejs', { currentClassID: ClassId, page: 'ketqua', currentClass, user: user, listClass: listClass, resultOfUser, examOfUser,notice:notice})
     } catch (error) {
         console.log(error);
     }
@@ -66,6 +90,7 @@ let getMember = async (req, res) => {
     const keyword = req.query.keyword; 
     try {
         const user = await userService.findUserbyID(IDUser);
+        const notice = await noticeService.getAllNoticeByClassID(ClassId);
         // Chờ kết quả của IDOwnerClass
         let IDOwnerClass = await userService.getOwnerIDClass(ClassId);
         const OwerOrNotOwer = (IDOwnerClass==IDUser)?true:false;
@@ -89,7 +114,8 @@ let getMember = async (req, res) => {
             listMember: listMember,
             IDOwnerClass: IDOwnerClass,
             OwerOrNotOwer:OwerOrNotOwer, // Có thể thêm IDOwnerClass vào view nếu cần
-            user: user
+            user: user,
+            notice:notice
         });
     } catch (error) {
         console.error(error);
@@ -196,7 +222,8 @@ let leaveClass = async (req,res) =>{
 
 let addMember = async (req,res) =>{ 
     const classID = req.params.classID;
-    let { idMember } = req.body;
+    let idMember  = req.body.idMember;
+    console.log(idMember);
     if(!mongoose.Types.ObjectId.isValid(idMember)){
         console.log('ID Member not valid');
         return res.redirect(`/client/member/${classID}`);
@@ -348,7 +375,7 @@ let handleUpLoadFile = async (req, res) => {
 
     });
 };
-let getResultExam = async(req, res) => {
+let createResultExam = async(req, res) => {
     const token = req.cookies.jwt;
     let IDUser = jwt.verifyToken(token)._id;
     const {examID, numberCorrect, score, timeDoExam} = req.body;
@@ -356,9 +383,42 @@ let getResultExam = async(req, res) => {
     try {
         const user = await userService.findUserbyID(IDUser);
         const exam = await examService.findExambyID(examID);
-        const result = await resultService.saveResult(examID, IDUser, score)
-        return res.render('Client_User/ResultExam.ejs', { user, exam, numberCorrect, score, timeDoExam, classID});
+        const result = await resultService.saveResult(examID, IDUser, score,numberCorrect,timeDoExam)
+        return res.redirect(`/client/resultexam/${classID}/${examID}/${result._id}`);
     } catch (error) {
+        console.log(error)
+    }
+}
+
+let postResultExam = async(req, res) => {
+    const token = req.cookies.jwt;
+    let IDUser = jwt.verifyToken(token)._id;
+    const {name, score, length,classID} = req.body;
+    const resultID = req.params.resultID;
+    try {
+        const user = await userService.findUserbyID(IDUser);
+       const result = await resultService.getResult(resultID);
+       const exam  = await examService.findExambyID(result.examID);
+        return res.render('Client_User/ResultExam.ejs', { user,exam,result,classID});
+    } catch (error) {
+        console.log(error)
+    }
+}
+let getResultExam = async(req, res) => {
+    const token = req.cookies.jwt;
+    let IDUser = jwt.verifyToken(token)._id;
+    const IDresult = req.params.resultID;
+    const IDexam = req.params.examID;
+    const classID = req.params.classID;
+
+    try{
+        const user = await userService.findUserbyID(IDUser);
+        const result = await resultService.getResult(IDresult);
+        const exam  = await examService.findExambyID(IDexam);
+        return res.render('Client_User/ResultExam.ejs', { classID,user,result,exam});
+       }
+    catch(error)
+    {
         console.log(error)
     }
 }
@@ -371,8 +431,40 @@ let logout = async(req, res) => {
     return res.status(500).send('Có lỗi xảy ra. Vui lòng thử lại sau.');
 }
 }
+let joinClass = async (req, res) => {
+    try {
+        const token = req.cookies.jwt;
+        let IDUser = jwt.verifyToken(token)._id;
+        const classID = req.params.classID;
+
+        const classInfo = await classService.getCurrentClass(classID);
+        const ownerID = classInfo.ownerID;
+
+        const notice = noticeService.InsertNotice(IDUser,ownerID,classID,'Yêu cầu tham gia vào lớp '+classInfo.nameDisplay);
+        res.status(200).send({ message: 'Request to join class sent successfully.' });
+    } catch (error) {
+        console.error('Error joining class:', error);
+        res.status(500).send({ message: 'Failed to join class.' });
+    }
+};
+let deleteNotice =  async (req, res) => {
+    try {
+        const token = req.cookies.jwt;
+        let IDUser = jwt.verifyToken(token)._id;
+        const classID = req.params.classID;
+
+        const IDuser = req.query.IDuser;
+
+        const deleteUser = noticeService.deleteNoticeByIDSend(IDuser,classID);
+
+        res.status(200).send({ message: 'Request to join class sent successfully.' });
+    } catch (error) {
+        console.error('Error joining class:', error);
+        res.status(500).send({ message: 'Failed to join class.' });
+    }
+}
 module.exports = {
-    getHome, getResult, getMember, createClass, getAllClasses, getHomeClass, getInformation, getChangePW, 
+    getHome, getResult, getMember, createClass, getAllClasses, getHomeClass,joinClass, getInformation, getChangePW, 
     editAccount, editPassword, handleUpLoadFile,deleteMember,addMember,getWaitingRoom, leaveClass,
-    quizStart, getResultExam,logout
+    quizStart, postResultExam,getResultExam,logout,createResultExam,getNotice,deleteNotice,deleteNotice
 }
