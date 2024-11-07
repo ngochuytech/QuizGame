@@ -101,13 +101,14 @@
                         <div class="exam-item mb-1">
                             <div class="row mb-3">
                                 <div class="col-md-8">
-                                    <h5>
-                                        <%= AllNotice[i].content %>
+                                    <h5 class="">
+                                        <%= AllNotice[i].content%>
                                     </h5>
-                                    <p><%=userInNotice[i].nameDisplay%></p>
-                                    <input type="button" onclick="Check('access','<%=AllNotice[i]._id%>','<%=userInNotice[i]._id%>','<%=currentClassID%>')" value="Đồng ý">
-                                    <input type="button" onclick="Check('deny','<%=AllNotice[i]._id%>','<%=userInNotice[i]._id%>','<%=currentClassID%>')" value="Từ chối">
-
+                                    <p class="">Tên: <%=userInNotice[i].nameDisplay%></p>
+                                </div>
+                                <div class="col-md-4 pt-4 text-end pr-2">
+                                    <input type="button" class="btn btn-success text-end" onclick="Check('access','<%=AllNotice[i]._id%>','<%=userInNotice[i]._id%>','<%=currentClassID%>')" value="Đồng ý">
+                                    <input type="button" class="btn btn-danger text-end" onclick="Check('deny','<%=AllNotice[i]._id%>','<%=userInNotice[i]._id%>','<%=currentClassID%>')" value="Từ chối">
                                 </div>
                             </div>
                         </div>
