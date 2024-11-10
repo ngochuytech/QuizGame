@@ -5,7 +5,7 @@ const checkStateExam = async (req, res, next) => {
     const ClassID = req.params.idClass;
     try {
         const currentExam = await examService.findExambyID(ExamID);
-        if(currentExam.state != 'Examining')
+        if(currentExam.state == 'Open')
             return res.redirect(`/client/home/${ClassID}`)
         next();
     } catch (error) {

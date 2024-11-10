@@ -41,15 +41,14 @@ const findResultsByUser = (IDUser, currentClass) =>{
 }
 
 // Lưu kết quả khi người dùng thi xong
-const saveResult = (examID, userID, score,numberCorrect,timeExam) => {
+const saveResult = (examID, userID, score,numberCorrect) => {
     return new Promise(async (resolve, reject) => {
         try {
             const newResult = await Result.create({
                 examID,
                 particantID: userID,
                 grade: score,
-                numberCorrect:numberCorrect,
-                timeExam:timeExam
+                numberCorrect:numberCorrect
             })
 
             await Exam.findByIdAndUpdate(examID, {

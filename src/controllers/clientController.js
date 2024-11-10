@@ -379,12 +379,12 @@ let handleUpLoadFile = async (req, res) => {
 let createResultExam = async(req, res) => {
     const token = req.cookies.jwt;
     let IDUser = jwt.verifyToken(token)._id;
-    const {examID, numberCorrect, score, timeDoExam} = req.body;
+    const {examID, numberCorrect, score} = req.body;
     const classID = req.params.classID;
     try {
         const user = await userService.findUserbyID(IDUser);
         const exam = await examService.findExambyID(examID);
-        const result = await resultService.saveResult(examID, IDUser, score,numberCorrect,timeDoExam)
+        const result = await resultService.saveResult(examID, IDUser, score,numberCorrect)
         return res.redirect(`/client/resultexam/${classID}/${examID}/${result._id}`);
     } catch (error) {
         console.log(error)

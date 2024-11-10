@@ -67,7 +67,7 @@
                                 <div class="col-md-4 text-end">
                                 <%if(listExam[i].state=='Open'){ %>
                                     <a href="/client/waitingRoom/<%=currentClassID%>/<%=listExam[i]._id%>"><button class="btn btn-primary mt-3">Vào thi</button></a>
-                                <%} else if (listExam[i].state=='Examining'){%>
+                                <%} else if (listExam[i].state !='Open'){%>
                                     <a href="/host/leaderboard/<%=currentClassID%>/<%=listExam[i]._id%>"><button class="btn btn-primary mt-3">Bảng xếp hạng</button></a>
                                 <%}%>
                                 </div>

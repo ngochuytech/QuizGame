@@ -18,6 +18,4 @@ router.post('/updateNameClass/:idClass', hostController.updateNameClass)
 router.post('/createExam/:idClass', hostController.createExam);
 router.post('/cancelTheTest/:idClass/:idExam', hostController.cancelTheTest);
 
-router.post('/endQuiz/:idClass/:idExam', hostController.endQuiz)
-
 module.exports = router;

@@ -223,20 +223,8 @@ let cancelTheTest = async(req,res) =>{
 
 }
 
-let endQuiz = async(req, res) => {
-    const ClassID = req.params.idClass;
-    let examID = req.params.idExam;
-    try {
-        let currentExam = await examService.findExambyID(examID);
-        if(currentExam.state=='Examining')
-            await examService.updateState(currentExam._id, 'Closed');
-        return res.redirect(`/client/home/${ClassID}`);
-    } catch (error) {
-        console.log(error);
-    }
-}
 
 module.exports = {
     getCreateQuiz, getLeaderboard, getManageClass, getManageQuestion,deleteQuestion,AddQuestion,UpdateQuestion,
-    deleteClass, updateNameClass, createExam, cancelTheTest, endQuiz
+    deleteClass, updateNameClass, createExam, cancelTheTest
 }
