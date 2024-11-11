@@ -18,21 +18,26 @@ module.exports = (io, socket) => {
 
     async function endQuiz(room) {
         // Kết thúc bài thi cho tất cả người chơi
-        setTimeout(() => {
-            Object.keys(ROOMS[room].players).forEach(playerId => {
-                const playerData = ROOMS[room].players[playerId];
-                io.to(playerId).emit("finishQuiz", {
-                    numberCorrect: playerData.numberCorrect,
-                    score: playerData.score
+        setTimeout(async () => {
+            if (ROOMS[room] && ROOMS[room].players) {
+                Object.keys(ROOMS[room].players).forEach(playerId => {
+                    const playerData = ROOMS[room].players[playerId];
+                    io.to(playerId).emit("finishQuiz", {
+                        numberCorrect: playerData.numberCorrect,
+                        score: playerData.score
+                    });
                 });
-            });
+            }
+            try {
+                await examService.updateState(room, 'Closed');
+                delete ROOMS[room];
+                delete listQuestionOfExam[room];
+                delete questionTimers[room];
+            } catch (error) {
+                console.log(error);
+            }
         }, 500)
 
-        try {
-            await examService.updateState(room, 'Closed');
-        } catch (error) {
-            console.log(error);
-        }
 
     }
 
@@ -58,6 +63,8 @@ module.exports = (io, socket) => {
                 clearInterval(questionTimers[room]);
                 delete questionTimers[room]; // Xóa bộ đếm sau khi dừng
                 if (ROOMS[room].questionInProgress) {
+                    console.log("room = ", ROOMS);
+                    
                     ROOMS[room].questionInProgress = false; // Đặt lại cờ
                     io.to(room).emit('submitAnswer');
                     ROOMS[room].currentQuestion++;
@@ -89,25 +96,25 @@ module.exports = (io, socket) => {
 
     // Event
     socket.on('quiz:start', async ({ room, userId, userName }) => {
-
-        if (!listQuestionOfExam[room]) {
-            const currentExam = await examService.findExambyID(room);
-            listQuestionOfExam[room] = await questionService.filterQuestionByExam(currentExam);
-        }
-
-        if (!ROOMS[room]) {
-            ROOMS[room] = {
-                players: {},
-                currentQuestion: 0,
-                questionInProgress: true
-            }
-        }
+        
 
         try {
             const stateOfExam = await examService.checkStateExam(room);
             if(stateOfExam == "Closed"){
                 socket.emit("redirect:leaderboard");
                 return;
+            }
+            if (!listQuestionOfExam[room]) {
+                const currentExam = await examService.findExambyID(room);
+                listQuestionOfExam[room] = await questionService.filterQuestionByExam(currentExam);
+            }
+    
+            if (!ROOMS[room]) {
+                ROOMS[room] = {
+                    players: {},
+                    currentQuestion: 0,
+                    questionInProgress: true
+                }
             }
         } catch (error) {
             console.log(error);
@@ -140,11 +147,6 @@ module.exports = (io, socket) => {
         for (const room in ROOMS) {
             if (ROOMS[room].players[socket.id]) {
                 delete ROOMS[room].players[socket.id];
-                if (Object.keys(ROOMS[room].players).length === 0) {
-                    // delete ROOMS[room];
-                    // delete listQuestionOfExam[room];
-                    // delete questionTimers[room];
-                }
                 break;
             }
         }
