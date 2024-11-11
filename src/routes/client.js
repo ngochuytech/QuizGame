@@ -35,7 +35,7 @@ router.post('/changePW', clientController.editPassword)
 
 router.get('/waitingRoom/:classID/:examID',clientMiddleWare.checkStateExam, clientController.getWaitingRoom);
 
-router.get('/quizStart/:classID/:examID',clientMiddleWare.checkStateExam, clientController.quizStart);
+router.get('/quizStart/:classID/:examID', clientController.quizStart);
 
 router.post('/createResultExam/:classID', clientController.createResultExam);
 

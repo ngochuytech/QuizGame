@@ -141,9 +141,9 @@ module.exports = (io, socket) => {
             if (ROOMS[room].players[socket.id]) {
                 delete ROOMS[room].players[socket.id];
                 if (Object.keys(ROOMS[room].players).length === 0) {
-                    delete ROOMS[room];
-                    delete listQuestionOfExam[room];
-                    delete questionTimers[room];
+                    // delete ROOMS[room];
+                    // delete listQuestionOfExam[room];
+                    // delete questionTimers[room];
                 }
                 break;
             }
