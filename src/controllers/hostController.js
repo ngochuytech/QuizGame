@@ -2,6 +2,7 @@ import questionService from '../services/questionService'
 import classService from '../services/classService'
 import examService from '../services/examService'
 import userService from '../services/userService'
+import noticeService from '../services/noticeService'
 import jwt from '../middleware/jwtAction'
 
 let getCreateQuiz = async (req,res) =>{
@@ -21,8 +22,20 @@ let getCreateQuiz = async (req,res) =>{
    
 }
 
-let getLeaderboard = (req,res) =>{
-    return res.render('Host_User/leaderboard.ejs')
+let getLeaderboard = async (req,res) =>{
+    const token = req.cookies.jwt;
+    let IDUser = jwt.verifyToken(token)._id;
+    const ClassID = req.params.idClass;
+    const examID = req.params.idExam
+    try {
+        const user = await userService.findUserbyID(IDUser);
+        const currentClass = await classService.getCurrentClass(ClassID);
+        const currentExam = await examService.findExambyID(examID);
+        return res.render('Host_User/leaderboard.ejs', {user, currentClass, currentExam})
+    } catch (error) {
+        console.log(error);
+    }
+    
 }
 
 let getManageClass = async (req,res) =>{
@@ -33,7 +46,8 @@ let getManageClass = async (req,res) =>{
         const user = await userService.findUserbyID(IDUser);
         const listClass = await classService.getUserClasses(IDUser);
         const currentClass = await classService.getCurrentClass(ClassID);
-        return res.render('Host_User/manageClass.ejs', {currentClassID : ClassID, user, page: 'caidat',listClass:listClass, currentClass: currentClass})
+        const notice = await noticeService.getAllNoticeByClassID(ClassID);
+        return res.render('Host_User/manageClass.ejs', {currentClassID : ClassID, user, page: 'caidat',notice:notice,listClass:listClass, currentClass: currentClass})
     } catch (error) {
         
     }
@@ -48,6 +62,7 @@ let getManageQuestion = async (req, res) => {
     try {
         const user = await userService.findUserbyID(IDUser);
         const currentClass = await classService.getCurrentClass(ClassID);
+        const notice = await noticeService.getAllNoticeByClassID(ClassID)
         let questions;
         if (keyword) {
             questions = await questionService.searchQuestionsByKeyword(ClassID, keyword);
@@ -63,7 +78,8 @@ let getManageQuestion = async (req, res) => {
             page: 'cauhoi',
             currentClassID : ClassID,
             listClass:listClass,
-            currentClass
+            currentClass,
+            notice:notice
         });
     } catch (error) {
         console.error(error);
@@ -195,7 +211,7 @@ let cancelTheTest = async(req,res) =>{
     let examID = req.params.idExam;
     try {
         let currentExam = await examService.findExambyID(examID);
-        if(currentExam.state==true)
+        if(currentExam.state=='Open')
             await examService.cancelTest(ClassID, examID);
         else
             console.log("Không thể hủy bài thi đã bắt đầu !!!");
@@ -206,6 +222,7 @@ let cancelTheTest = async(req,res) =>{
     }
 
 }
+
 
 module.exports = {
     getCreateQuiz, getLeaderboard, getManageClass, getManageQuestion,deleteQuestion,AddQuestion,UpdateQuestion,

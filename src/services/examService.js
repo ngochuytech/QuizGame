@@ -68,6 +68,28 @@ const cancelTest = (ClassID, ExamID)=>{
     })
 }
 
+const updateState = (idExam, State)=>{
+    return new Promise(async(resolve, reject)=>{
+        try { 
+            await Exam.findByIdAndUpdate(idExam, {state: State});
+            resolve();
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
+const checkStateExam = (idExam) => {
+    return new Promise(async(resolve, reject)=>{
+        try { 
+            const exam = await Exam.findById(idExam);
+            resolve(exam.state);
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
 module.exports = {
-    createExam, findExambyID, cancelTest, filterExamByClass
+    createExam, findExambyID, cancelTest, filterExamByClass, updateState, checkStateExam
 }

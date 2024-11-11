@@ -26,39 +26,37 @@
     </nav>
 
     <div id="countdown-container">
-        <div id="countdown">3</div>
+        <div id="countdown">
+            3
+        </div>
     </div>
 
     <!-- Main Quiz Content -->
     <div id="quiz" class="quiz-container" style="display: none;">
         <div class="question-header">
             <h2>Câu hỏi <span id="questionNumber">1</span></h2>
-            <span>Thời gian: <span id="timer">60</span> giây</span>
+            <span>Thời gian: <span id="timer">15</span> giây</span>
             <span id="score-display" style="font-size: 1.2em; color: #007bff;">Điểm số: 0</span>
         </div>
         <div class="question-body">
-            <p id="question-title">DNS viết tắt của từ gì?</p>
-            <p id="timeOut-message" style="color: red; display: none;">Đã hết thời gian trả lời!</p>
+            <p id="question-title"></p>
             <p id="wrong-message" style="color: red; display: none;">Bạn đã trả lời sai!</p>
             <p id="partial-correct-message" style="color: orange; display: none;">Bạn đã trả lời đúng một phần!</p>
             <p id="correct-message" style="color: green; display: none;">Bạn đã trả lời đúng!</p>
         </div>
         <div class="answer-grid">
-            <div class="answer-option" id="answer-option-1">A. <span id="answer1">Domain Nomarl Server</span></div>
-            <div class="answer-option" id="answer-option-2">B. <span id="answer2">Domain Name System</span></div>
-            <div class="answer-option" id="answer-option-3" style=" display: none;">C. <span id="answer3">Domain Next
-                    System</span></div>
-            <div class="answer-option" id="answer-option-4" style="display: none;">D. <span id="answer4">Discovernt Name
-                    System</span></div>
+            <div class="answer-option" id="answer-option-1">A. <span id="answer1"></span></div>
+            <div class="answer-option" id="answer-option-2">B. <span id="answer2"></span></div>
+            <div class="answer-option" id="answer-option-3" style=" display: none;">C. <span id="answer3"></span></div>
+            <div class="answer-option" id="answer-option-4" style="display: none;">D. <span id="answer4"></span></div>
         </div>
         <button class="btn btn-primary mt-3" id="submitQuestion" style="display: none;">Nộp kết quả</button>
     </div>
 
-    <form id="postForm" method="POST" action="/client/resultexam/<%=classID%>" style="display: none;">
+    <form id="postForm" method="POST" action="/client/createResultExam/<%=classID%>" style="display: none;">
         <input type="hidden" name="examID" value="<%=currentExam._id%>">
         <input type="hidden" name="numberCorrect">
         <input type="hidden" name="score">
-        <input type="hidden" name="timeDoExam">
     </form>
 
     <!-- Bootstrap JS (optional for additional functionality) -->
@@ -68,13 +66,16 @@
         const socket = io();
         const userId = '<%= user._id %>'
         const userName = '<%= user.nameDisplay %>';
+        const avatar = '<%= user.avatar%>'
         const room = '<%= currentExam._id %>'
+        const classId = '<%= classID %>'
         // Diff = Difficulty
         let diff;
         let timer; // Biến để lưu timer
         let timeRemaining = 60; // Thời gian bắt đầu
         let isTransitioning = false; // Là công tắc an toàn, ngăn chặn sự kiện "Kép" nếu nhấn nộp kết quả quá nhiều lần.
         let selectedOptions = []; // Danh sách các đáp án đã chọn
+        let submitOptions = []; // Danh sách các đáp án sẽ nộp
         let options;
         let oneSelect = true;
         let multipleCorrectAnswers = false; // Biến kiểm tra có nhiều đáp án đúng không
@@ -83,8 +84,9 @@
         let quizContainer = document.querySelector('.quiz-container');
         let submitButton = document.getElementById('submitQuestion');
         let score = 0;
+        let numberCorrect = 0;
         const scoreDisplay = document.getElementById('score-display'); // Phần tử hiển thị điểm
-
+        const questionNum = document.getElementById('questionNumber');
         let countdownNumber = 3;
         const countdownElement = document.getElementById("countdown");
         const quizElement = document.getElementById("quiz");
@@ -119,13 +121,13 @@
             }, 1000); // Đếm ngược mỗi giây
         }
 
-        function updateScore(diff, timeRemain) {
+        function updateScore(diff) {
             if (diff == 'Easy')
-                score += 10 * timeRemain;
+                score += 10;
             else if (diff == 'Medium')
-                score += 20 * timeRemain;
+                score += 20;
             else if (diff == 'Hard')
-                score += 30 * timeRemain;
+                score += 30;
 
             scoreDisplay.innerText = `Score: ${score}`;
 
@@ -134,21 +136,25 @@
             setTimeout(() => scoreDisplay.classList.remove('score-update'), 500);
         }
 
+        socket.on('updateTimer', ({ timeLeft }) => {
+            document.getElementById('timer').innerText = timeLeft;
+        });
+
         socket.on('currentQuestion', ({ questionNumber, question_text, difficulty, result }) => {
             // Hiển thị câu hỏi dựa trên questionNumber
-            const questionNum = document.getElementById('questionNumber');
             const question_title = document.getElementById('question-title');
             const timerDisplay = document.getElementById('timer');
 
             correct = false;
             multipleCorrectAnswers = false; // Biến kiểm tra có nhiều đáp án đúng không
 
-            quizContainer = document.querySelector('.quiz-container');
-            submitButton = document.getElementById('submitQuestion');
-            // Xử lý nhấn nút vào "Nộp kết quả"
+            submitButton.style.display = 'none';
+            submitButton.disabled = false;
+            //Xử lý nhấn nút vào "Nộp kết quả"
             submitButton.addEventListener('click', handleSubmitClick);
             oneSelect = true;
             selectedOptions = []; // Danh sách các đáp án đã chọn
+            submitOptions = [];
             correctAnswersCount = 0;
             questionNum.innerText = questionNumber + 1;
             question_title.innerText = question_text;
@@ -157,14 +163,24 @@
 
             result.forEach((item, index) => {
                 document.getElementById(`answer${index + 1}`).innerText = item.text;
-
                 if (item.isCorrect == true)
                     document.getElementById(`answer-option-${index + 1}`).setAttribute('data-correct', 'true');
                 else
                     document.getElementById(`answer-option-${index + 1}`).setAttribute('data-correct', 'false');
-                if (index >= 2)
-                    document.getElementById(`answer-option-${index + 1}`).style.display = "block";
             });
+
+            if (result.length == 3) {
+                document.getElementById(`answer-option-3`).style.display = "block";
+                document.getElementById(`answer-option-4`).style.display = "none";
+            }
+            else if (result.length == 4) {
+                document.getElementById(`answer-option-3`).style.display = "block";
+                document.getElementById(`answer-option-4`).style.display = "block";
+            }
+            else {
+                document.getElementById(`answer-option-3`).style.display = "none";
+                document.getElementById(`answer-option-4`).style.display = "none";
+            }
 
             options = document.querySelectorAll('.answer-option');
             options.forEach(option => {
@@ -175,6 +191,8 @@
 
             // Xóa các sự kiện click cũ trước khi gán sự kiện mới
             options.forEach(option => {
+                option.classList.remove('selected', 'correct', 'wrong'); // Xóa các class màu sắc trước đó
+                option.style.pointerEvents = 'auto'; // Cho phép chọn lại
                 option.removeEventListener('click', handleClick);
                 option.addEventListener('click', handleClick);
             });
@@ -185,105 +203,88 @@
                 oneSelect = false;
                 submitButton.style.display = 'block'; // Hiện nút "Nộp kết quả" nếu có từ 2 đáp án đúng
             }
-            // Đặt lại thời gian còn lại và bắt đầu đếm ngược
-            if (difficulty == "Easy")
-                timeRemaining = 30;
-            else if (difficulty == "Medium")
-                timeRemaining = 45;
-            else if (difficulty == "Hard")
-                timeRemaining = 60;
-            timerDisplay.innerText = timeRemaining;
 
             clearInterval(timer); // Dừng timer nếu có chạy trước đó
-            timer = setInterval(() => {
-                timeRemaining--;
-                timerDisplay.innerText = timeRemaining;
-
-                if (timeRemaining <= 0) {
-                    clearInterval(timer); // Dừng timer
-                    document.getElementById('timeOut-message').style.display = 'block';
-                    handleNextQuestion(outOfTime = true);
-
-                }
-            }, 1000); // Giảm mỗi giây
         });
 
-        // Đã làm xong câu hỏi, chuyển trang đến kết quả bài thi
-        socket.on('finishQuiz', ({ numberCorrect, score, timeDoExam }) => {
-            const form = document.getElementById("postForm");
-            document.querySelector('input[name="numberCorrect"]').value = numberCorrect;
-            document.querySelector('input[name="score"]').value = score;
-            document.querySelector('input[name="timeDoExam"]').value = timeDoExam;
-            form.submit();
-        })
-
-        function handleNextQuestion(outOfTime) {
-
-            if (isTransitioning) {
-                console.warn('Already transitioning to the next question. Skipping duplicate call.');
-                return;
+        function arraysEqual(a, b) {
+            if (a.length !== b.length) return false;
+            const sortedA = a.slice().sort();
+            const sortedB = b.slice().sort();
+            for (let i = 0; i < sortedA.length; i++) {
+                if (sortedA[i] !== sortedB[i]) return false;
             }
-            isTransitioning = true;
-            selectedOptions = [];
+            return true;
+        }
 
-            quizContainer.classList.remove('no-hover'); // Bỏ class no-hover để bật lại hover cho câu hỏi mới
-            submitButton.style.display = 'none';
-            submitButton.disabled = false;
-            submitButton.removeEventListener('click', handleSubmitClick); // Xóa sự kiện 'click' ở button để tránh trường hợp add Event 'click' quá nhiều sau mỗi câu
-            // Hiển thị đáp án đúng cho người dùng
+        function checkAnswers() {
+            const correctOptions = Array.from(options).filter(option => option.getAttribute('data-correct') === 'true');
 
-            options.forEach(opt => {
-                if (opt.getAttribute('data-correct') === 'true') {
-                    opt.classList.add('correct'); // Đánh dấu đáp án đúng
+            // Lấy danh sách các đáp án được chọn
+            const selected = submitOptions.map(option => option.id);
+
+            // Lấy danh sách các đáp án đúng
+            const correct = correctOptions.map(option => option.id);
+
+            // So sánh hai mảng
+            const isCorrect = arraysEqual(selected, correct);
+            const isPartialCorrect = selected.some(id => correct.includes(id)) && !isCorrect;
+
+            return { isCorrect, isPartialCorrect };
+        }
+
+        socket.on("submitAnswer", () => {
+
+            const { isCorrect, isPartialCorrect } = checkAnswers();
+            if (isCorrect) {
+                document.getElementById('correct-message').style.display = 'block';
+                updateScore(diff);
+                numberCorrect++;
+            } else if (isPartialCorrect) {
+                document.getElementById('partial-correct-message').style.display = 'block';
+            }
+            else
+                document.getElementById('wrong-message').style.display = 'block';
+
+            socket.emit('leaderboard:update', ({ room, userId, numberComplete: Number(questionNum.textContent), numberCorrect, score }))
+            submitOptions.forEach(option => {
+                const isCorrect = option.getAttribute('data-correct') === 'true';
+                option.classList.add(isCorrect ? 'correct' : 'wrong');
+            });
+
+            // Đánh dấu các đáp án đúng chưa được chọn
+            options.forEach(option => {
+                option.style.pointerEvents = 'none';
+                if (option.getAttribute('data-correct') === 'true' && !submitOptions.includes(option)) {
+                    option.classList.add('correct');
                 }
             });
             setTimeout(() => {
-                oneSelect = true;
-                options.forEach(option => {
-                    option.classList.remove('correct', 'wrong', 'selected'); // Xóa các class màu xanh, đỏ, vàng
-                    option.style.pointerEvents = 'auto'; // Cho phép chọn lại
-                    option.removeEventListener('click', handleClick);
-                });
-                if (outOfTime)
-                    correct = false;
-
+                submitButton.removeEventListener('click', handleSubmitClick);
                 document.getElementById('correct-message').style.display = 'none';
                 document.getElementById('partial-correct-message').style.display = 'none';
                 document.getElementById('wrong-message').style.display = 'none';
-                document.getElementById('timeOut-message').style.display = 'none';
-                socket.emit('quiz:nextQuestion', ({ room, userId, userName, difficultyQuestion: diff, correct: correct, timeRemaining }))
+                socket.emit('quiz:handleAnswer', ({ room, userId, difficultyQuestion: diff, correct: isCorrect }))
             }, 1500)
+        })
 
-            setTimeout(() => {
-                isTransitioning = false;
-            }, 500);
-        }
+        // Đã làm xong câu hỏi, chuyển trang đến kết quả bài thi
+        socket.on('finishQuiz', ({ numberCorrect, score }) => {
+            const form = document.getElementById("postForm");
+            document.querySelector('input[name="numberCorrect"]').value = numberCorrect;
+            document.querySelector('input[name="score"]').value = score;
+            form.submit();
+        })
 
         function handleClick(event) {
+
             const option = event.currentTarget;
             if (!multipleCorrectAnswers && oneSelect) {
+                submitOptions.push(option);
+                option.classList.add('selected');
                 const isCorrect = option.getAttribute('data-correct') === 'true';
-
-                if (isCorrect) {
-                    option.classList.add('correct');
-                    correct = true;
-                    updateScore(diff, timeRemaining);
-                    document.getElementById('correct-message').style.display = 'block';
-                } else {
-                    option.classList.add('wrong');
-                    correct = false;
-                    document.getElementById('wrong-message').style.display = 'block';
-                }
-                // Hiển thị đáp án đúng cho người dùng
-                options.forEach(opt => {
-                    if (opt.getAttribute('data-correct') === 'true') {
-                        opt.classList.add('correct'); // Đánh dấu đáp án đúng
-                    }
-                });
                 option.style.pointerEvents = 'none';
                 oneSelect = false;
-                clearInterval(timer);  // Dừng bộ đếm giờ khi người dùng nhấn nút trả lời
-                handleNextQuestion(outOfTime = false);
             } else if (multipleCorrectAnswers) {
                 // Nếu có nhiều đáp án đúng, cho phép chọn và hiện màu vàng
                 const isSelected = selectedOptions.includes(option);
@@ -301,54 +302,26 @@
             }
         }
 
+        socket.on("redirect:leaderboard", () => {
+            window.location.href = `/host/leaderboard/${classId}/${room}`;
+        })
+
         function handleSubmitClick() {
             if (selectedOptions.length === 0) {
                 alert("Vui lòng chọn ít nhất một đáp án trước khi nộp!");
                 return; // Dừng hàm nếu chưa có đáp án nào được chọn
             }
-            clearInterval(timer); // Dừng bộ đếm giờ khi người dùng nhấn nút trả lời
             submitButton.disabled = true;
-            // Hiển thị đáp án đúng cho người dùng
-            options.forEach(opt => {
-                if (opt.getAttribute('data-correct') === 'true') {
-                    opt.classList.add('correct'); // Đánh dấu đáp án đúng
-                }
-            });
 
-            correct = selectedOptions.every(option => option.getAttribute('data-correct') === 'true')
-                && selectedOptions.length === correctAnswersCount;
-
-            const isPartialCorrect = selectedOptions.some(option => option.getAttribute('data-correct') === 'true')
-                && !correct;
-            selectedOptions.forEach(option => {
-                const isCorrect = option.getAttribute('data-correct') === 'true';
-                option.classList.add(isCorrect ? 'correct' : 'wrong');
-            });
+            submitOptions = [...selectedOptions]; // Copy selectedOption -> submitOptions
             options.forEach(option => {
                 option.style.pointerEvents = 'none';
             })
-
-            if (correct == true) {
-                updateScore(diff, timeRemaining);
-                document.getElementById('correct-message').style.display = 'block';
-            }
-            else if (isPartialCorrect == true) {
-                document.getElementById('partial-correct-message').style.display = 'block';
-            }
-            else if (correct == false && isPartialCorrect == false)
-                document.getElementById('wrong-message').style.display = 'block';
-            else {
-                document.getElementById('correct-message').style.display = 'none';
-                document.getElementById('partial-correct-message').style.display = 'none';
-                document.getElementById('wrong-message').style.display = 'none';
-            }
-
-
-            handleNextQuestion(outOfTime = false);
         }
 
         function getStart() {
             socket.emit('quiz:start', ({ room, userId, userName }));
+            socket.emit('leaderboard:start', ({ room, userId, userName, avatar, numberCorrect: 0, score: 0 }))
         }
 
     </script>

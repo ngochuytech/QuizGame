@@ -170,7 +170,6 @@ const findUserInClass = async (userID, ClassID) => {
         }
     });
 }
-
 module.exports ={
     createClass, getAllClass, getCurrentClass,getUserClasses, deleteClass, updateNameClass,deleteMember,addMember, leaveClass,
     findUserInClass
