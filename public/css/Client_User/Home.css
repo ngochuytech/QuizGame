@@ -20,6 +20,10 @@ body{
 }
 
 .exam-item{
-    background-color: #DFD2A3;
+    padding-bottom: 0;
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--borderColor-attention-muted,var(--color-attention-muted,rgba(212,167,44,0.4)));
+    background-color: #fff8c5;
     border-radius: 8px; /* Bo góc */
 }

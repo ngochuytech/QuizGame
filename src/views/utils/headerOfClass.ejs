@@ -8,18 +8,18 @@
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link ms-3 me-5">
-                    <b class="fs-6 text-dark"><%=currentClass.nameDisplay%></b>
+                    <b class="fs-6 text-dark">Lớp <%=currentClass.nameDisplay%></b>
                 </a>
             </li>
             <% if(currentClass.ownerID.equals(user._id)){ %>
             <li class="nav-item">
                 <% if (page == 'thongbao') { %>
                     <a class="nav-link ms-4" href="/client/notice/<%= currentClassID %>" style="color: #f10f24">
-                        <b>Thông báo <% if (AllNotice.length > 0) { %>(<%= AllNotice.length %>)<% } %></b>
+                        <b>Thông báo<% if (AllNotice.length > 0) { %>(<%= AllNotice.length %>)<% } %></b>
                     </a>
                 <% } else { %>
                     <a class="nav-link ms-4" href="/client/notice/<%= currentClassID %>">
-                        <b>Thông báo <% if (notice.length > 0) { %>(<%= notice.length %>)<% } %></b>
+                        <b>Thông báo<% if (notice.length > 0) { %>(<%= notice.length %>)<% } %></b>
                     </a>
                 <% } %>
             </li>

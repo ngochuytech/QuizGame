@@ -11,13 +11,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/Client_User/HomeDefault.css">
     <style>
-        .text-description {
-            text-align: center;
-        }
-        .text-description img {
-            max-width: 100%;
-            height: auto;
-        }
+        .exam-item{
+            width: 600px;
+            padding-bottom: 0;
+            border-style: solid;
+            border-width: 1px;
+            border-color: var(--borderColor-attention-muted,var(--color-attention-muted,rgba(2,87,122,0.4)));
+            background-color: #d4f0fc;
+            border-radius: 8px; /* Bo góc */
+}
     </style>
 <script>
     function showToast(message) {
@@ -38,9 +40,9 @@
 
             if (response.ok) {
                 const result = await response.json();
-                showToast('Đã gửi yêu cầu thành công', result);
+                showToast('Đã gửi yêu cầu tham gia lớp thành công', result);
             } else {
-                showToast('Đã xảy ra lỗi', response.status);
+                showToast('Đã xảy ra lỗi khi gửi yêu cầu', response.status);
             }
         } catch (error) {
             showToast('Đã xảy ra lỗi', error);
@@ -67,14 +69,11 @@
 
         <!-- Sidebar right -->
         <div class="SidebarRight">
-            <div class="text-description">
-                <!-- <img src="/images/brand.png" alt="Brand Image">
-                <p>Chào mừng bạn đến với Quiz.PRO</p>
-                <p>Quiz.PRO - Nơi kiến thức thăng hoa, thử thách kết nối bạn bè</p>
-                 -->
-                 <div class="p-4">
+            <div class="overflow-auto" style="background-color: #fff;">
+                <div class="p-4">
+                    <h3 class="p-3 text-center ">Các lớp hiện có </h3>
                     <% for (var i = 0; i < notOwerClass.length; i++) { %>
-                        <div class="exam-item mb-3 p-3 border rounded bg-light">
+                        <div class="exam-item mb-3 p-3 rounded">
                             <div class="row align-items-center">
                                 <div class="col-md-8">
                                     <h5 class="mb-0">
@@ -82,14 +81,13 @@
                                     </h5>
                                 </div>
                                 <div class="col-md-4 text-end">
-                                    <button class="btn btn-primary" onclick="JoinClass('<%=notOwerClass[i]._id%>')" >Tham gia</button>
+                                    <button class="btn btn-success" onclick="JoinClass('<%=notOwerClass[i]._id%>')" >Yêu cầu tham gia</button>
                                 </div>
                             </div>
                         </div>
                     <% } %>                    
                 </div>
             </div>
-            
         </div>
     </div>
 

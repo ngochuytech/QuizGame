@@ -21,7 +21,10 @@ body{
 }
 
 .exam-item {
-  background-color: #DFD2A3; /* Màu vàng */
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--borderColor-attention-muted,var(--color-attention-muted,rgba(212,167,44,0.4)));
+  background-color: #fff8c5;
   padding: 10px 15px; /* Giảm padding để làm cho khung nhỏ hơn */
   margin-bottom: 10px; /* Giảm khoảng cách giữa các khung */
   border-radius: 8px; /* Bo góc */
