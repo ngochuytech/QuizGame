@@ -251,7 +251,12 @@ let deleteMember = async (req, res) => {
     let IDUser = jwt.verifyToken(token)._id;
     const userIDDelete= req.query.userID;
     const classID = req.query.ClassID;
-    const deleteMember = await classService.deleteMember(classID,userIDDelete);
+    try {
+        const deleteMember = await classService.deleteMember(classID,userIDDelete);
+    } catch (error) {
+        console.log(error);
+    }
+    
     return res.redirect(`/client/member/${classID}`)
 }
 

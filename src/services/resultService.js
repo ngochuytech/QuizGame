@@ -70,6 +70,18 @@ const getResult = (resultID) => {
         }
     })
 }
+
+const getListResultByIDExam = (ExamID) =>{
+    return new Promise(async (resolve, reject) =>{ 
+        try {
+            let resultOfPlayers = await Result.find({ examID: ExamID }).populate('particantID', 'nameDisplay avatar');
+            resultOfPlayers.sort((a,b)=> b.grade - a.grade)            
+            resolve(resultOfPlayers);
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
 module.exports = {
-    filterResultByExam, findResultsByUser, saveResult,getResult
+    filterResultByExam, findResultsByUser, saveResult,getResult, getListResultByIDExam
 }

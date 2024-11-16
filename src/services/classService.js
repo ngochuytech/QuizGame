@@ -14,7 +14,6 @@ const createClass = (nameClass,IDUser) => {
                 ownerID:IDUser,
                 nameDisplay: nameClass
             });
-            console.log('Class and questions created successfully');
             resolve(newClass)
 
         } catch (error) {

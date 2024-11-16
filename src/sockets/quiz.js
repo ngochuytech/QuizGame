@@ -16,7 +16,7 @@ module.exports = (io, socket) => {
             return 30;
     }
 
-    async function endQuiz(room) {
+    async function endQuiz(room) { 
         // Kết thúc bài thi cho tất cả người chơi
         setTimeout(async () => {
             if (ROOMS[room] && ROOMS[room].players) {
@@ -36,7 +36,7 @@ module.exports = (io, socket) => {
             } catch (error) {
                 console.log(error);
             }
-        }, 500)
+        }, 1000)
 
 
     }
@@ -63,7 +63,6 @@ module.exports = (io, socket) => {
                 clearInterval(questionTimers[room]);
                 delete questionTimers[room]; // Xóa bộ đếm sau khi dừng
                 if (ROOMS[room].questionInProgress) {
-                    console.log("room = ", ROOMS);
                     
                     ROOMS[room].questionInProgress = false; // Đặt lại cờ
                     io.to(room).emit('submitAnswer');
@@ -89,7 +88,7 @@ module.exports = (io, socket) => {
             isCorrect: item.isCorrect
         }));
         let difficulty = listQuestionOfExam[room][questionNumber].difficulty;
-        startQuestionTimer(room);
+        startQuestionTimer(room); 
         io.to(room).emit('currentQuestion', { questionNumber, question_text, difficulty, result });
 
     }
@@ -97,7 +96,6 @@ module.exports = (io, socket) => {
     // Event
     socket.on('quiz:start', async ({ room, userId, userName }) => {
         
-
         try {
             const stateOfExam = await examService.checkStateExam(room);
             if(stateOfExam == "Closed"){
@@ -129,6 +127,7 @@ module.exports = (io, socket) => {
         }))
         let difficulty = listQuestionOfExam[room][questionNumber].difficulty;
         startQuestionTimer(room);
+        
         socket.emit('currentQuestion', { questionNumber, question_text, difficulty, result });
     })
 
@@ -143,7 +142,6 @@ module.exports = (io, socket) => {
     })
 
     socket.on('disconnect', () => {
-
         for (const room in ROOMS) {
             if (ROOMS[room].players[socket.id]) {
                 delete ROOMS[room].players[socket.id];

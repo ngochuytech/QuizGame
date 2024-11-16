@@ -30,16 +30,16 @@
                 </tr>
             </thead>
             <tbody id="leaderboard-body">
-                <% for(let i = 0; i < players.length; i++){ %>
+                <% for(let i = 0; i < resultOfPlayers.length; i++){ %>
                 <tr>
                     <td>
                         <div class="d-flex align-items-center">
-                            <img src="${player.avatar}" alt="Avatar" class="avatar rounded-circle me-2">
-                            <span>${player[i].userName}</span>
+                            <img src="<%=resultOfPlayers[i].particantID.avatar%>" alt="Avatar" class="avatar rounded-circle me-2">
+                            <span><%=resultOfPlayers[i].particantID.nameDisplay%></span>
                         </div>
                     </td>
-                    <td style="text-align: center;">3</td>
-                    <td style="text-align: center;">${player[i].grade}</td>
+                    <td style="text-align: center;"><%=resultOfPlayers[i]?.numberCorrect%></td>
+                    <td style="text-align: center;"><%=resultOfPlayers[i].grade%></td>
                 </tr>
                 <% }%>
             </tbody>

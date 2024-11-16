@@ -5,6 +5,7 @@ const router = express.Router()
 
 router.get('/createQuiz/:idClass', hostController.getCreateQuiz)
 router.get('/leaderboard/:idClass/:idExam',hostMiddleware.checkStateExam , hostController.getLeaderboard)
+router.get('/leaderboardHistory/:idClass/:idExam', hostController.getLeaderboardHistory);
 router.get('/manageClass/:idClass', hostController.getManageClass)
 router.get('/deleteQuestion', hostController.deleteQuestion)
 router.get('/manageQuestion/:id', hostController.getManageQuestion)
