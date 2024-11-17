@@ -45,11 +45,11 @@ module.exports = (io, socket) => {
         let timeLeft;
         const diffculty = listQuestionOfExam[room][ROOMS[room].currentQuestion].difficulty
         if(diffculty == 'Easy')
-            timeLeft = '15';
+            timeLeft = '10';
         else if(diffculty == 'Normal')
-            timeLeft = '20';
+            timeLeft = '15';
         else
-            timeLeft = '25';
+            timeLeft = '20';
         // Kiểm tra nếu bộ đếm thời gian đã chạy thì không khởi động lại
         if (questionTimers[room]) return;
         ROOMS[room].questionInProgress = true;

@@ -75,8 +75,8 @@ let getResult = async (req, res) => {
         // Tìm class để lấy class hiện tại
         const currentClass = await classService.getCurrentClass(ClassId);
         const notice = await noticeService.getAllNoticeByClassID(ClassId);
-        const {resultOfUser, examOfUser} = await resultService.findResultsByUser(IDUser, currentClass);
-        return res.render('Client_User/Result.ejs', { currentClassID: ClassId, page: 'ketqua', currentClass, user: user, listClass: listClass, resultOfUser, examOfUser,notice:notice})
+        const resultOfUser = await resultService.findResultsByUser(IDUser, currentClass);
+        return res.render('Client_User/Result.ejs', { currentClassID: ClassId, page: 'ketqua', currentClass, user: user, listClass: listClass, resultOfUser,notice:notice})
     } catch (error) {
         console.log(error);
     }
