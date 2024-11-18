@@ -21,19 +21,15 @@ const findResultsByUser = (IDUser, currentClass) =>{
         try {
             // Chứa kết quả của người dùng IDUser đó
             const resultOfUser = [];
-            // Chứa bài thi của người dùng IDUser đó
-            const examOfUser = [];
             const listExam = await Exam.find({_id: {$in: currentClass.Exams}});
             for(let examDetail of listExam){
-                let item = await Result.findOne({_id :{$in: examDetail.results}, particantID: IDUser});
+                let item = await Result.findOne({_id :{$in: examDetail.results}, particantID: IDUser}).populate('examID', 'nameDisplay questions');
                 if(item!=null){
                     resultOfUser.push(item);
-                    let itemExam = await Exam.findById(item.examID);
-                    examOfUser.push(itemExam);
                 }
                    
             }
-            resolve({resultOfUser, examOfUser});
+            resolve(resultOfUser);
         } catch (error) {
             reject(error)
         }
@@ -41,15 +37,14 @@ const findResultsByUser = (IDUser, currentClass) =>{
 }
 
 // Lưu kết quả khi người dùng thi xong
-const saveResult = (examID, userID, score,numberCorrect,timeExam) => {
+const saveResult = (examID, userID, score,numberCorrect) => {
     return new Promise(async (resolve, reject) => {
         try {
             const newResult = await Result.create({
                 examID,
                 particantID: userID,
                 grade: score,
-                numberCorrect:numberCorrect,
-                timeExam:timeExam
+                numberCorrect:numberCorrect
             })
 
             await Exam.findByIdAndUpdate(examID, {
@@ -71,6 +66,18 @@ const getResult = (resultID) => {
         }
     })
 }
+
+const getListResultByIDExam = (ExamID) =>{
+    return new Promise(async (resolve, reject) =>{ 
+        try {
+            let resultOfPlayers = await Result.find({ examID: ExamID }).populate('particantID', 'nameDisplay avatar');
+            resultOfPlayers.sort((a,b)=> b.grade - a.grade)            
+            resolve(resultOfPlayers);
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
 module.exports = {
-    filterResultByExam, findResultsByUser, saveResult,getResult
+    filterResultByExam, findResultsByUser, saveResult,getResult, getListResultByIDExam
 }

@@ -1,5 +1,6 @@
 import express from "express"
 import clientController from '../controllers/clientController'
+import clientMiddleWare from '../middleware/clientMiddleware'
 import multer from "multer"
 import path from "path"
 import jwt from "../middleware/jwtAction"
@@ -32,9 +33,9 @@ router.get('/changePW', clientController.getChangePW)
 router.post('/editAccount', clientController.editAccount)
 router.post('/changePW', clientController.editPassword)
 
-router.get('/waitingRoom/:classID/:examID', clientController.getWaitingRoom);
+router.get('/waitingRoom/:classID/:examID',clientMiddleWare.checkStateExam, clientController.getWaitingRoom);
 
-router.get('/quizStart/:classID/:examID', clientController.quizStart);
+router.get('/quizStart/:classID/:examID',clientController.quizStart);
 
 router.post('/createResultExam/:classID', clientController.createResultExam);
 

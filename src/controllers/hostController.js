@@ -2,6 +2,7 @@ import questionService from '../services/questionService'
 import classService from '../services/classService'
 import examService from '../services/examService'
 import userService from '../services/userService'
+import resultService from '../services/resultService'
 import noticeService from '../services/noticeService'
 import jwt from '../middleware/jwtAction'
 
@@ -38,6 +39,23 @@ let getLeaderboard = async (req,res) =>{
     
 }
 
+let getLeaderboardHistory = async (req, res) => {
+    const token = req.cookies.jwt;
+    let IDUser = jwt.verifyToken(token)._id;
+    const ClassID = req.params.idClass;
+    const examID = req.params.idExam
+    try {
+        const user = await userService.findUserbyID(IDUser);
+        const currentClass = await classService.getCurrentClass(ClassID);
+        const currentExam = await examService.findExambyID(examID);
+        const resultOfPlayers = await resultService.getListResultByIDExam(examID);
+        return res.render('Host_User/leaderboard_history.ejs', {user, currentClass, currentExam, resultOfPlayers})
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
 let getManageClass = async (req,res) =>{
     const token = req.cookies.jwt;
     let IDUser = jwt.verifyToken(token)._id;
@@ -49,6 +67,7 @@ let getManageClass = async (req,res) =>{
         const notice = await noticeService.getAllNoticeByClassID(ClassID);
         return res.render('Host_User/manageClass.ejs', {currentClassID : ClassID, user, page: 'caidat',notice:notice,listClass:listClass, currentClass: currentClass})
     } catch (error) {
+        console.log(error);
         
     }
 
@@ -223,20 +242,8 @@ let cancelTheTest = async(req,res) =>{
 
 }
 
-let endQuiz = async(req, res) => {
-    const ClassID = req.params.idClass;
-    let examID = req.params.idExam;
-    try {
-        let currentExam = await examService.findExambyID(examID);
-        // if(currentExam.state=='Examining')
-        //     await examService.updateState(currentExam._id, 'Closed');
-        return res.redirect(`/client/home/${ClassID}`);
-    } catch (error) {
-        console.log(error);
-    }
-}
 
 module.exports = {
-    getCreateQuiz, getLeaderboard, getManageClass, getManageQuestion,deleteQuestion,AddQuestion,UpdateQuestion,
-    deleteClass, updateNameClass, createExam, cancelTheTest, endQuiz
+    getCreateQuiz, getLeaderboard, getLeaderboardHistory, getManageClass, getManageQuestion,deleteQuestion,AddQuestion,UpdateQuestion,
+    deleteClass, updateNameClass, createExam, cancelTheTest
 }

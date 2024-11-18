@@ -18,10 +18,6 @@ const resultSchema = new Schema({
     numberCorrect: {
         type: Number,
         default:0
-    },
-    timeExam:{
-        type: Number,
-        default:0
     }
 })
 

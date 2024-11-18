@@ -75,8 +75,8 @@ let getResult = async (req, res) => {
         // Tìm class để lấy class hiện tại
         const currentClass = await classService.getCurrentClass(ClassId);
         const notice = await noticeService.getAllNoticeByClassID(ClassId);
-        const {resultOfUser, examOfUser} = await resultService.findResultsByUser(IDUser, currentClass);
-        return res.render('Client_User/Result.ejs', { currentClassID: ClassId, page: 'ketqua', currentClass, user: user, listClass: listClass, resultOfUser, examOfUser,notice:notice})
+        const resultOfUser = await resultService.findResultsByUser(IDUser, currentClass);
+        return res.render('Client_User/Result.ejs', { currentClassID: ClassId, page: 'ketqua', currentClass, user: user, listClass: listClass, resultOfUser,notice:notice})
     } catch (error) {
         console.log(error);
     }
@@ -251,7 +251,12 @@ let deleteMember = async (req, res) => {
     let IDUser = jwt.verifyToken(token)._id;
     const userIDDelete= req.query.userID;
     const classID = req.query.ClassID;
-    const deleteMember = await classService.deleteMember(classID,userIDDelete);
+    try {
+        const deleteMember = await classService.deleteMember(classID,userIDDelete);
+    } catch (error) {
+        console.log(error);
+    }
+    
     return res.redirect(`/client/member/${classID}`)
 }
 
@@ -267,10 +272,11 @@ let quizStart = async (req, res) =>{
         const user = await userService.findUserbyID(IDUser);
         const currentExam = await examService.findExambyID(examID);
         const listQuestion = await questionSerivce.filterQuestionByExam(currentExam);
-        console.log(currentExam);
         
-        // if(currentExam.state=='Open')
-        //     await examService.updateState(currentExam._id, 'Examining');
+        if(currentExam.state=='Open')
+            await examService.updateState(currentExam._id, 'Examining');
+        if(currentExam.creator?.idCreator.equals(IDUser))
+            return res.redirect(`/host/leaderboard/${classID}/${examID}`);
         return res.render('Client_User/quizStart.ejs', {user, currentExam, listQuestion, classID});
     } catch (error) {
         console.log(error);
@@ -378,12 +384,12 @@ let handleUpLoadFile = async (req, res) => {
 let createResultExam = async(req, res) => {
     const token = req.cookies.jwt;
     let IDUser = jwt.verifyToken(token)._id;
-    const {examID, numberCorrect, score, timeDoExam} = req.body;
+    const {examID, numberCorrect, score} = req.body;
     const classID = req.params.classID;
     try {
         const user = await userService.findUserbyID(IDUser);
         const exam = await examService.findExambyID(examID);
-        const result = await resultService.saveResult(examID, IDUser, score,numberCorrect,timeDoExam)
+        const result = await resultService.saveResult(examID, IDUser, score,numberCorrect)
         return res.redirect(`/client/resultexam/${classID}/${examID}/${result._id}`);
     } catch (error) {
         console.log(error)

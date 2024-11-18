@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Pro - Create Quiz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/Host_User/leaderboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Header -->
+    <%- include('../utils/header.ejs'); %>
+    
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <h2 class="text-center">Bảng xếp hạng</h2>
+        <h4 class="text-center">Bài thi: <span><%=currentExam.nameDisplay%></span></h4>
+        <h6 class="text-center">Số câu: <span><%=currentExam.questions.length%></span></h6>
+        <table class="table leaderboard-table">
+            <thead>
+                <tr>
+                    <th>Tên</th>
+                    <th style="text-align: center;">Số câu đúng</th>
+                    <th style="text-align: center;">Điểm số</th>
+                </tr>
+            </thead>
+            <tbody id="leaderboard-body">
+                <% for(let i = 0; i < resultOfPlayers.length; i++){ %>
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img src="<%=resultOfPlayers[i].particantID.avatar%>" alt="Avatar" class="avatar rounded-circle me-2">
+                            <span><%=resultOfPlayers[i].particantID.nameDisplay%></span>
+                        </div>
+                    </td>
+                    <td style="text-align: center;"><%=resultOfPlayers[i]?.numberCorrect%></td>
+                    <td style="text-align: center;"><%=resultOfPlayers[i].grade%></td>
+                </tr>
+                <% }%>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    
+</body>
+
+</html>

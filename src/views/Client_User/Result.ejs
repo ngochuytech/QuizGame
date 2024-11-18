@@ -57,11 +57,11 @@ function Ketqua(id, Name, Length, score, classID) {
                     <div class="exam-item mb-3">
                         <div class="row mb-3">
                             <div class="col-md-8">
-                                <h5><%=examOfUser[i].nameDisplay%></h5>
-                                <p>Số câu: <%=examOfUser[i].questions.length%> câu</p>
+                                <h5><%=resultOfUser[i].examID.nameDisplay%></h5>
+                                <p>Số câu: <%=resultOfUser[i].examID.questions.length%> câu</p>
                             </div>
                             <div class="col-md-4 text-end">
-                                <button class="btn btn-secondary mt-3" onclick="Ketqua('<%=resultOfUser[i]._id%>','<%=examOfUser[i].nameDisplay%>','<%=examOfUser[i].questions.length%>','<%= resultOfUser[i].grade%>','<%=currentClassID%>')">Kết quả: <%= resultOfUser[i].grade%></button>
+                                <button class="btn btn-secondary mt-3" onclick="Ketqua('<%=resultOfUser[i]._id%>','<%=resultOfUser[i].examID.nameDisplay%>','<%=resultOfUser[i].examID.questions.length%>','<%= resultOfUser[i].grade%>','<%=currentClassID%>')">Kết quả: <%= resultOfUser[i].grade%></button>
                             </div>
                         </div>
                     </div>
