@@ -93,7 +93,7 @@
             <img src="<%=userAccount[0].avatar %>" class="rounded-circle mb-3 avatar-img" alt="User Avatar">
           </div>
         </div>
-        <div class="profile-section" style="background-color: #99dde7;">
+        <div class="profile-section" style="background-color: #bce2e7;">
           <div class="Name d-flex flex-column">
             <h4 id="user_Name">
               <%=userAccount[0].nameDisplay%>
@@ -119,15 +119,8 @@
             <label class="form-label mt-3">Email</label>
             <input disabled type="email" class="form-control form-control-sm" value="<%=userAccount[0].accountName %>">
             <label class="form-label mt-3">Ngày sinh</label>
-            <div class="form-group row">
-              <label class="col-sm-2 col-form-label">
-                <%= userAccount[0].date.toLocaleDateString('vi-VN') %>
-              </label>
-              <div class="col-sm-10">
-                <input name="userDate" type="date" class="form-control form-control-sm" max="<%= new Date().toISOString().slice(0, 10) %>">
-              </div>
-            </div>
-            <button type="submit" class="btn btn-secondary mt-3" onclick="addDate(event)">Lưu</button>
+            <input name="userDate" type="date" class="form-control form-control-sm" value="<%= userAccount[0].date.toISOString().slice(0, 10) %>">
+            <button type="submit" class="btn btn-success mt-3" onclick="addDate(event)">Lưu</button>
           </form>
           <form name="form_img" method="POST" action="/client/upload-profile-pic" enctype="multipart/form-data"
             class="p-3" onsubmit="addImage(event)">
@@ -138,7 +131,7 @@
             <br>
             <label for="formFile" class="form-label">Chọn ảnh đại diện mới</label>
             <input class="form-control" name="img_upload" type="file" id="formFile">
-            <button type="submit" class="btn btn-secondary mt-3" onclick="addImage(event)">Lưu</button>
+            <button type="submit" class="btn btn-success mt-3" onclick="addImage(event)">Lưu</button>
           </form>
         </div>
       </div>
@@ -190,7 +183,7 @@
         let day = parseInt(parts[2], 10);
         let inputDate = new Date(year, month, day);
         var today = new Date();
-        if (year < 1900 || year > 2024) {
+        if (year < 1900 || year > today.getFullYear()) {
           alert("Năm sinh không hợp lệ, vui lòng nhập lại năm sinh!");
           return;
         }
