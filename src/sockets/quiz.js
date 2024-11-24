@@ -16,13 +16,20 @@ module.exports = (io, socket) => {
             return 30;
     }
 
+    function updateScore (room, userId) {
+        const playerData = ROOMS[room].players[userId];
+        io.to(playerData.socket_id).emit('updateScore', {thisScore: playerData.score});
+    }
+
     async function endQuiz(room) { 
         // Kết thúc bài thi cho tất cả người chơi
         setTimeout(async () => {
             if (ROOMS[room] && ROOMS[room].players) {
+                
                 Object.keys(ROOMS[room].players).forEach(playerId => {
+                    
                     const playerData = ROOMS[room].players[playerId];
-                    io.to(playerId).emit("finishQuiz", {
+                    io.to(playerData.socket_id).emit("finishQuiz", {
                         numberCorrect: playerData.numberCorrect,
                         score: playerData.score
                     });
@@ -81,6 +88,7 @@ module.exports = (io, socket) => {
     }
 
     function sendNextQuestion(room) {
+        
         let questionNumber = ROOMS[room].currentQuestion;
         let question_text = listQuestionOfExam[room][questionNumber].question;
         let result = listQuestionOfExam[room][questionNumber].answer.map(item => ({
@@ -117,8 +125,14 @@ module.exports = (io, socket) => {
         } catch (error) {
             console.log(error);
         }
+        
         socket.join(room);
-        ROOMS[room].players[socket.id] = { userName, numberCorrect: 0, score: 0, timeDoExam: 0 }; // Người chơi bắt đầu từ câu hỏi đầu tiên
+        
+        if(!ROOMS[room].players[userId]){
+            ROOMS[room].players[userId] = {socket_id: socket.id, userName, numberCorrect: 0, score: 0, timeDoExam: 0 };
+        } else {
+            ROOMS[room].players[userId].socket_id = socket.id;
+        }
         let questionNumber = ROOMS[room].currentQuestion;
         let question_text = listQuestionOfExam[room][questionNumber].question;
         let result = listQuestionOfExam[room][questionNumber].answer.map(item => ({
@@ -127,29 +141,20 @@ module.exports = (io, socket) => {
         }))
         let difficulty = listQuestionOfExam[room][questionNumber].difficulty;
         startQuestionTimer(room);
+        updateScore(room, userId);
         
-        socket.emit('currentQuestion', { questionNumber, question_text, difficulty, result });
+        socket.emit('currentQuestion', { questionNumber, question_text, difficulty, result});
     })
 
     socket.on('quiz:handleAnswer', ({ room, userId, difficultyQuestion, correct }) => {
 
         // Xử lý trường hợp trả lời đúng !
         if (correct == true) {
-            ROOMS[room].players[socket.id].score += calculatingScore(difficultyQuestion);
-            ROOMS[room].players[socket.id].numberCorrect++;
+            ROOMS[room].players[userId].score += calculatingScore(difficultyQuestion);
+            ROOMS[room].players[userId].numberCorrect++;
         }
 
     })
-
-    socket.on('disconnect', () => {
-        for (const room in ROOMS) {
-            if (ROOMS[room].players[socket.id]) {
-                delete ROOMS[room].players[socket.id];
-                break;
-            }
-        }
-    });
-
 
     socket.on('quiz:redirect', ({ room }) => {
         io.to(room).emit('redirectToQuiz');

@@ -136,6 +136,11 @@
             setTimeout(() => scoreDisplay.classList.remove('score-update'), 500);
         }
 
+        socket.on('updateScore', ({thisScore }) => {
+            score = thisScore;
+            scoreDisplay.innerText = `Score: ${score}`;
+        })
+
         socket.on('updateTimer', ({ timeLeft }) => {
             document.getElementById('timer').innerText = timeLeft;
         });
