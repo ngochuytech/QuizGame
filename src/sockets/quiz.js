@@ -16,13 +16,20 @@ module.exports = (io, socket) => {
             return 30;
     }
 
-    async function endQuiz(room) {
+    function updateScore (room, userId) {
+        const playerData = ROOMS[room].players[userId];
+        io.to(playerData.socket_id).emit('updateScore', {thisScore: playerData.score});
+    }
+
+    async function endQuiz(room) { 
         // Kết thúc bài thi cho tất cả người chơi
         setTimeout(async () => {
             if (ROOMS[room] && ROOMS[room].players) {
+                
                 Object.keys(ROOMS[room].players).forEach(playerId => {
+                    
                     const playerData = ROOMS[room].players[playerId];
-                    io.to(playerId).emit("finishQuiz", {
+                    io.to(playerData.socket_id).emit("finishQuiz", {
                         numberCorrect: playerData.numberCorrect,
                         score: playerData.score
                     });
@@ -36,7 +43,7 @@ module.exports = (io, socket) => {
             } catch (error) {
                 console.log(error);
             }
-        }, 500)
+        }, 1000)
 
 
     }
@@ -45,11 +52,11 @@ module.exports = (io, socket) => {
         let timeLeft;
         const diffculty = listQuestionOfExam[room][ROOMS[room].currentQuestion].difficulty
         if(diffculty == 'Easy')
-            timeLeft = '15';
+            timeLeft = '10';
         else if(diffculty == 'Normal')
-            timeLeft = '20';
+            timeLeft = '15';
         else
-            timeLeft = '25';
+            timeLeft = '20';
         // Kiểm tra nếu bộ đếm thời gian đã chạy thì không khởi động lại
         if (questionTimers[room]) return;
         ROOMS[room].questionInProgress = true;
@@ -63,7 +70,6 @@ module.exports = (io, socket) => {
                 clearInterval(questionTimers[room]);
                 delete questionTimers[room]; // Xóa bộ đếm sau khi dừng
                 if (ROOMS[room].questionInProgress) {
-                    console.log("room = ", ROOMS);
                     
                     ROOMS[room].questionInProgress = false; // Đặt lại cờ
                     io.to(room).emit('submitAnswer');
@@ -82,6 +88,7 @@ module.exports = (io, socket) => {
     }
 
     function sendNextQuestion(room) {
+        
         let questionNumber = ROOMS[room].currentQuestion;
         let question_text = listQuestionOfExam[room][questionNumber].question;
         let result = listQuestionOfExam[room][questionNumber].answer.map(item => ({
@@ -89,7 +96,7 @@ module.exports = (io, socket) => {
             isCorrect: item.isCorrect
         }));
         let difficulty = listQuestionOfExam[room][questionNumber].difficulty;
-        startQuestionTimer(room);
+        startQuestionTimer(room); 
         io.to(room).emit('currentQuestion', { questionNumber, question_text, difficulty, result });
 
     }
@@ -97,7 +104,6 @@ module.exports = (io, socket) => {
     // Event
     socket.on('quiz:start', async ({ room, userId, userName }) => {
         
-
         try {
             const stateOfExam = await examService.checkStateExam(room);
             if(stateOfExam == "Closed"){
@@ -119,8 +125,14 @@ module.exports = (io, socket) => {
         } catch (error) {
             console.log(error);
         }
+        
         socket.join(room);
-        ROOMS[room].players[socket.id] = { userName, numberCorrect: 0, score: 0, timeDoExam: 0 }; // Người chơi bắt đầu từ câu hỏi đầu tiên
+        
+        if(!ROOMS[room].players[userId]){
+            ROOMS[room].players[userId] = {socket_id: socket.id, userName, numberCorrect: 0, score: 0, timeDoExam: 0 };
+        } else {
+            ROOMS[room].players[userId].socket_id = socket.id;
+        }
         let questionNumber = ROOMS[room].currentQuestion;
         let question_text = listQuestionOfExam[room][questionNumber].question;
         let result = listQuestionOfExam[room][questionNumber].answer.map(item => ({
@@ -129,29 +141,20 @@ module.exports = (io, socket) => {
         }))
         let difficulty = listQuestionOfExam[room][questionNumber].difficulty;
         startQuestionTimer(room);
-        socket.emit('currentQuestion', { questionNumber, question_text, difficulty, result });
+        updateScore(room, userId);
+        
+        socket.emit('currentQuestion', { questionNumber, question_text, difficulty, result});
     })
 
     socket.on('quiz:handleAnswer', ({ room, userId, difficultyQuestion, correct }) => {
 
         // Xử lý trường hợp trả lời đúng !
         if (correct == true) {
-            ROOMS[room].players[socket.id].score += calculatingScore(difficultyQuestion);
-            ROOMS[room].players[socket.id].numberCorrect++;
+            ROOMS[room].players[userId].score += calculatingScore(difficultyQuestion);
+            ROOMS[room].players[userId].numberCorrect++;
         }
 
     })
-
-    socket.on('disconnect', () => {
-
-        for (const room in ROOMS) {
-            if (ROOMS[room].players[socket.id]) {
-                delete ROOMS[room].players[socket.id];
-                break;
-            }
-        }
-    });
-
 
     socket.on('quiz:redirect', ({ room }) => {
         io.to(room).emit('redirectToQuiz');

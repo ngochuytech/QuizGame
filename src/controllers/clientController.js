@@ -75,8 +75,8 @@ let getResult = async (req, res) => {
         // Tìm class để lấy class hiện tại
         const currentClass = await classService.getCurrentClass(ClassId);
         const notice = await noticeService.getAllNoticeByClassID(ClassId);
-        const {resultOfUser, examOfUser} = await resultService.findResultsByUser(IDUser, currentClass);
-        return res.render('Client_User/Result.ejs', { currentClassID: ClassId, page: 'ketqua', currentClass, user: user, listClass: listClass, resultOfUser, examOfUser,notice:notice})
+        const resultOfUser = await resultService.findResultsByUser(IDUser, currentClass);
+        return res.render('Client_User/Result.ejs', { currentClassID: ClassId, page: 'ketqua', currentClass, user: user, listClass: listClass, resultOfUser,notice:notice})
     } catch (error) {
         console.log(error);
     }
@@ -251,7 +251,12 @@ let deleteMember = async (req, res) => {
     let IDUser = jwt.verifyToken(token)._id;
     const userIDDelete= req.query.userID;
     const classID = req.query.ClassID;
-    const deleteMember = await classService.deleteMember(classID,userIDDelete);
+    try {
+        const deleteMember = await classService.deleteMember(classID,userIDDelete);
+    } catch (error) {
+        console.log(error);
+    }
+    
     return res.redirect(`/client/member/${classID}`)
 }
 

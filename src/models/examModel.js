@@ -41,21 +41,6 @@ const examsSchema = new Schema({
     state:{
         type:String,
         default: 'Open'
-    },
-    time:{
-        hard: {
-            type: Number,  
-            default: 10
-        },
-        medium: {
-            type: Number,
-            default: 8
-        },
-        easy:
-        {
-            type:Number,
-            default:5
-        }
     }
 })
 

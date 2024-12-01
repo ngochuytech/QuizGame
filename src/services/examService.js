@@ -1,6 +1,7 @@
 import { Exam } from '../models/examModel'
 import { Class } from '../models/classModel'
 import userService from '../services/userService'
+import { Result } from '../models/resultModel'
 const filterExamByClass = (ExamIDfromClass) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -59,6 +60,8 @@ const cancelTest = (ClassID, ExamID)=>{
             await Class.findByIdAndUpdate(ClassID,
                 {$pull: {Exams: ExamID}}
             )
+            // Xóa các kết quả của bài thi này
+            await Result.deleteMany({examID: ExamID});
             // Xóa bài thi ra khỏi model
             await Exam.deleteOne({_id: ExamID});
             resolve();

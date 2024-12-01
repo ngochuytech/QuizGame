@@ -136,6 +136,11 @@
             setTimeout(() => scoreDisplay.classList.remove('score-update'), 500);
         }
 
+        socket.on('updateScore', ({thisScore }) => {
+            score = thisScore;
+            scoreDisplay.innerText = `Score: ${score}`;
+        })
+
         socket.on('updateTimer', ({ timeLeft }) => {
             document.getElementById('timer').innerText = timeLeft;
         });
@@ -160,7 +165,7 @@
             question_title.innerText = question_text;
 
             diff = difficulty;
-
+            
             result.forEach((item, index) => {
                 document.getElementById(`answer${index + 1}`).innerText = item.text;
                 if (item.isCorrect == true)
@@ -264,8 +269,9 @@
                 document.getElementById('correct-message').style.display = 'none';
                 document.getElementById('partial-correct-message').style.display = 'none';
                 document.getElementById('wrong-message').style.display = 'none';
+                
                 socket.emit('quiz:handleAnswer', ({ room, userId, difficultyQuestion: diff, correct: isCorrect }))
-            }, 1500)
+            }, 1000)
         })
 
         // Đã làm xong câu hỏi, chuyển trang đến kết quả bài thi
@@ -303,7 +309,7 @@
         }
 
         socket.on("redirect:leaderboard", () => {
-            window.location.href = `/host/leaderboard/${classId}/${room}`;
+            window.location.href = `/host/leaderboardHistory/${classId}/${room}`;
         })
 
         function handleSubmitClick() {
