@@ -1,5 +1,5 @@
 import express from "express"
-import userController from '../controllers/userController'
+import userController from '../controllers/userController.js'
 
 const router = express.Router()
 
@@ -10,4 +10,4 @@ router.get('/home', userController.Home)
 router.post('/create_User', userController.createUser)
 router.post('/login_User',userController.loginUser)
 
-module.exports = router;
+export default  router;

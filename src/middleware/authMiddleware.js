@@ -1,4 +1,4 @@
-import jwt from "./jwtAction";
+import jwt from "./jwtAction.js";
 const AuthRequired = (req, res, next) => {
     const token = req.cookies.jwt;
     if (!token) {
@@ -15,6 +15,6 @@ const AuthRequired = (req, res, next) => {
     next();
 };
 
-module.exports = {
+export default  {
     AuthRequired
 }

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { User } from '../models/userModel';
-import { Class } from '../models/classModel';
+import { User } from '../models/userModel.js';
+import { Class } from '../models/classModel.js';
 
 
 const createUserService = ({ accountName, password}) =>{
@@ -217,7 +217,7 @@ let getOwnerIDClass = (IDClass) => {
     });
 };
 
-module.exports = {
+export default  {
     createUserService, loginUserService,getMemberInClass, getIDbyEmailAndPassWord, findUserbyID, addClass,
     loadUserName, editAccount, editPassword,searchMembersByKeyword,getOwnerIDClass
 }

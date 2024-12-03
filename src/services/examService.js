@@ -1,7 +1,7 @@
-import { Exam } from '../models/examModel'
-import { Class } from '../models/classModel'
-import userService from '../services/userService'
-import { Result } from '../models/resultModel'
+import { Exam } from '../models/examModel.js'
+import { Class } from '../models/classModel.js'
+import userService from '../services/userService.js'
+import { Result } from '../models/resultModel.js'
 const filterExamByClass = (ExamIDfromClass) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -93,6 +93,6 @@ const checkStateExam = (idExam) => {
     })
 }
 
-module.exports = {
+export default  {
     createExam, findExambyID, cancelTest, filterExamByClass, updateState, checkStateExam
 }

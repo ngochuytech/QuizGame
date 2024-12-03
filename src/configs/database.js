@@ -5,8 +5,9 @@ const ConnectDB = (MONGO_DB_KEY) =>{
         console.log('Connect DB success');
     })
     .catch((err)=>{
+        console.log(MONGO_DB_KEY)
         console.log(err);
     })
 }
 
-export default ConnectDB
+export default  ConnectDB

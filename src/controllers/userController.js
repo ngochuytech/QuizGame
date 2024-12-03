@@ -1,5 +1,5 @@
-import userService from '../services/userService'
-import jwt from '../middleware/jwtAction'
+import userService from '../services/userService.js'
+import jwt from '../middleware/jwtAction.js'
 import 'dotenv/config'
 
 
@@ -89,6 +89,6 @@ let loginUser = async(req, res) =>{
             return res.status(500).json({ message: 'Internal server error' });
           }
     }    
-module.exports = {
+export default  {
     getLogin, getRegister, Home, createUser, loginUser
 }

@@ -1,6 +1,6 @@
-import { Questions } from '../models/questionModel'
-import { Class } from '../models/classModel';
-import { Exam } from '../models/examModel';
+import { Questions } from '../models/questionModel.js'
+import { Class } from '../models/classModel.js';
+import { Exam } from '../models/examModel.js';
 const getAllQuestions = () => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -160,7 +160,7 @@ const filterQuestionByExam = async(currentExam) =>{
     })
 }
 
-module.exports = {
+export default  {
     getAllQuestions,getAllQuestionsByIDClass,searchQuestionsByKeyword,deleteQuestionById,AddQuestion,UpdateQuestion,
     filterQuestionByDifficulty, getNumberOfQuestionByDiffculty, findQuestionInExam, filterQuestionByExam
 }

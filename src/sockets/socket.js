@@ -1,9 +1,9 @@
-import quiz from './quiz'
-import leaderboard from './leaderboard';
+import quiz from './quiz.js'
+import leaderboard from './leaderboard.js';
 
 let rooms = {};  // Để lưu trữ danh sách người dùng theo từng phòng
 
-module.exports = (io) => {
+export default  (io) => {
     io.on('connection', (socket) => {
         
         // Khi người dùng tham gia phòng

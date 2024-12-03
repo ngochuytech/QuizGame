@@ -1,4 +1,4 @@
-import examService from '../services/examService'
+import examService from '../services/examService.js'
 
 const checkStateExam = async (req, res, next) => {
     const idExam = req.params.examID;
@@ -15,6 +15,6 @@ const checkStateExam = async (req, res, next) => {
 };
 
 
-module.exports = {
+export default  {
     checkStateExam
 }

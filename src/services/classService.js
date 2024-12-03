@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
-import { Class } from '../models/classModel';
-import { Questions } from '../models/questionModel'
-import { User } from '../models/userModel'
-import { Exam } from '../models/examModel'
-import { Result } from '../models/resultModel'
-import { Notice } from '../models/noticeModel';
-import userService from '../services/userService';
+import { Class } from '../models/classModel.js';
+import { Questions } from '../models/questionModel.js'
+import { User } from '../models/userModel.js'
+import { Exam } from '../models/examModel.js'
+import { Result } from '../models/resultModel.js'
+import { Notice } from '../models/noticeModel.js';
+import userService from '../services/userService.js';
 
 const createClass = (nameClass,IDUser) => {
     return new Promise(async (resolve, reject) => {
@@ -172,7 +172,7 @@ const findUserInClass = async (userID, ClassID) => {
         }
     });
 }
-module.exports ={
+export default  {
     createClass, getAllClass, getCurrentClass,getUserClasses, deleteClass, updateNameClass,deleteMember,addMember, leaveClass,
     findUserInClass
 }

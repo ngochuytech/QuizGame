@@ -1,10 +1,10 @@
-import questionService from '../services/questionService'
-import classService from '../services/classService'
-import examService from '../services/examService'
-import userService from '../services/userService'
-import resultService from '../services/resultService'
-import noticeService from '../services/noticeService'
-import jwt from '../middleware/jwtAction'
+import questionService from '../services/questionService.js'
+import classService from '../services/classService.js'
+import examService from '../services/examService.js'
+import userService from '../services/userService.js'
+import resultService from '../services/resultService.js'
+import noticeService from '../services/noticeService.js'
+import jwt from '../middleware/jwtAction.js'
 
 let getCreateQuiz = async (req,res) =>{
     const token = req.cookies.jwt;
@@ -243,7 +243,7 @@ let cancelTheTest = async(req,res) =>{
 }
 
 
-module.exports = {
+export default  {
     getCreateQuiz, getLeaderboard, getLeaderboardHistory, getManageClass, getManageQuestion,deleteQuestion,AddQuestion,UpdateQuestion,
     deleteClass, updateNameClass, createExam, cancelTheTest
 }

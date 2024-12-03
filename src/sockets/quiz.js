@@ -1,11 +1,11 @@
-import questionService from '../services/questionService';
-import examService from '../services/examService'
+import questionService from '../services/questionService.js';
+import examService from '../services/examService.js'
 
 let listQuestionOfExam = {};
 let ROOMS = {};
 let questionTimers = {};
 
-module.exports = (io, socket) => {
+export default  (io, socket) => {
     // Function
     function calculatingScore(diffculty) {
         if (diffculty == 'Easy')

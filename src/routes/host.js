@@ -1,6 +1,6 @@
 import express from "express"
-import hostController from "../controllers/hostController"
-import hostMiddleware from '../middleware/hostMiddleware'
+import hostController from "../controllers/hostController.js"
+import hostMiddleware from '../middleware/hostMiddleware.js'
 const router = express.Router()
 
 router.get('/createQuiz/:idClass', hostController.getCreateQuiz)
@@ -19,4 +19,4 @@ router.post('/updateNameClass/:idClass', hostController.updateNameClass)
 router.post('/createExam/:idClass', hostController.createExam);
 router.post('/cancelTheTest/:idClass/:idExam', hostController.cancelTheTest);
 
-module.exports = router;
+export default  router;

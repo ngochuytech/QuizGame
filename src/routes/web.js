@@ -1,9 +1,9 @@
-import clientRouter from "./client"
-import hostRouter from "./host"
-import userRouter from "./user"
-import authMiddleware from '../middleware/authMiddleware'
+import clientRouter from "./client.js"
+import hostRouter from "./host.js"
+import userRouter from "./user.js"
+import authMiddleware from '../middleware/authMiddleware.js'
 
-module.exports = (app) => {
+export default  (app) => {
     app.use('/client',authMiddleware.AuthRequired,clientRouter);
     app.use('/host',authMiddleware.AuthRequired, hostRouter)
     app.use('/user',userRouter);

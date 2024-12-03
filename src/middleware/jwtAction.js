@@ -32,6 +32,6 @@ const verifyToken = (token) => {
 }
 
 
-module.exports = {
+export default {
     createJWT, verifyToken
 }

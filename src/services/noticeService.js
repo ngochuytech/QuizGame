@@ -1,6 +1,6 @@
-import { Notice } from '../models/noticeModel'
-import { Class } from '../models/classModel'
-import { User } from '../models/userModel'
+import { Notice } from '../models/noticeModel.js'
+import { Class } from '../models/classModel.js'
+import { User } from '../models/userModel.js'
 
 const InsertNotice = (IDsend,IDreceived,IDClass,content) => {
     return new Promise(async (resolve, reject) => {
@@ -58,6 +58,6 @@ const getAllNoticeByClassID = (classID) =>{
     });
 };
 
-module.exports = {
+export default  {
     InsertNotice,getAllNoticeAndUserInNoticeByClassID,deleteNoticeByIDSend,getAllNoticeByClassID
 }

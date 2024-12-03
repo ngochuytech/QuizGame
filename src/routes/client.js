@@ -1,11 +1,11 @@
 import express from "express"
-import clientController from '../controllers/clientController'
-import clientMiddleWare from '../middleware/clientMiddleware'
+import clientController from '../controllers/clientController.js'
+import clientMiddleWare from '../middleware/clientMiddleware.js'
 import multer from "multer"
 import path from "path"
-import jwt from "../middleware/jwtAction"
+import jwt from "../middleware/jwtAction.js"
 
-var appRoot = require('app-root-path')
+import appRoot from 'app-root-path'
 
 const router = express.Router()
 
@@ -73,4 +73,4 @@ router.post('/upload-profile-pic', upload.single('img_upload'), clientController
 
 
 
-module.exports = router;
+export default  router;

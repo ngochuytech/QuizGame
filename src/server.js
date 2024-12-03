@@ -1,14 +1,17 @@
 import express from 'express'
-import configViewEngine from './configs/viewEngine'
-import routes from './routes/web'
-import configDatabase from './configs/database'
-import socketIO from 'socket.io'
+import configViewEngine from './configs/viewEngine.js'
+import routes from './routes/web.js'
+import configDatabase from './configs/database.js'
+import socketIO from '/app/node_modules/socket.io/dist/index.js';
 import cors from 'cors'
 import 'dotenv/config'
-const cookieParser = require('cookie-parser');
+import cookieParser from 'cookie-parser';
 const app = express()
 
-const server = require("http").Server(app);
+import { Server } from "http";
+
+const server = new Server(app);
+
 const io = socketIO(server)
 
 const port = 3000;
@@ -29,9 +32,11 @@ app.use((req, res, next) => {
 });
 
 // routes(app);
-require('./routes/web')(app); // Định nghĩa route
-require('./sockets/socket')(io);
+import webRoutes from './routes/web.js';
+import sockets from './sockets/socket.js';
 
+webRoutes(app);
+sockets(io);
 
 server.listen(port,"0.0.0.0" ,() => {
   console.log(`Example app listening on port ${port}`)

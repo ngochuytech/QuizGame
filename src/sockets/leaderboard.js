@@ -1,6 +1,6 @@
 let leaderboard = {};
 
-module.exports = (io, socket) => {
+export default  (io, socket) => {
     // Function
     function updatePlayer(room, userId, numberComplete, numberCorrect, score){
         const user = leaderboard[room].find(player => player.userId === userId);

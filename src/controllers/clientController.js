@@ -1,12 +1,12 @@
 import mongoose from 'mongoose'
-import { User } from '../models/userModel'
-import classService from '../services/classService'
-import examService from '../services/examService'
-import resultService from '../services/resultService'
-import userService from '../services/userService'
-import noticeService from '../services/noticeService'
-import questionSerivce from '../services/questionService'
-import jwt from '../middleware/jwtAction'
+import { User } from '../models/userModel.js'
+import classService from '../services/classService.js'
+import examService from '../services/examService.js'
+import resultService from '../services/resultService.js'
+import userService from '../services/userService.js'
+import noticeService from '../services/noticeService.js'
+import questionSerivce from '../services/questionService.js'
+import jwt from '../middleware/jwtAction.js'
 import 'dotenv/config'
 import fs from 'fs'
 import path from 'path'
@@ -469,7 +469,7 @@ let deleteNotice =  async (req, res) => {
         res.status(500).send({ message: 'Failed to join class.' });
     }
 }
-module.exports = {
+export default  {
     getHome, getResult, getMember, createClass, getAllClasses, getHomeClass,joinClass, getInformation, getChangePW, 
     editAccount, editPassword, handleUpLoadFile,deleteMember,addMember,getWaitingRoom, leaveClass,
     quizStart, postResultExam,getResultExam,logout,createResultExam,getNotice,deleteNotice,deleteNotice

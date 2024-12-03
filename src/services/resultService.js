@@ -1,5 +1,5 @@
-import { Exam } from '../models/examModel';
-import { Result } from '../models/resultModel'
+import { Exam } from '../models/examModel.js';
+import { Result } from '../models/resultModel.js'
 const filterResultByExam = (listExam) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -78,6 +78,6 @@ const getListResultByIDExam = (ExamID) =>{
         }
     })
 }
-module.exports = {
+export default  {
     filterResultByExam, findResultsByUser, saveResult,getResult, getListResultByIDExam
 }
