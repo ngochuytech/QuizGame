@@ -7,4 +7,5 @@ export default  (app) => {
     app.use('/client',authMiddleware.AuthRequired,clientRouter);
     app.use('/host',authMiddleware.AuthRequired, hostRouter)
     app.use('/user',userRouter);
+    app.use('/',root);
 }
