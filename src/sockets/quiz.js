@@ -18,7 +18,7 @@ module.exports = (io, socket) => {
 
     function updateScore (room, userId) {
         const playerData = ROOMS[room].players[userId];
-        io.to(playerData.socket_id).emit('updateScore', {thisScore: playerData.score});
+        io.to(playerData.socket_id).emit('updateScore', {thisScore: playerData.score, thisNumberCorrect: playerData.numberCorrect});
     }
 
     async function endQuiz(room) { 
