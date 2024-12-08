@@ -1,7 +1,7 @@
 import clientRouter from "./client.js"
 import hostRouter from "./host.js"
 import userRouter from "./user.js"
-import authMiddleware from '../middleware/authMiddleware.js'
+import root from '../root.js'
 
 export default  (app) => {
     app.use('/client',authMiddleware.AuthRequired,clientRouter);

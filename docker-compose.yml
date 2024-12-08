@@ -9,8 +9,6 @@ services:
     environment:
       MONGO_DB: ${MONGO_DB} 
       SECRET_KEY: ${SECRET_KEY}
-    volumes:
-      - .:/app
     networks:
       - app-network
 

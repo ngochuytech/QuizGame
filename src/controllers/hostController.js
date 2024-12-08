@@ -76,7 +76,7 @@ let getManageClass = async (req,res) =>{
 let getManageQuestion = async (req, res) => {
     const token = req.cookies.jwt;
     let IDUser = jwt.verifyToken(token)._id;
-    const ClassID = req.params.id;
+    const ClassID = req.params.idClass;
     const keyword = req.query.keyword; // Lấy từ khóa từ query string nếu có
     try {
         const user = await userService.findUserbyID(IDUser);
@@ -107,7 +107,7 @@ let getManageQuestion = async (req, res) => {
 };
 
 let AddQuestion = async (req, res) => {
-    const ClassID = req.params.id;
+    const ClassID = req.params.idClass;
     const questionTitle = req.body.questionTitle;
     const diffculty = req.body.diffculty;
     const answers = [

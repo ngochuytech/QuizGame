@@ -16,6 +16,24 @@ const checkStateExam = async (req, res, next) => {
     
 };
 
-export default  {
-    checkStateExam
-}
+const filterUser = async(req,res,next) =>
+    {
+        const token = req.cookies.jwt;
+        let IDUser = jwt.verifyToken(token)._id;
+        const ClassID = req.params.classID;
+    
+        try {
+            const classCheck = await classService.getCurrentClass(ClassID);
+            if(classCheck.members.indexOf(IDUser)==-1 && classCheck.ownerID!=IDUser)
+            {
+                return res.redirect('/client/home');
+            }
+            next();
+        } catch (error) {
+            console.log("Error at FilterUser Middleware"+error);
+        }
+    }
+    
+    export default  {
+        checkStateExam,filterUser
+    }

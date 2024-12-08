@@ -139,6 +139,7 @@
         socket.on('updateScore', ({thisScore }) => {
             score = thisScore;
             scoreDisplay.innerText = `Score: ${score}`;
+            numberCorrect = thisNumberCorrect;
         })
 
         socket.on('updateTimer', ({ timeLeft }) => {
