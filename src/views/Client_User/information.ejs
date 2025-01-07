@@ -231,6 +231,17 @@
         event.target.form.submit();
       }
     </script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script type="module">
+            const socket = io();
+            const userId = '<%=user._id%>'
+            const username = '<%=user.nameDisplay%>'
+            socket.emit('userOnline', ({userId, username}))
+    
+            window.addEventListener("beforeunload", () => {
+                socket.disconnect();
+            });
+        </script>
 </body>
 
 </html>

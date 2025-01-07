@@ -18,7 +18,7 @@ module.exports = (io, socket) => {
 
     function updateScore (room, userId) {
         const playerData = ROOMS[room].players[userId];
-        io.to(playerData.socket_id).emit('updateScore', {thisScore: playerData.score});
+        io.to(playerData.socket_id).emit('updateScore', {thisScore: playerData.score, thisNumberCorrect: playerData.numberCorrect});
     }
 
     async function endQuiz(room) { 
@@ -129,7 +129,7 @@ module.exports = (io, socket) => {
         socket.join(room);
         
         if(!ROOMS[room].players[userId]){
-            ROOMS[room].players[userId] = {socket_id: socket.id, userName, numberCorrect: 0, score: 0, timeDoExam: 0 };
+            ROOMS[room].players[userId] = {socket_id: socket.id, userName, numberCorrect: 0, score: 0};
         } else {
             ROOMS[room].players[userId].socket_id = socket.id;
         }

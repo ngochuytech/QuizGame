@@ -311,5 +311,15 @@ function UpdateQuestion(event, id_question, answer_length) {
 </div>
 
 </body>
+<script src="/socket.io/socket.io.js"></script>
+<script type="module">
+    const socket = io();
+    const userId = '<%=user._id%>'
+    const username = '<%=user.nameDisplay%>'
+    socket.emit('userOnline', ({userId, username}))
 
+    window.addEventListener("beforeunload", () => {
+        socket.disconnect();
+    });
+</script>
 </html>

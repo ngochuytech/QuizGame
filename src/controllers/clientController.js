@@ -11,6 +11,7 @@ import 'dotenv/config'
 import fs from 'fs'
 import path from 'path'
 import appRoot from 'app-root-path'
+import { onlineUsers } from '../sockets/socket'
 
 let getHome = async (req, res) => {
     try {
@@ -102,6 +103,14 @@ let getMember = async (req, res) => {
             // Lấy tất cả thành viên trong lớp
             listMember = await userService.getMemberInClass(currentClass);
         }
+        
+        listMember = listMember.map(member => {
+            const plainMember = member.toObject(); // Chuyển đổi Mongoose Document thành Object
+            return {
+                ...plainMember,
+                status: onlineUsers.has(member._id.toString()) ? "Trực tuyến" : "Ngoại tuyến", // Kiểm tra trạng thái online
+            };
+        })
 
         const listClass = await classService.getUserClasses(IDUser);
 

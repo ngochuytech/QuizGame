@@ -9,18 +9,18 @@ var appRoot = require('app-root-path')
 
 const router = express.Router()
 
-router.get('/home/:classID',clientController.getHomeClass)
+router.get('/home/:classID', clientMiddleWare.filterUser ,clientController.getHomeClass)
 router.get('/home',clientController.getHome)
 router.post('/leaveClass/:classID', clientController.leaveClass)
 
-router.get('/result/:classID',clientController.getResult)
+router.get('/result/:classID', clientMiddleWare.filterUser ,clientController.getResult)
 
-router.get('/notice/:classID',clientController.getNotice)
+router.get('/notice/:classID', clientMiddleWare.filterUser ,clientController.getNotice)
 router.get('/deleteNotice/:classID',clientController.deleteNotice)
 
 
 
-router.get('/member/:classID', clientController.getMember)
+router.get('/member/:classID', clientMiddleWare.filterUser , clientController.getMember)
 router.get('/deleteMember/:classID', clientController.deleteMember)
 router.post('/addMember/:classID', clientController.addMember);
 
@@ -33,11 +33,11 @@ router.get('/changePW', clientController.getChangePW)
 router.post('/editAccount', clientController.editAccount)
 router.post('/changePW', clientController.editPassword)
 
-router.get('/waitingRoom/:classID/:examID',clientMiddleWare.checkStateExam, clientController.getWaitingRoom);
+router.get('/waitingRoom/:classID/:examID',clientMiddleWare.checkStateExam, clientMiddleWare.filterUser , clientController.getWaitingRoom);
 
-router.get('/quizStart/:classID/:examID',clientController.quizStart);
+router.get('/quizStart/:classID/:examID', clientMiddleWare.filterUser ,clientController.quizStart);
 
-router.post('/createResultExam/:classID', clientController.createResultExam);
+router.post('/createResultExam/:classID', clientMiddleWare.filterUser ,clientController.createResultExam);
 
 router.post('/resultexam/:resultID', clientController.postResultExam);
 

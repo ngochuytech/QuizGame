@@ -69,23 +69,23 @@
         let joinedUsers = [];
         const socket = io();
 
-        // Khi người dùng vào phòng chờ
+        
         const idUser = '<%= user._id %>';
         const username = '<%= user.nameDisplay %>'; 
         const room = '<%= currentExam._id %>';
-        socket.emit('joinRoom', { idUser, username, room }); // Gửi lên server có tên sự kiện là 'JoinRoom' với tham số là idUser, username và room
+        socket.emit('joinRoom', { idUser, username, room });
 
         // Cập nhật danh sách người dùng đã tham gia
         socket.on('updateUserList', (users) => {
             const joinedUsersList = document.getElementById('joinedUsers');
             const joinedCount = document.getElementById('joinedCount');
 
-            // Xóa danh sách cũ
+            
             joinedUsersList.innerHTML = '';
 
-            // Xóa danh sách những người tham gia cũ
+           
             joinedUsers = [];
-            // Cập nhật danh sách người tham gia
+            
             users.forEach(user => {
                 const li = document.createElement('li');
                 li.classList.add('list-group-item');
@@ -94,22 +94,22 @@
                 joinedUsers.push(user.idUser);
             });
 
-            // Cập nhật số lượng người đã tham gia
+            
             joinedCount.innerText = users.length;
         });
 
-        // Khi người tạo bài thi nhấn nút "Bắt đầu"
+        
         function StartQuiz(event){
             event.preventDefault();
             // document.getElementById('joinedIDUsers').value = JSON.stringify(joinedUsers);
    
-            socket.emit('quiz:redirect', {room});  // Phát sự kiện 'startQuiz' tới server
+            socket.emit('quiz:redirect', {room}); 
             event.target.form.submit();
         }
 
-        // Nhận sự kiện từ server để chuyển sang trang QuizStart
+        
         socket.on('redirectToQuiz', () => {
-            window.location.href = `/client/quizStart/<%=currentClassID%>/${room}`;  // Chuyển hướng sang trang QuizStart
+            window.location.href = `/client/quizStart/<%=currentClassID%>/${room}`;
         });
 
         socket.on('error', (errorMessage) => {
