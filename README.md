@@ -38,7 +38,6 @@ QuizGame là một hệ thống web cho phép người dùng tham gia các trò 
    ```
    npm install
    ```
-
 2. Khởi động database
 
 3. Khởi động server:  
