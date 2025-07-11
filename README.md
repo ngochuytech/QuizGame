@@ -2,7 +2,7 @@
 
 ## Giới thiệu
 
-QuizGame là một hệ thống web cho phép người dùng tham gia các trò chơi trắc nghiệm trực tuyến. Dự án hỗ trợ hai loại người dùng: Client (người chơi) và Host (người tạo/phòng thi). Người chơi có thể đăng ký, đăng nhập, tham gia phòng thi, làm bài kiểm tra và xem kết quả. Người tạo có thể quản lý lớp học, tạo đề thi, quản lý câu hỏi và xem bảng xếp hạng.
+QuizGame là một hệ thống website cho phép người dùng tham gia các trò chơi trắc nghiệm trực tuyến. Dự án hỗ trợ hai loại người dùng: Client (người chơi) và Host (người tạo/phòng thi). Người chơi có thể đăng ký, đăng nhập, tham gia phòng thi, làm bài kiểm tra và xem kết quả. Người tạo có thể quản lý lớp học, tạo đề thi, quản lý câu hỏi và xem bảng xếp hạng.
 
 ## Tính năng chính
 
